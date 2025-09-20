@@ -1,0 +1,90 @@
+
+mino.png
+size: 898,182
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+axe
+  rotate: true
+  xy: 400, 86
+  size: 94, 236
+  orig: 94, 236
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 638, 39
+  size: 129, 141
+  orig: 129, 141
+  offset: 0, 0
+  index: -1
+head0
+  rotate: true
+  xy: 202, 17
+  size: 163, 196
+  orig: 163, 196
+  offset: 0, 0
+  index: -1
+head1
+  rotate: true
+  xy: 2, 4
+  size: 176, 198
+  orig: 176, 198
+  offset: 0, 0
+  index: -1
+l arm
+  rotate: false
+  xy: 533, 21
+  size: 97, 63
+  orig: 97, 63
+  offset: 0, 0
+  index: -1
+l leg
+  rotate: false
+  xy: 866, 54
+  size: 30, 47
+  orig: 30, 47
+  offset: 0, 0
+  index: -1
+r arm
+  rotate: true
+  xy: 769, 40
+  size: 61, 95
+  orig: 61, 95
+  offset: 0, 0
+  index: -1
+r leg
+  rotate: true
+  xy: 632, 4
+  size: 33, 52
+  orig: 33, 52
+  offset: 0, 0
+  index: -1
+wind0
+  rotate: false
+  xy: 400, 2
+  size: 131, 82
+  orig: 131, 82
+  offset: 0, 0
+  index: -1
+wind1
+  rotate: false
+  xy: 769, 103
+  size: 127, 77
+  orig: 127, 77
+  offset: 0, 0
+  index: -1
+wind2
+  rotate: false
+  xy: 736, 5
+  size: 50, 32
+  orig: 50, 32
+  offset: 0, 0
+  index: -1
+wind3
+  rotate: false
+  xy: 686, 3
+  size: 48, 34
+  orig: 48, 34
+  offset: 0, 0
+  index: -1

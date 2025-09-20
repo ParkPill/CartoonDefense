@@ -1,0 +1,62 @@
+
+batmonster.png
+size: 836,192
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+fire0
+  rotate: false
+  xy: 2, 16
+  size: 222, 174
+  orig: 222, 174
+  offset: 0, 0
+  index: -1
+fire1
+  rotate: true
+  xy: 226, 2
+  size: 188, 190
+  orig: 188, 190
+  offset: 0, 0
+  index: -1
+head
+  rotate: false
+  xy: 574, 45
+  size: 154, 145
+  orig: 154, 145
+  offset: 0, 0
+  index: -1
+head open
+  rotate: false
+  xy: 418, 19
+  size: 154, 171
+  orig: 154, 171
+  offset: 0, 0
+  index: -1
+l leg
+  rotate: true
+  xy: 641, 2
+  size: 41, 64
+  orig: 41, 64
+  offset: 0, 0
+  index: -1
+l wing
+  rotate: false
+  xy: 730, 94
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: -1
+r leg
+  rotate: true
+  xy: 574, 3
+  size: 40, 65
+  orig: 40, 65
+  offset: 0, 0
+  index: -1
+r wing
+  rotate: true
+  xy: 730, 5
+  size: 87, 104
+  orig: 87, 104
+  offset: 0, 0
+  index: -1

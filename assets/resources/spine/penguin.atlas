@@ -1,0 +1,41 @@
+
+penguin.png
+size: 201,114
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: true
+  xy: 2, 2
+  size: 110, 149
+  orig: 110, 149
+  offset: 0, 0
+  index: -1
+l arm
+  rotate: false
+  xy: 153, 40
+  size: 34, 38
+  orig: 34, 38
+  offset: 0, 0
+  index: -1
+l leg
+  rotate: false
+  xy: 175, 10
+  size: 22, 28
+  orig: 22, 28
+  offset: 0, 0
+  index: -1
+r arm
+  rotate: false
+  xy: 153, 80
+  size: 46, 32
+  orig: 46, 32
+  offset: 0, 0
+  index: -1
+r leg
+  rotate: false
+  xy: 153, 7
+  size: 20, 31
+  orig: 20, 31
+  offset: 0, 0
+  index: -1

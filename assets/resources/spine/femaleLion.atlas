@@ -1,0 +1,55 @@
+
+femaleLion.png
+size: 230,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: false
+  xy: 2, 2
+  size: 127, 134
+  orig: 127, 134
+  offset: 0, 0
+  index: -1
+l arm
+  rotate: false
+  xy: 131, 8
+  size: 69, 67
+  orig: 69, 67
+  offset: 0, 0
+  index: -1
+l hand
+  rotate: true
+  xy: 191, 190
+  size: 31, 36
+  orig: 31, 36
+  offset: 0, 0
+  index: -1
+l leg
+  rotate: true
+  xy: 191, 158
+  size: 30, 35
+  orig: 30, 35
+  offset: 0, 0
+  index: -1
+paw wand
+  rotate: true
+  xy: 2, 138
+  size: 116, 187
+  orig: 116, 187
+  offset: 0, 0
+  index: -1
+r arm
+  rotate: true
+  xy: 131, 77
+  size: 59, 78
+  orig: 59, 78
+  offset: 0, 0
+  index: -1
+r leg
+  rotate: true
+  xy: 191, 223
+  size: 31, 37
+  orig: 31, 37
+  offset: 0, 0
+  index: -1

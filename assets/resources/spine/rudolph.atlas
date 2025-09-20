@@ -1,0 +1,76 @@
+
+rudolph.png
+size: 256,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+eye brow
+  rotate: true
+  xy: 23, 2
+  size: 23, 10
+  orig: 23, 10
+  offset: 0, 0
+  index: -1
+l ear
+  rotate: false
+  xy: 183, 40
+  size: 31, 30
+  orig: 31, 30
+  offset: 0, 0
+  index: -1
+r ear
+  rotate: false
+  xy: 139, 37
+  size: 42, 33
+  orig: 42, 33
+  offset: 0, 0
+  index: -1
+rudolph body
+  rotate: false
+  xy: 139, 72
+  size: 86, 54
+  orig: 86, 54
+  offset: 0, 0
+  index: -1
+rudolph head
+  rotate: true
+  xy: 2, 27
+  size: 99, 135
+  orig: 99, 135
+  offset: 0, 0
+  index: -1
+rudolph leg 0
+  rotate: false
+  xy: 227, 101
+  size: 18, 25
+  orig: 18, 25
+  offset: 0, 0
+  index: -1
+rudolph leg 1
+  rotate: true
+  xy: 35, 6
+  size: 19, 24
+  orig: 19, 24
+  offset: 0, 0
+  index: -1
+rudolph leg 2
+  rotate: false
+  xy: 85, 4
+  size: 20, 21
+  orig: 20, 21
+  offset: 0, 0
+  index: -1
+rudolph leg 3
+  rotate: false
+  xy: 2, 2
+  size: 19, 23
+  orig: 19, 23
+  offset: 0, 0
+  index: -1
+rudolph tail
+  rotate: true
+  xy: 61, 4
+  size: 21, 22
+  orig: 21, 22
+  offset: 0, 0
+  index: -1

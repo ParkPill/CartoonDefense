@@ -1,0 +1,48 @@
+
+spearMan.png
+size: 512,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: true
+  xy: 184, 25
+  size: 88, 120
+  orig: 88, 120
+  offset: 0, 0
+  index: -1
+leftArm
+  rotate: false
+  xy: 2, 36
+  size: 52, 29
+  orig: 52, 29
+  offset: 0, 0
+  index: -1
+leftLeg
+  rotate: false
+  xy: 2, 2
+  size: 21, 32
+  orig: 21, 32
+  offset: 0, 0
+  index: -1
+rightArm
+  rotate: false
+  xy: 306, 75
+  size: 43, 38
+  orig: 43, 38
+  offset: 0, 0
+  index: -1
+rightLeg
+  rotate: true
+  xy: 56, 44
+  size: 21, 32
+  orig: 21, 32
+  offset: 0, 0
+  index: -1
+weapon
+  rotate: true
+  xy: 2, 67
+  size: 46, 180
+  orig: 46, 180
+  offset: 0, 0
+  index: -1

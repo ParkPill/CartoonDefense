@@ -1,0 +1,55 @@
+
+mole.png
+size: 365,187
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+big hand
+  rotate: false
+  xy: 164, 68
+  size: 154, 117
+  orig: 154, 117
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 2, 11
+  size: 160, 174
+  orig: 160, 174
+  offset: 0, 0
+  index: -1
+dirt0
+  rotate: true
+  xy: 320, 100
+  size: 85, 38
+  orig: 85, 38
+  offset: 0, 0
+  index: -1
+l hand
+  rotate: false
+  xy: 164, 2
+  size: 81, 64
+  orig: 81, 64
+  offset: 0, 0
+  index: -1
+l leg
+  rotate: false
+  xy: 327, 55
+  size: 36, 43
+  orig: 36, 43
+  offset: 0, 0
+  index: -1
+r hand
+  rotate: true
+  xy: 247, 6
+  size: 60, 78
+  orig: 60, 78
+  offset: 0, 0
+  index: -1
+r leg
+  rotate: false
+  xy: 327, 10
+  size: 35, 43
+  orig: 35, 43
+  offset: 0, 0
+  index: -1

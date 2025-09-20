@@ -1,0 +1,48 @@
+
+watermelon.png
+size: 183,365
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: true
+  xy: 2, 2
+  size: 155, 174
+  orig: 155, 174
+  offset: 0, 0
+  index: -1
+l arm
+  rotate: true
+  xy: 131, 296
+  size: 67, 50
+  orig: 67, 50
+  offset: 0, 0
+  index: -1
+l leg
+  rotate: true
+  xy: 2, 335
+  size: 28, 40
+  orig: 28, 40
+  offset: 0, 0
+  index: -1
+r leg
+  rotate: true
+  xy: 2, 335
+  size: 28, 40
+  orig: 28, 40
+  offset: 0, 0
+  index: -1
+r arm
+  rotate: false
+  xy: 44, 315
+  size: 85, 48
+  orig: 85, 48
+  offset: 0, 0
+  index: -1
+umbrella
+  rotate: true
+  xy: 2, 159
+  size: 135, 166
+  orig: 135, 166
+  offset: 0, 0
+  index: -1

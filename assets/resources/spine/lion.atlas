@@ -1,0 +1,90 @@
+
+lion.png
+size: 417,125
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+crazy_lion/body
+  rotate: true
+  xy: 148, 2
+  size: 121, 141
+  orig: 121, 141
+  offset: 0, 0
+  index: -1
+crazy_lion/l hand
+  rotate: true
+  xy: 346, 58
+  size: 31, 52
+  orig: 31, 52
+  offset: 0, 0
+  index: -1
+crazy_lion/l leg
+  rotate: true
+  xy: 374, 31
+  size: 25, 22
+  orig: 25, 22
+  offset: 0, 0
+  index: -1
+crazy_lion/r hand
+  rotate: false
+  xy: 291, 8
+  size: 53, 56
+  orig: 53, 56
+  offset: 0, 0
+  index: -1
+crazy_lion/r leg
+  rotate: true
+  xy: 374, 2
+  size: 27, 25
+  orig: 27, 25
+  offset: 0, 0
+  index: -1
+crazy_lion/tail
+  rotate: true
+  xy: 400, 77
+  size: 46, 15
+  orig: 46, 15
+  offset: 0, 0
+  index: -1
+lion/body
+  rotate: true
+  xy: 2, 2
+  size: 121, 144
+  orig: 121, 144
+  offset: 0, 0
+  index: -1
+lion/l hand
+  rotate: true
+  xy: 346, 91
+  size: 32, 52
+  orig: 32, 52
+  offset: 0, 0
+  index: -1
+lion/l leg
+  rotate: false
+  xy: 346, 35
+  size: 26, 21
+  orig: 26, 21
+  offset: 0, 0
+  index: -1
+lion/r hand
+  rotate: false
+  xy: 291, 66
+  size: 53, 57
+  orig: 53, 57
+  offset: 0, 0
+  index: -1
+lion/r leg
+  rotate: true
+  xy: 346, 6
+  size: 27, 26
+  orig: 27, 26
+  offset: 0, 0
+  index: -1
+lion/tail
+  rotate: true
+  xy: 400, 35
+  size: 40, 15
+  orig: 40, 15
+  offset: 0, 0
+  index: -1

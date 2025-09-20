@@ -1,0 +1,48 @@
+
+santadog.png
+size: 512,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: true
+  xy: 2, 3
+  size: 123, 185
+  orig: 123, 185
+  offset: 0, 0
+  index: -1
+l arm
+  rotate: false
+  xy: 246, 79
+  size: 41, 47
+  orig: 41, 47
+  offset: 0, 0
+  index: -1
+l leg
+  rotate: true
+  xy: 246, 37
+  size: 40, 46
+  orig: 40, 46
+  offset: 0, 0
+  index: -1
+r arm
+  rotate: true
+  xy: 189, 2
+  size: 30, 40
+  orig: 30, 40
+  offset: 0, 0
+  index: -1
+r leg
+  rotate: false
+  xy: 289, 79
+  size: 40, 47
+  orig: 40, 47
+  offset: 0, 0
+  index: -1
+stick
+  rotate: false
+  xy: 189, 34
+  size: 55, 92
+  orig: 55, 92
+  offset: 0, 0
+  index: -1

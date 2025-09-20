@@ -1,0 +1,27 @@
+
+wizard.png
+size: 268,149
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: true
+  xy: 2, 2
+  size: 145, 195
+  orig: 145, 195
+  offset: 0, 0
+  index: -1
+l hand
+  rotate: false
+  xy: 199, 92
+  size: 67, 55
+  orig: 67, 55
+  offset: 0, 0
+  index: -1
+r hand
+  rotate: true
+  xy: 199, 2
+  size: 88, 54
+  orig: 88, 54
+  offset: 0, 0
+  index: -1

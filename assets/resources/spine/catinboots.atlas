@@ -1,0 +1,55 @@
+
+catinboots.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: false
+  xy: 2, 2
+  size: 153, 147
+  orig: 153, 147
+  offset: 0, 0
+  index: -1
+l-leg
+  rotate: true
+  xy: 157, 27
+  size: 30, 36
+  orig: 30, 36
+  offset: 0, 0
+  index: -1
+larm
+  rotate: false
+  xy: 157, 59
+  size: 46, 40
+  orig: 46, 40
+  offset: 0, 0
+  index: -1
+r-arm
+  rotate: false
+  xy: 205, 43
+  size: 29, 50
+  orig: 29, 50
+  offset: 0, 0
+  index: -1
+r-leg
+  rotate: true
+  xy: 195, 12
+  size: 29, 36
+  orig: 29, 36
+  offset: 0, 0
+  index: -1
+tail
+  rotate: true
+  xy: 220, 95
+  size: 54, 33
+  orig: 54, 33
+  offset: 0, 0
+  index: -1
+weapon
+  rotate: true
+  xy: 157, 101
+  size: 48, 61
+  orig: 48, 61
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,48 @@
+
+assassin.png
+size: 162,141
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: false
+  xy: 2, 2
+  size: 109, 137
+  orig: 109, 137
+  offset: 0, 0
+  index: -1
+l hand
+  rotate: true
+  xy: 113, 35
+  size: 39, 25
+  orig: 39, 25
+  offset: 0, 0
+  index: -1
+l leg
+  rotate: false
+  xy: 113, 2
+  size: 23, 31
+  orig: 23, 31
+  offset: 0, 0
+  index: -1
+r hand
+  rotate: false
+  xy: 113, 76
+  size: 38, 37
+  orig: 38, 37
+  offset: 0, 0
+  index: -1
+r leg
+  rotate: false
+  xy: 138, 3
+  size: 22, 30
+  orig: 22, 30
+  offset: 0, 0
+  index: -1
+weapon
+  rotate: false
+  xy: 113, 115
+  size: 47, 24
+  orig: 47, 24
+  offset: 0, 0
+  index: -1

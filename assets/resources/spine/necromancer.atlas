@@ -1,0 +1,27 @@
+
+necromancer.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: false
+  xy: 2, 44
+  size: 125, 160
+  orig: 125, 160
+  offset: 0, 0
+  index: -1
+l hand
+  rotate: false
+  xy: 129, 163
+  size: 57, 41
+  orig: 57, 41
+  offset: 0, 0
+  index: -1
+r hand
+  rotate: false
+  xy: 2, 2
+  size: 63, 40
+  orig: 63, 40
+  offset: 0, 0
+  index: -1

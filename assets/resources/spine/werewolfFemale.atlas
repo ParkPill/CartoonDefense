@@ -1,0 +1,48 @@
+
+werewolfFemale.png
+size: 256,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: true
+  xy: 2, 2
+  size: 119, 144
+  orig: 119, 144
+  offset: 0, 0
+  index: -1
+l-arm
+  rotate: true
+  xy: 184, 81
+  size: 40, 42
+  orig: 40, 42
+  offset: 0, 0
+  index: -1
+l-leg
+  rotate: true
+  xy: 205, 15
+  size: 28, 34
+  orig: 28, 34
+  offset: 0, 0
+  index: -1
+r-arm
+  rotate: true
+  xy: 148, 7
+  size: 43, 55
+  orig: 43, 55
+  offset: 0, 0
+  index: -1
+r-leg
+  rotate: false
+  xy: 205, 45
+  size: 30, 34
+  orig: 30, 34
+  offset: 0, 0
+  index: -1
+tail
+  rotate: true
+  xy: 148, 52
+  size: 69, 34
+  orig: 69, 34
+  offset: 0, 0
+  index: -1

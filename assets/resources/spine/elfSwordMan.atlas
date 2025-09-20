@@ -1,0 +1,48 @@
+
+elfSwordMan.png
+size: 293,106
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: true
+  xy: 2, 2
+  size: 102, 133
+  orig: 102, 133
+  offset: 0, 0
+  index: -1
+l arm
+  rotate: false
+  xy: 137, 5
+  size: 50, 44
+  orig: 50, 44
+  offset: 0, 0
+  index: -1
+l leg
+  rotate: false
+  xy: 265, 21
+  size: 26, 28
+  orig: 26, 28
+  offset: 0, 0
+  index: -1
+r arm
+  rotate: true
+  xy: 189, 6
+  size: 43, 46
+  orig: 43, 46
+  offset: 0, 0
+  index: -1
+r leg
+  rotate: false
+  xy: 237, 18
+  size: 26, 31
+  orig: 26, 31
+  offset: 0, 0
+  index: -1
+weapon
+  rotate: true
+  xy: 137, 51
+  size: 53, 151
+  orig: 53, 151
+  offset: 0, 0
+  index: -1

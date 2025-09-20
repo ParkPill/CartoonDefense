@@ -1,0 +1,55 @@
+
+minobaby.png
+size: 225,290
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+axe
+  rotate: false
+  xy: 156, 169
+  size: 67, 119
+  orig: 67, 119
+  offset: 0, 0
+  index: -1
+body
+  rotate: true
+  xy: 2, 146
+  size: 142, 152
+  orig: 142, 152
+  offset: 0, 0
+  index: -1
+frown
+  rotate: true
+  xy: 2, 2
+  size: 142, 152
+  orig: 142, 152
+  offset: 0, 0
+  index: -1
+l arm
+  rotate: false
+  xy: 156, 85
+  size: 52, 40
+  orig: 52, 40
+  offset: 0, 0
+  index: -1
+l leg
+  rotate: true
+  xy: 156, 44
+  size: 39, 50
+  orig: 39, 50
+  offset: 0, 0
+  index: -1
+r arm
+  rotate: true
+  xy: 156, 127
+  size: 40, 53
+  orig: 40, 53
+  offset: 0, 0
+  index: -1
+r leg
+  rotate: true
+  xy: 156, 7
+  size: 35, 45
+  orig: 35, 45
+  offset: 0, 0
+  index: -1

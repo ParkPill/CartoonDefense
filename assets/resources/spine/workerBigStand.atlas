@@ -1,0 +1,27 @@
+
+workerBigStand.png
+size: 512,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: false
+  xy: 131, 47
+  size: 169, 69
+  orig: 169, 69
+  offset: 0, 0
+  index: -1
+head
+  rotate: false
+  xy: 2, 2
+  size: 127, 114
+  orig: 127, 114
+  offset: 0, 0
+  index: -1
+legs
+  rotate: false
+  xy: 302, 55
+  size: 98, 61
+  orig: 98, 61
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,62 @@
+
+lamia.png
+size: 878,145
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: false
+  xy: 191, 25
+  size: 168, 118
+  orig: 168, 118
+  offset: 0, 0
+  index: -1
+head
+  rotate: true
+  xy: 361, 2
+  size: 141, 147
+  orig: 141, 147
+  offset: 0, 0
+  index: -1
+head hit
+  rotate: false
+  xy: 510, 2
+  size: 137, 141
+  orig: 137, 141
+  offset: 0, 0
+  index: -1
+head move
+  rotate: false
+  xy: 649, 2
+  size: 137, 141
+  orig: 137, 141
+  offset: 0, 0
+  index: -1
+l arm
+  rotate: true
+  xy: 788, 45
+  size: 98, 55
+  orig: 98, 55
+  offset: 0, 0
+  index: -1
+neck
+  rotate: false
+  xy: 2, 5
+  size: 187, 138
+  orig: 187, 138
+  offset: 0, 0
+  index: -1
+r arm
+  rotate: false
+  xy: 788, 2
+  size: 88, 41
+  orig: 88, 41
+  offset: 0, 0
+  index: -1
+tung
+  rotate: true
+  xy: 845, 55
+  size: 88, 30
+  orig: 88, 30
+  offset: 0, 0
+  index: -1

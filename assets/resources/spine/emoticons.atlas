@@ -1,0 +1,83 @@
+
+emoticons.png
+size: 419,90
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+angry
+  rotate: true
+  xy: 2, 2
+  size: 86, 80
+  orig: 86, 80
+  offset: 0, 0
+  index: -1
+angry mouse
+  rotate: false
+  xy: 370, 63
+  size: 43, 25
+  orig: 43, 25
+  offset: 0, 0
+  index: -1
+hi
+  rotate: true
+  xy: 84, 2
+  size: 86, 80
+  orig: 86, 80
+  offset: 0, 0
+  index: -1
+hi hand
+  rotate: true
+  xy: 330, 48
+  size: 40, 38
+  orig: 40, 38
+  offset: 0, 0
+  index: -1
+hi l eye
+  rotate: true
+  xy: 370, 48
+  size: 13, 19
+  orig: 13, 19
+  offset: 0, 0
+  index: -1
+hi mouse
+  rotate: true
+  xy: 394, 20
+  size: 26, 23
+  orig: 26, 23
+  offset: 0, 0
+  index: -1
+hi r eye
+  rotate: true
+  xy: 391, 48
+  size: 13, 19
+  orig: 13, 19
+  offset: 0, 0
+  index: -1
+sad
+  rotate: true
+  xy: 166, 2
+  size: 86, 80
+  orig: 86, 80
+  offset: 0, 0
+  index: -1
+scared
+  rotate: true
+  xy: 248, 2
+  size: 86, 80
+  orig: 86, 80
+  offset: 0, 0
+  index: -1
+scared effect
+  rotate: false
+  xy: 359, 10
+  size: 33, 36
+  orig: 33, 36
+  offset: 0, 0
+  index: -1
+scared eyes
+  rotate: true
+  xy: 330, 2
+  size: 44, 27
+  orig: 44, 27
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,48 @@
+
+knight.png
+size: 137,269
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: true
+  xy: 2, 2
+  size: 105, 131
+  orig: 105, 131
+  offset: 0, 0
+  index: -1
+l hand
+  rotate: true
+  xy: 72, 212
+  size: 55, 32
+  orig: 55, 32
+  offset: 0, 0
+  index: -1
+l leg
+  rotate: false
+  xy: 105, 123
+  size: 30, 32
+  orig: 30, 32
+  offset: 0, 0
+  index: -1
+r hand
+  rotate: true
+  xy: 72, 157
+  size: 53, 46
+  orig: 53, 46
+  offset: 0, 0
+  index: -1
+r leg
+  rotate: false
+  xy: 72, 122
+  size: 31, 33
+  orig: 31, 33
+  offset: 0, 0
+  index: -1
+weapon
+  rotate: false
+  xy: 2, 109
+  size: 68, 158
+  orig: 68, 158
+  offset: 0, 0
+  index: -1

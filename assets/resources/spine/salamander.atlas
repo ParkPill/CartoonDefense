@@ -1,0 +1,41 @@
+
+salamander.png
+size: 512,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: false
+  xy: 2, 2
+  size: 256, 248
+  orig: 256, 248
+  offset: 0, 0
+  index: -1
+l hand
+  rotate: true
+  xy: 260, 139
+  size: 52, 48
+  orig: 52, 48
+  offset: 0, 0
+  index: -1
+l leg
+  rotate: false
+  xy: 260, 95
+  size: 46, 42
+  orig: 46, 42
+  offset: 0, 0
+  index: -1
+r hand
+  rotate: false
+  xy: 310, 195
+  size: 41, 55
+  orig: 41, 55
+  offset: 0, 0
+  index: -1
+r leg
+  rotate: false
+  xy: 260, 193
+  size: 48, 57
+  orig: 48, 57
+  offset: 0, 0
+  index: -1

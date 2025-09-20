@@ -1,0 +1,83 @@
+
+kerberos.png
+size: 333,274
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+center
+  rotate: false
+  xy: 106, 128
+  size: 90, 144
+  orig: 90, 144
+  offset: 0, 0
+  index: -1
+center eye
+  rotate: false
+  xy: 198, 128
+  size: 90, 144
+  orig: 90, 144
+  offset: 0, 0
+  index: -1
+l leg
+  rotate: false
+  xy: 298, 96
+  size: 31, 38
+  orig: 31, 38
+  offset: 0, 0
+  index: -1
+left
+  rotate: false
+  xy: 106, 5
+  size: 94, 121
+  orig: 94, 121
+  offset: 0, 0
+  index: -1
+left eye
+  rotate: false
+  xy: 202, 5
+  size: 94, 121
+  orig: 94, 121
+  offset: 0, 0
+  index: -1
+lf leg
+  rotate: false
+  xy: 298, 58
+  size: 33, 36
+  orig: 33, 36
+  offset: 0, 0
+  index: -1
+r leg
+  rotate: false
+  xy: 290, 136
+  size: 28, 40
+  orig: 28, 40
+  offset: 0, 0
+  index: -1
+rf leg
+  rotate: false
+  xy: 298, 20
+  size: 33, 36
+  orig: 33, 36
+  offset: 0, 0
+  index: -1
+right
+  rotate: false
+  xy: 2, 138
+  size: 102, 134
+  orig: 102, 134
+  offset: 0, 0
+  index: -1
+right eye
+  rotate: false
+  xy: 2, 2
+  size: 102, 134
+  orig: 102, 134
+  offset: 0, 0
+  index: -1
+tail
+  rotate: true
+  xy: 290, 178
+  size: 94, 28
+  orig: 94, 28
+  offset: 0, 0
+  index: -1

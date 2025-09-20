@@ -1,0 +1,111 @@
+
+golem.png
+size: 454,272
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bird
+  rotate: false
+  xy: 306, 18
+  size: 65, 53
+  orig: 65, 53
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 79, 166
+  size: 143, 104
+  orig: 143, 104
+  offset: 0, 0
+  index: -1
+head
+  rotate: true
+  xy: 224, 73
+  size: 110, 113
+  orig: 110, 113
+  offset: 0, 0
+  index: -1
+jaw
+  rotate: false
+  xy: 75, 6
+  size: 126, 77
+  orig: 126, 77
+  offset: 0, 0
+  index: -1
+l leg
+  rotate: false
+  xy: 407, 5
+  size: 30, 28
+  orig: 30, 28
+  offset: 0, 0
+  index: -1
+larm
+  rotate: true
+  xy: 79, 85
+  size: 79, 132
+  orig: 79, 132
+  offset: 0, 0
+  index: -1
+pelvis
+  rotate: false
+  xy: 203, 2
+  size: 101, 69
+  orig: 101, 69
+  offset: 0, 0
+  index: -1
+r leg
+  rotate: false
+  xy: 373, 7
+  size: 32, 31
+  orig: 32, 31
+  offset: 0, 0
+  index: -1
+rarm
+  rotate: true
+  xy: 224, 185
+  size: 85, 159
+  orig: 85, 159
+  offset: 0, 0
+  index: -1
+sleepyHead
+  rotate: true
+  xy: 339, 73
+  size: 110, 113
+  orig: 110, 113
+  offset: 0, 0
+  index: -1
+sonicboom
+  rotate: false
+  xy: 2, 89
+  size: 75, 181
+  orig: 75, 181
+  offset: 0, 0
+  index: -1
+tree
+  rotate: false
+  xy: 2, 14
+  size: 71, 73
+  orig: 71, 73
+  offset: 0, 0
+  index: -1
+tree1
+  rotate: false
+  xy: 385, 196
+  size: 67, 74
+  orig: 67, 74
+  offset: 0, 0
+  index: -1
+wing0
+  rotate: true
+  xy: 423, 35
+  size: 36, 28
+  orig: 36, 28
+  offset: 0, 0
+  index: -1
+wing1
+  rotate: false
+  xy: 373, 40
+  size: 48, 31
+  orig: 48, 31
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,575 @@
+{
+"skeleton": { "hash": "CxKip24DTabv6vhyv5+Xx3fm3ao", "spine": "3.8.99", "x": -54.04, "y": -37.46, "width": 105.67, "height": 80 },
+"bones": [
+	{ "name": "root" },
+	{ "name": "hand", "parent": "root", "length": 22.31, "rotation": 76.57, "x": 27.84, "y": -25.65 },
+	{ "name": "scard effect", "parent": "root", "length": 19.22, "rotation": 154.55, "x": -30.96, "y": 12.99 },
+	{ "name": "r eye", "parent": "root", "length": 17.22, "rotation": 90.47, "x": 6.28, "y": 12.57 },
+	{ "name": "l eye", "parent": "root", "length": 19.32, "rotation": 90.83, "x": -11.5, "y": 11.45 },
+	{ "name": "mouse", "parent": "root", "length": 17.21, "rotation": 97.01, "x": -3.1, "y": -9.55 },
+	{ "name": "eyes", "parent": "root", "length": 19.88, "rotation": 91.21, "x": -1.28, "y": 11.59 }
+],
+"slots": [
+	{ "name": "sad", "bone": "root", "attachment": "sad" },
+	{ "name": "scared", "bone": "root", "attachment": "scared" },
+	{ "name": "scared eyes", "bone": "root", "attachment": "scared eyes" },
+	{ "name": "scared effect", "bone": "root", "attachment": "scared effect" },
+	{ "name": "angry", "bone": "root", "attachment": "angry" },
+	{ "name": "angry mouse", "bone": "root", "attachment": "angry mouse" },
+	{ "name": "hi", "bone": "root", "attachment": "hi" },
+	{ "name": "hi mouse", "bone": "root", "attachment": "hi mouse" },
+	{ "name": "hi r eye", "bone": "root", "attachment": "hi r eye" },
+	{ "name": "hi l eye", "bone": "root", "attachment": "hi l eye" },
+	{ "name": "hi hand", "bone": "root", "attachment": "hi hand" }
+],
+"skins":
+	{
+		"default": {
+			"angry": {
+				"angry": {
+					"type": "mesh",
+					"uvs": [ 1, 1, 0, 1, 0, 0, 1, 0 ],
+					"triangles": [ 1, 2, 3, 1, 3, 0 ],
+					"vertices": [ 1, 0, 41.86, -37.46, 1, 1, 0, -44.14, -37.46, 1, 1, 0, -44.14, 42.54, 1, 1, 0, 41.86, 42.54, 1 ],
+					"hull": 4
+				}
+			},
+			"angry mouse": {
+				"angry mouse": {
+					"type": "mesh",
+					"uvs": [ 1, 1, 0, 1, 0, 0, 1, 0 ],
+					"triangles": [ 1, 2, 3, 1, 3, 0 ],
+					"vertices": [ 1, 5, -12.18, -21.75, 1, 1, 5, -6.93, 20.93, 1, 1, 5, 17.88, 17.88, 1, 1, 5, 12.64, -24.8, 1 ],
+					"hull": 4
+				}
+			},
+			"hi": {
+				"hi": {
+					"type": "mesh",
+					"uvs": [ 1, 1, 0, 1, 0, 0, 1, 0 ],
+					"triangles": [ 1, 2, 3, 1, 3, 0 ],
+					"vertices": [ 1, 0, 41.86, -37.46, 1, 1, 0, -44.14, -37.46, 1, 1, 0, -44.14, 42.54, 1, 1, 0, 41.86, 42.54, 1 ],
+					"hull": 4
+				}
+			},
+			"hi hand": {
+				"hi hand": {
+					"type": "mesh",
+					"uvs": [ 1, 1, 0, 1, 0, 0, 1, 0 ],
+					"triangles": [ 1, 2, 3, 1, 3, 0 ],
+					"vertices": [ 1, 1, -1.47, -24.81, 1, 1, 1, -10.76, 14.1, 1, 1, 1, 26.2, 22.92, 1, 1, 1, 35.49, -15.98, 1 ],
+					"hull": 4
+				}
+			},
+			"hi l eye": {
+				"hi l eye": {
+					"type": "mesh",
+					"uvs": [ 1, 1, 0, 1, 0, 0, 1, 0 ],
+					"triangles": [ 1, 2, 3, 1, 3, 0 ],
+					"vertices": [ 1, 3, -9.49, -6.39, 1, 1, 3, -9.39, 6.61, 1, 1, 3, 9.61, 6.46, 1, 1, 3, 9.51, -6.54, 1 ],
+					"hull": 4
+				}
+			},
+			"hi mouse": {
+				"hi mouse": {
+					"type": "mesh",
+					"uvs": [ 1, 1, 0, 1, 0, 0, 1, 0 ],
+					"triangles": [ 1, 2, 3, 1, 3, 0 ],
+					"vertices": [ 1, 5, -11.23, -11.39, 1, 1, 5, -8.06, 14.42, 1, 1, 5, 14.77, 11.61, 1, 1, 5, 11.59, -14.2, 1 ],
+					"hull": 4
+				}
+			},
+			"hi r eye": {
+				"hi r eye": {
+					"type": "mesh",
+					"uvs": [ 1, 1, 0, 1, 0, 0, 1, 0 ],
+					"triangles": [ 1, 2, 3, 1, 3, 0 ],
+					"vertices": [ 1, 4, -9.41, -6.62, 1, 1, 4, -9.22, 6.38, 1, 1, 4, 9.78, 6.1, 1, 1, 4, 9.59, -6.9, 1 ],
+					"hull": 4
+				}
+			},
+			"sad": {
+				"sad": {
+					"type": "mesh",
+					"uvs": [ 1, 1, 0, 1, 0, 0, 1, 0 ],
+					"triangles": [ 1, 2, 3, 1, 3, 0 ],
+					"vertices": [ 1, 0, 42.19, -37.46, 1, 1, 0, -43.81, -37.46, 1, 1, 0, -43.81, 42.54, 1, 1, 0, 42.19, 42.54, 1 ],
+					"hull": 4
+				}
+			},
+			"scared": {
+				"scared": {
+					"type": "mesh",
+					"uvs": [ 1, 1, 0, 1, 0, 0, 1, 0 ],
+					"triangles": [ 1, 2, 3, 1, 3, 0 ],
+					"vertices": [ 1, 0, 41.86, -37.46, 1, 1, 0, -44.14, -37.46, 1, 1, 0, -44.14, 42.54, 1, 1, 0, 41.86, 42.54, 1 ],
+					"hull": 4
+				}
+			},
+			"scared effect": {
+				"scared effect": {
+					"type": "mesh",
+					"uvs": [ 1, 1, 0, 1, 0, 0, 1, 0 ],
+					"triangles": [ 1, 2, 3, 1, 3, 0 ],
+					"vertices": [ 1, 2, -15.6, 9.71, 1, 1, 2, 14.2, 23.89, 1, 1, 2, 29.67, -8.62, 1, 1, 2, -0.13, -22.8, 1 ],
+					"hull": 4
+				}
+			},
+			"scared eyes": {
+				"scared eyes": {
+					"type": "mesh",
+					"uvs": [ 1, 1, 0, 1, 0, 0, 1, 0 ],
+					"triangles": [ 1, 2, 3, 1, 3, 0 ],
+					"vertices": [ 1, 6, -13.58, -23.29, 1, 1, 6, -12.65, 20.7, 1, 1, 6, 14.35, 20.13, 1, 1, 6, 13.42, -23.86, 1 ],
+					"hull": 4
+				}
+			}
+		}
+	}
+,
+"animations": {
+	"angry": {
+		"slots": {
+			"angry": {
+				"attachment": [
+					{ "name": "angry" }
+				]
+			},
+			"angry mouse": {
+				"attachment": [
+					{ "name": "angry mouse" }
+				]
+			},
+			"hi": {
+				"attachment": [
+					{ "name": null }
+				]
+			},
+			"hi hand": {
+				"attachment": [
+					{ "name": null }
+				]
+			},
+			"hi l eye": {
+				"attachment": [
+					{ "name": null }
+				]
+			},
+			"hi mouse": {
+				"attachment": [
+					{ "name": null }
+				]
+			},
+			"hi r eye": {
+				"attachment": [
+					{ "name": null }
+				]
+			},
+			"sad": {
+				"attachment": [
+					{ "name": null }
+				]
+			},
+			"scared": {
+				"attachment": [
+					{ "name": null }
+				]
+			},
+			"scared effect": {
+				"attachment": [
+					{ "name": null }
+				]
+			},
+			"scared eyes": {
+				"attachment": [
+					{ "name": null }
+				]
+			}
+		},
+		"bones": {
+			"root": {
+				"rotate": [
+					{}
+				],
+				"translate": [
+					{},
+					{ "time": 0.3333, "y": -2.41 },
+					{ "time": 0.6667, "y": 2.01 },
+					{ "time": 1 },
+					{ "time": 1.3333, "y": -2.41 },
+					{ "time": 1.6667, "y": 2.01 },
+					{ "time": 2 }
+				]
+			},
+			"hand": {
+				"rotate": [
+					{ "angle": -25.25 }
+				]
+			},
+			"l eye": {
+				"scale": [
+					{}
+				]
+			},
+			"r eye": {
+				"scale": [
+					{}
+				]
+			},
+			"mouse": {
+				"translate": [
+					{},
+					{ "time": 0.1667, "y": -1.8 },
+					{ "time": 0.3333 },
+					{ "time": 0.5, "y": -1.8 },
+					{ "time": 0.6667 },
+					{ "time": 0.8333, "y": -1.8 },
+					{ "time": 1 },
+					{ "time": 1.1667, "y": -1.8 },
+					{ "time": 1.3333 },
+					{ "time": 1.5, "y": -1.8 },
+					{ "time": 1.6667 },
+					{ "time": 1.8333, "y": -1.8 },
+					{ "time": 2 }
+				]
+			},
+			"eyes": {
+				"translate": [
+					{}
+				],
+				"scale": [
+					{ "x": 0.5, "y": 0.5 }
+				]
+			}
+		}
+	},
+	"hi": {
+		"slots": {
+			"angry": {
+				"attachment": [
+					{ "name": null },
+					{ "time": 1, "name": null },
+					{ "time": 2, "name": null }
+				]
+			},
+			"angry mouse": {
+				"attachment": [
+					{ "name": null },
+					{ "time": 1, "name": null },
+					{ "time": 2, "name": null }
+				]
+			},
+			"hi": {
+				"attachment": [
+					{ "name": "hi" },
+					{ "time": 1, "name": "hi" },
+					{ "time": 2, "name": "hi" }
+				]
+			},
+			"hi hand": {
+				"attachment": [
+					{ "name": "hi hand" },
+					{ "time": 1, "name": "hi hand" },
+					{ "time": 2, "name": "hi hand" }
+				]
+			},
+			"hi l eye": {
+				"attachment": [
+					{ "name": "hi l eye" },
+					{ "time": 1, "name": "hi l eye" },
+					{ "time": 2, "name": "hi l eye" }
+				]
+			},
+			"hi mouse": {
+				"attachment": [
+					{ "name": "hi mouse" },
+					{ "time": 1, "name": "hi mouse" },
+					{ "time": 2, "name": "hi mouse" }
+				]
+			},
+			"hi r eye": {
+				"attachment": [
+					{ "name": "hi r eye" },
+					{ "time": 1, "name": "hi r eye" },
+					{ "time": 2, "name": "hi r eye" }
+				]
+			},
+			"sad": {
+				"attachment": [
+					{ "name": null },
+					{ "time": 1, "name": null },
+					{ "time": 2, "name": null }
+				]
+			},
+			"scared": {
+				"attachment": [
+					{ "name": null },
+					{ "time": 1, "name": null },
+					{ "time": 2, "name": null }
+				]
+			},
+			"scared effect": {
+				"attachment": [
+					{ "name": null },
+					{ "time": 1, "name": null },
+					{ "time": 2, "name": null }
+				]
+			},
+			"scared eyes": {
+				"attachment": [
+					{ "name": null },
+					{ "time": 1, "name": null },
+					{ "time": 2, "name": null }
+				]
+			}
+		},
+		"bones": {
+			"root": {
+				"rotate": [
+					{ "curve": "stepped" },
+					{ "time": 1, "curve": "stepped" },
+					{ "time": 2 }
+				],
+				"translate": [
+					{ "y": -2.08 },
+					{ "time": 1, "y": 4.16 },
+					{ "time": 2, "y": -2.08 }
+				]
+			},
+			"hand": {
+				"rotate": [
+					{ "angle": -25.25, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.5, "angle": 36.46, "curve": 0.25, "c3": 0.75 },
+					{ "time": 1, "angle": -25.25, "curve": 0.25, "c3": 0.75 },
+					{ "time": 1.5, "angle": 36.46, "curve": 0.25, "c3": 0.75 },
+					{ "time": 2, "angle": -25.25 }
+				]
+			},
+			"l eye": {
+				"scale": [
+					{ "curve": "stepped" },
+					{ "time": 1.3333 },
+					{ "time": 1.4, "x": 0.1 },
+					{ "time": 1.4667, "curve": "stepped" },
+					{ "time": 2 }
+				]
+			},
+			"r eye": {
+				"scale": [
+					{ "curve": "stepped" },
+					{ "time": 1.3333 },
+					{ "time": 1.4, "x": 0.1 },
+					{ "time": 1.4667, "curve": "stepped" },
+					{ "time": 2 }
+				]
+			},
+			"mouse": {
+				"translate": [
+					{},
+					{ "time": 0.5, "y": -1.39 },
+					{ "time": 1, "curve": "stepped" },
+					{ "time": 2 }
+				]
+			}
+		}
+	},
+	"sad": {
+		"slots": {
+			"angry": {
+				"attachment": [
+					{ "name": null }
+				]
+			},
+			"angry mouse": {
+				"attachment": [
+					{ "name": null }
+				]
+			},
+			"hi": {
+				"attachment": [
+					{ "name": null }
+				]
+			},
+			"hi hand": {
+				"attachment": [
+					{ "name": null }
+				]
+			},
+			"hi l eye": {
+				"attachment": [
+					{ "name": null }
+				]
+			},
+			"hi mouse": {
+				"attachment": [
+					{ "name": null }
+				]
+			},
+			"hi r eye": {
+				"attachment": [
+					{ "name": null }
+				]
+			},
+			"sad": {
+				"attachment": [
+					{ "name": "sad" }
+				]
+			},
+			"scared": {
+				"attachment": [
+					{ "name": null }
+				]
+			},
+			"scared effect": {
+				"attachment": [
+					{ "name": null }
+				]
+			},
+			"scared eyes": {
+				"attachment": [
+					{ "name": null }
+				]
+			}
+		},
+		"bones": {
+			"root": {
+				"rotate": [
+					{}
+				],
+				"translate": [
+					{},
+					{ "time": 0.5, "y": -4.86 },
+					{ "time": 1 }
+				]
+			},
+			"hand": {
+				"rotate": [
+					{ "angle": -25.25 }
+				]
+			},
+			"l eye": {
+				"scale": [
+					{}
+				]
+			},
+			"r eye": {
+				"scale": [
+					{}
+				]
+			},
+			"mouse": {
+				"translate": [
+					{}
+				]
+			}
+		}
+	},
+	"scared": {
+		"slots": {
+			"angry": {
+				"attachment": [
+					{ "name": null }
+				]
+			},
+			"angry mouse": {
+				"attachment": [
+					{ "name": null }
+				]
+			},
+			"hi": {
+				"attachment": [
+					{ "name": null }
+				]
+			},
+			"hi hand": {
+				"attachment": [
+					{ "name": null }
+				]
+			},
+			"hi l eye": {
+				"attachment": [
+					{ "name": null }
+				]
+			},
+			"hi mouse": {
+				"attachment": [
+					{ "name": null }
+				]
+			},
+			"hi r eye": {
+				"attachment": [
+					{ "name": null }
+				]
+			},
+			"sad": {
+				"attachment": [
+					{ "name": null }
+				]
+			},
+			"scared": {
+				"attachment": [
+					{ "name": "scared" }
+				]
+			},
+			"scared effect": {
+				"attachment": [
+					{ "name": null },
+					{ "time": 0.2, "name": "scared effect" },
+					{ "time": 0.3, "name": null },
+					{ "time": 0.4, "name": "scared effect" }
+				]
+			},
+			"scared eyes": {
+				"attachment": [
+					{ "name": "scared eyes" }
+				]
+			}
+		},
+		"bones": {
+			"root": {
+				"rotate": [
+					{}
+				],
+				"translate": [
+					{},
+					{ "time": 0.6667, "y": 1.61 },
+					{ "time": 1, "y": -3.22 },
+					{ "time": 2 }
+				]
+			},
+			"hand": {
+				"rotate": [
+					{ "angle": -25.25 }
+				]
+			},
+			"l eye": {
+				"scale": [
+					{}
+				]
+			},
+			"r eye": {
+				"scale": [
+					{}
+				]
+			},
+			"mouse": {
+				"translate": [
+					{}
+				]
+			},
+			"eyes": {
+				"translate": [
+					{},
+					{ "time": 0.3333, "y": 2.01, "curve": "stepped" },
+					{ "time": 0.5, "y": 2.01 }
+				],
+				"scale": [
+					{ "x": 0.5, "y": 0.5 },
+					{ "time": 0.3333, "x": 1.1, "y": 1.1 },
+					{ "time": 0.5 }
+				]
+			}
+		}
+	}
+}
+}

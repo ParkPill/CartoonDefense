@@ -1,0 +1,41 @@
+
+monk.png
+size: 196,83
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: true
+  xy: 2, 2
+  size: 79, 122
+  orig: 79, 122
+  offset: 0, 0
+  index: -1
+l hand
+  rotate: false
+  xy: 126, 39
+  size: 36, 42
+  orig: 36, 42
+  offset: 0, 0
+  index: -1
+l leg
+  rotate: true
+  xy: 154, 9
+  size: 23, 30
+  orig: 23, 30
+  offset: 0, 0
+  index: -1
+r hand
+  rotate: false
+  xy: 164, 34
+  size: 30, 47
+  orig: 30, 47
+  offset: 0, 0
+  index: -1
+r leg
+  rotate: false
+  xy: 126, 9
+  size: 26, 28
+  orig: 26, 28
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,62 @@
+
+parasite.png
+size: 231,280
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: true
+  xy: 90, 3
+  size: 103, 83
+  orig: 103, 83
+  offset: 0, 0
+  index: -1
+head
+  rotate: false
+  xy: 2, 139
+  size: 153, 139
+  orig: 153, 139
+  offset: 0, 0
+  index: -1
+head back
+  rotate: true
+  xy: 175, 5
+  size: 68, 37
+  orig: 68, 37
+  offset: 0, 0
+  index: -1
+l arm
+  rotate: false
+  xy: 157, 197
+  size: 72, 81
+  orig: 72, 81
+  offset: 0, 0
+  index: -1
+l leg
+  rotate: true
+  xy: 175, 75
+  size: 31, 41
+  orig: 31, 41
+  offset: 0, 0
+  index: -1
+r arm
+  rotate: false
+  xy: 157, 108
+  size: 70, 87
+  orig: 70, 87
+  offset: 0, 0
+  index: -1
+r leg
+  rotate: true
+  xy: 90, 109
+  size: 28, 39
+  orig: 28, 39
+  offset: 0, 0
+  index: -1
+worm
+  rotate: false
+  xy: 2, 2
+  size: 86, 135
+  orig: 87, 135
+  offset: 0, 0
+  index: -1

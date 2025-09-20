@@ -1,0 +1,41 @@
+
+werewolf.png
+size: 185,125
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+werewolf/head
+  rotate: false
+  xy: 2, 2
+  size: 111, 121
+  orig: 111, 121
+  offset: 0, 0
+  index: -1
+werewolf/leftHand
+  rotate: true
+  xy: 115, 2
+  size: 27, 41
+  orig: 27, 41
+  offset: 0, 0
+  index: -1
+werewolf/legs
+  rotate: false
+  xy: 115, 86
+  size: 63, 37
+  orig: 63, 37
+  offset: 0, 0
+  index: -1
+werewolf/righthand
+  rotate: false
+  xy: 115, 31
+  size: 42, 53
+  orig: 42, 53
+  offset: 0, 0
+  index: -1
+werewolf/tail
+  rotate: true
+  xy: 159, 28
+  size: 56, 24
+  orig: 56, 24
+  offset: 0, 0
+  index: -1

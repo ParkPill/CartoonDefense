@@ -1,0 +1,48 @@
+
+fighter.png
+size: 213,87
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: true
+  xy: 2, 2
+  size: 83, 119
+  orig: 83, 119
+  offset: 0, 0
+  index: -1
+l hand
+  rotate: true
+  xy: 123, 4
+  size: 41, 32
+  orig: 41, 32
+  offset: 0, 0
+  index: -1
+l leg
+  rotate: false
+  xy: 157, 11
+  size: 28, 34
+  orig: 28, 34
+  offset: 0, 0
+  index: -1
+r hand
+  rotate: false
+  xy: 123, 47
+  size: 40, 38
+  orig: 40, 38
+  offset: 0, 0
+  index: -1
+r leg
+  rotate: false
+  xy: 165, 50
+  size: 35, 35
+  orig: 35, 35
+  offset: 0, 0
+  index: -1
+tail
+  rotate: true
+  xy: 187, 22
+  size: 26, 24
+  orig: 26, 24
+  offset: 0, 0
+  index: -1

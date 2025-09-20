@@ -1,0 +1,69 @@
+
+chunja.png
+size: 302,136
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+angry face
+  rotate: true
+  xy: 226, 58
+  size: 31, 44
+  orig: 31, 44
+  offset: 0, 0
+  index: -1
+body
+  rotate: true
+  xy: 2, 2
+  size: 132, 163
+  orig: 132, 163
+  offset: 0, 0
+  index: -1
+face
+  rotate: false
+  xy: 272, 50
+  size: 28, 39
+  orig: 28, 39
+  offset: 0, 0
+  index: -1
+fore hair
+  rotate: true
+  xy: 231, 4
+  size: 44, 40
+  orig: 44, 40
+  offset: 0, 0
+  index: -1
+l arm
+  rotate: true
+  xy: 167, 52
+  size: 42, 57
+  orig: 42, 57
+  offset: 0, 0
+  index: -1
+l leg
+  rotate: false
+  xy: 200, 4
+  size: 29, 46
+  orig: 29, 46
+  offset: 0, 0
+  index: -1
+r arm
+  rotate: true
+  xy: 231, 91
+  size: 43, 58
+  orig: 43, 58
+  offset: 0, 0
+  index: -1
+r leg
+  rotate: false
+  xy: 167, 4
+  size: 31, 46
+  orig: 31, 46
+  offset: 0, 0
+  index: -1
+tail
+  rotate: false
+  xy: 167, 96
+  size: 62, 38
+  orig: 62, 38
+  offset: 0, 0
+  index: -1

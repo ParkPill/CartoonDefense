@@ -1,0 +1,48 @@
+
+green_meat.png
+size: 771,188
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: true
+  xy: 520, 41
+  size: 145, 193
+  orig: 145, 193
+  offset: 0, 0
+  index: -1
+l arm
+  rotate: true
+  xy: 263, 7
+  size: 179, 255
+  orig: 179, 255
+  offset: 0, 0
+  index: -1
+l arm attack
+  rotate: false
+  xy: 2, 2
+  size: 259, 184
+  orig: 259, 184
+  offset: 0, 0
+  index: -1
+l leg
+  rotate: true
+  xy: 580, 3
+  size: 36, 50
+  orig: 36, 50
+  offset: 0, 0
+  index: -1
+r arm
+  rotate: false
+  xy: 715, 78
+  size: 54, 108
+  orig: 54, 108
+  offset: 0, 0
+  index: -1
+r leg
+  rotate: true
+  xy: 520, 3
+  size: 36, 58
+  orig: 36, 58
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,41 @@
+{
+  "__version__": "1.0.6",
+  "general": {
+    "designResolution": {
+      "fitHeight": true,
+      "fitWidth": false,
+      "width": 720,
+      "height": 1280
+    }
+  },
+  "sorting-layer": {
+    "layers": [
+      {
+        "id": 0,
+        "name": "default",
+        "value": 0
+      },
+      {
+        "id": 1,
+        "name": "background",
+        "value": 1
+      },
+      {
+        "id": 2,
+        "name": "ground",
+        "value": 2
+      },
+      {
+        "id": 3,
+        "name": "unit",
+        "value": 3
+      },
+      {
+        "id": 4,
+        "name": "above",
+        "value": 4
+      }
+    ],
+    "increaseId": 4
+  }
+}

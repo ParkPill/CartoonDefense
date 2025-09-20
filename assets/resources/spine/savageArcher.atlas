@@ -1,0 +1,55 @@
+
+savageArcher.png
+size: 389,175
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+arrow
+  rotate: true
+  xy: 190, 124
+  size: 49, 144
+  orig: 49, 144
+  offset: 0, 0
+  index: -1
+body
+  rotate: true
+  xy: 2, 2
+  size: 171, 186
+  orig: 171, 186
+  offset: 0, 0
+  index: -1
+bow
+  rotate: true
+  xy: 190, 12
+  size: 110, 137
+  orig: 110, 137
+  offset: 0, 0
+  index: -1
+l arm
+  rotate: false
+  xy: 336, 109
+  size: 51, 64
+  orig: 51, 64
+  offset: 0, 0
+  index: -1
+l leg
+  rotate: true
+  xy: 329, 3
+  size: 35, 40
+  orig: 35, 40
+  offset: 0, 0
+  index: -1
+r leg
+  rotate: true
+  xy: 329, 3
+  size: 35, 40
+  orig: 35, 40
+  offset: 0, 0
+  index: -1
+r arm
+  rotate: false
+  xy: 329, 40
+  size: 48, 67
+  orig: 48, 67
+  offset: 0, 0
+  index: -1
