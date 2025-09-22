@@ -1,6 +1,6 @@
-import { _decorator, CCInteger, Component, instantiate, Label, Node, Prefab, Vec2 } from 'cc';
+import { _decorator, CCInteger, Component, instantiate, Label, Node, Prefab, tween, Vec2, Vec3 } from 'cc';
 import { gameManager } from './gameManager';
-import { mergeUnit } from './mergeUnit';
+import { mergeUnit, UnitType } from './mergeUnit';
 import { enemy } from './enemy';
 import { mergeSlot } from './mergeSlot';
 const { ccclass, property } = _decorator;
@@ -13,12 +13,16 @@ export class gameScript extends Component {
     public testUnitSpine: Node;
     @property(Node)
     public canvas: Node;
+    @property(Node)
+    public unitNode: Node;
+    @property(Node)
+    public aboveNode: Node;
     @property({ type: [Vec2] })
     public routeArray: Vec2[] = [];
     @property({ type: [Node] })
     public routeFlagNodes: Node[] = [];
 
-    public playerUnits: mergeUnit[] = [];
+    // public playerUnits: mergeUnit[] = [];
     public enemies: enemy[] = [];
     @property(Label)
     public lblGoldCount: Label;
@@ -26,8 +30,10 @@ export class gameScript extends Component {
     public goldCount: number = 0;
     @property(CCInteger)
     public summonPrice: number = 50;
+    @property({ type: [Prefab] })
+    public mergeUnitPrefabs: Prefab[] = [];
     @property(Prefab)
-    public mergeUnitPrefab: Prefab;
+    public goldPrefab: Prefab;
     @property(Prefab)
     public enemyPrefab: Prefab;
     isGameStart: boolean = false;
@@ -78,14 +84,15 @@ export class gameScript extends Component {
 
     public spawnMergeUnit() {
         console.log("mergeUnit1");
-        const mergeUnit = instantiate(this.mergeUnitPrefab);
+        const unit = instantiate(this.mergeUnitPrefabs[0]);
         console.log("mergeUnit2", mergeUnit);
-        mergeUnit.setParent(this.canvas);
-        mergeUnit.setPosition(0, 0, 0);
+        unit.setParent(this.unitNode);
+        unit.getComponent(mergeUnit).aboveNode = this.aboveNode;
+        unit.setPosition(0, 0, 0);
         // mergeSlotArray 중에 mergeSlot.mergeUnit이 null인 곳 아무데나 setMergeUnit(mergeUnit); 실행
         for (let i = 0; i < this.mergeSlotArray.length; i++) {
-            if (this.mergeSlotArray[i].mergeUnit == null) {
-                this.mergeSlotArray[i].setMergeUnit(mergeUnit);
+            if (this.mergeSlotArray[i].currentUnit == null) {
+                this.mergeSlotArray[i].setMergeUnit(unit);
                 break;
             }
         }
@@ -93,11 +100,12 @@ export class gameScript extends Component {
 
     spawnEnemy() {
         const enemyNode = instantiate(this.enemyPrefab);
-        enemyNode.setParent(this.canvas);
+        enemyNode.setParent(this.unitNode);
         enemyNode.setPosition(this.routeArray[0].toVec3());
         enemyNode.getComponent(enemy).routeArray = this.routeArray.map(vec2 => vec2.clone());
-        enemyNode.getComponent(enemy).onDead = () => {
-            this.enemies.splice(this.enemies.indexOf(enemyNode.getComponent(enemy)), 1);
+        enemyNode.getComponent(enemy).onDead = (deadEnemy: enemy) => {
+            this.addGold(deadEnemy.rewardGold, deadEnemy.node.getWorldPosition().toVec2());
+            this.enemies.splice(this.enemies.indexOf(deadEnemy), 1);
         };
         enemyNode.getComponent(enemy).onMovementComplete = () => {
             this.enemies.splice(this.enemies.indexOf(enemyNode.getComponent(enemy)), 1);
@@ -113,6 +121,56 @@ export class gameScript extends Component {
                 this.enemySpawnTime -= this.enemySpawnInterval;
             }
         }
+    }
+
+    public createMergeUnit(unitType: UnitType): Node {
+        const unit = instantiate(this.mergeUnitPrefabs[unitType]);
+        unit.setParent(this.unitNode);
+        unit.getComponent(mergeUnit).aboveNode = this.aboveNode;
+        unit.getComponent(mergeUnit).unitType = unitType;
+        unit.setPosition(0, 0, 0);
+        return unit;
+    }
+
+    public addGold(gold: number, worldPos: Vec2) {
+        // goldPrefab 인스턴스 생성
+        const goldNode = instantiate(this.goldPrefab);
+        goldNode.setParent(this.unitNode); // 월드 상에 우선 unitNode에 붙임
+        goldNode.setWorldPosition(worldPos.toVec3());
+
+        // 1단계: 살짝 위로 떠오르기
+        const upPosition = worldPos.clone();
+        upPosition.y += 50;
+
+        // 2단계: imgGold 위치로 이동
+        // imgGold의 월드 좌표 구하기
+        const imgGoldNode = this.node.scene.getChildByName('Canvas').getChildByName('UI').getChildByName('imgGold');
+        const imgGoldWorldPos = imgGoldNode.getWorldPosition();
+
+        // 1단계 트윈: 위로 떠오르기
+        tween(goldNode)
+            .to(0.3, { worldPosition: upPosition.toVec3() }, { easing: 'quadOut' })
+            .call(() => {
+                // console.log("1단계 트윈 완료");
+                // 2단계 트윈: imgGold로 이동
+                tween(goldNode)
+                    .to(1, { worldPosition: imgGoldWorldPos }, { easing: 'quadOut' })
+                    .call(() => {
+                        // 골드 증가
+                        this.goldCount += gold;
+                        this.lblGoldCount.string = this.goldCount.toString();
+                        // 살짝 커졌다가 다시 작아지는 트윈 효과 추가
+                        this.lblGoldCount.node.setScale(1, 1, 1);
+                        tween(this.lblGoldCount.node)
+                            .to(0.1, { scale: new Vec3(1.3, 1.3, 1.3) }, { easing: 'quadOut' })
+                            .to(0.1, { scale: new Vec3(1, 1, 1) }, { easing: 'quadIn' })
+                            .start();
+                        // 골드 오브젝트 제거
+                        goldNode.destroy();
+                    })
+                    .start();
+            })
+            .start();
     }
 }
 

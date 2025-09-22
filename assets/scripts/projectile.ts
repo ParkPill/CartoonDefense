@@ -1,5 +1,5 @@
 // project.ts
-import { _decorator, Component, Node, Vec3, math } from 'cc';
+import { _decorator, Component, Node, Vec3, Animation, math } from 'cc';
 import { enemy } from './enemy';
 const { ccclass, property } = _decorator;
 
@@ -17,6 +17,9 @@ export default class Project extends Component {
     @property({ tooltip: '이동 방향으로 노드를 회전시킬지 여부' })
     public rotateToDirection = false;
 
+    @property({ tooltip: '데미지' })
+    public damage = 100;
+
     // 내부용 벡터 재사용 (GC 줄이기)
     private _tmpTargetPos = new Vec3();
     private _tmpMyPos = new Vec3();
@@ -24,7 +27,7 @@ export default class Project extends Component {
 
     private _paused = false;
     private _moving = false;
-
+    isDead = false;
     // 도착 시 실행할 콜백 (선택)
     public onArrived: (() => void) | null = null;
 
@@ -34,9 +37,16 @@ export default class Project extends Component {
 
     update(dt: number) {
         if (this._paused) return;
-        if (!this.target) return;
+        if (!this.target) {
+            this.destroyThis();
+            return;
+        }
+        if (this.isDead) {
+            return;
+        }
 
-        if (!this.target.getComponent(enemy)!.isAlive()) {
+        // console.log("this.target", this.target);
+        if (!this.target || !this.target.isValid || !this.target.getComponent(enemy)!.isAlive()) {
             this.destroyThis();
             return;
         }
@@ -46,6 +56,7 @@ export default class Project extends Component {
         this.node.getWorldPosition(this._tmpMyPos);
 
         Vec3.subtract(this._tmpDir, this._tmpTargetPos, this._tmpMyPos);
+        // console.log("this._tmpDir", this._tmpDir);
         const dist = this._tmpDir.length();
 
         if (dist <= this.arrivalThreshold) {
@@ -81,7 +92,7 @@ export default class Project extends Component {
         }
     }
     arrivedTarget() {
-        console.log("projectile arrivedTarget");
+        // console.log("projectile arrivedTarget");
         this.node.setWorldPosition(this._tmpTargetPos);
         this._moving = false;
         if (this.onArrived) {
@@ -89,13 +100,25 @@ export default class Project extends Component {
             this.onArrived = null;
             cb();
         }
-        this.target.getComponent(enemy)!.takeDamage(10);
-        this.destroyThis();
+        this.target.getComponent(enemy)!.takeDamage(this.damage);
+
+        this.isDead = true;
+        this.node.destroy();
     }
 
     public destroyThis() {
-        console.log("projectile destroyThis");
-        this.node.destroy();
+        if (this.isDead) {
+            return;
+        }
+        // console.log("projectile destroyThis");
+        this.isDead = true;
+        let animation = this.node.getComponent(Animation);
+        animation.play(animation.clips[1].name);
+        let duration = animation.clips[1].duration;
+        this.scheduleOnce(() => {
+            this.node.destroy();
+        }, duration);
+        // this.node.destroy();
     }
 
     /**

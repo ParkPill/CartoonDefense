@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Vec2, tween } from 'cc';
+import { _decorator, Component, Node, Vec2, tween, Sprite, UIOpacity, Label, UITransform } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('enemy')
@@ -10,18 +10,26 @@ export class enemy extends Component {
     public onMovementComplete: (() => void) | null = null;
 
     @property
-    public onDead: (() => void) | null = null;
+    public onDead: ((deadEnemy: enemy) => void) | null = null;
 
     @property
     public maxHealth: number = 100;
-
+    @property
+    public rewardGold: number = 50;
     private currentHealth: number = 0;
     private currentRouteIndex: number = 0;
     private isMoving: boolean = false;
     private isDead: boolean = false;
     public speed: number = 80;
+
+    // HP 바 관련 변수들
+    private hpBarNode: Node | null = null;
+    private hpBarBackground: Node | null = null;
+    private hpBarFill: Node | null = null;
+    private hpBarLabel: Node | null = null;
     start() {
         this.currentHealth = this.maxHealth;
+        // this.createHPBar();
         this.startMovement();
     }
 
@@ -87,12 +95,15 @@ export class enemy extends Component {
     }
 
     public takeDamage(damage: number): void {
-        console.log("enemy takeDamage" + damage + ' currentHealth' + this.currentHealth);
+        // console.log("enemy takeDamage" + damage + ' currentHealth' + this.currentHealth);
         if (this.isDead) {
             return;
         }
 
         this.currentHealth -= damage;
+
+        // HP 바 업데이트
+        this.updateHPBar();
 
         if (this.currentHealth <= 0) {
             this.currentHealth = 0;
@@ -104,7 +115,7 @@ export class enemy extends Component {
         if (this.isDead) {
             return;
         }
-        console.log("enemy die");
+        // console.log("enemy die");
 
         this.isDead = true;
         this.onDeadCallback();
@@ -114,7 +125,7 @@ export class enemy extends Component {
 
     private onDeadCallback(): void {
         if (this.onDead) {
-            this.onDead();
+            this.onDead(this);
         }
     }
 
@@ -129,6 +140,63 @@ export class enemy extends Component {
     public isAlive(): boolean {
         // console.log("enemy isAlive", this.isDead, this.currentHealth);
         return !this.isDead && this.currentHealth > 0;
+    }
+
+    private createHPBar(): void {
+        // HP 바 컨테이너 노드 생성
+
+
+        // const label = this.hpBarLabel.addComponent(Label);
+        // label.fontSize = 16;
+        // label.string = `${this.currentHealth}/${this.maxHealth}`;
+
+        // 초기 HP 바 상태 설정
+        this.updateHPBar();
+    }
+
+    private updateHPBar(): void {
+        if (!this.hpBarFill) {
+            this.hpBarNode = this.node.getChildByName('HPBar');
+            this.hpBarNode.active = true;
+
+            this.hpBarFill = this.hpBarNode.getChildByName('imgFill');
+            const fillTransform = this.hpBarFill.getComponent(UITransform);
+            fillTransform.setAnchorPoint(0, 0.5);
+
+            const fillSprite = this.hpBarFill.getComponent(Sprite);
+            fillSprite.sizeMode = Sprite.SizeMode.CUSTOM;
+            fillTransform.setContentSize(49, 5);
+
+            // HP 텍스트 라벨 생성 (선택사항)
+            this.hpBarLabel = new Node('HPBarLabel');
+            this.hpBarLabel.setParent(this.hpBarNode);
+            this.hpBarLabel.setPosition(0, -15, 0);
+        }
+
+        const healthPercentage = this.currentHealth / this.maxHealth;
+        const hpBarWidth = 49; // HP 바 전체 너비
+
+        // HP 바 채우기 크기 조정
+        // this.hpBarFill.setScale(healthPercentage, 1, 1);
+        this.hpBarFill.getComponent(UITransform).setContentSize(healthPercentage * hpBarWidth, 4);
+
+        // HP 텍스트 업데이트
+        // const label = this.hpBarLabel.getComponent(Label);
+        // if (label) {
+        //     label.string = `${this.currentHealth}/${this.maxHealth}`;
+        // }
+
+        // HP에 따른 색상 변경
+        const fillSprite = this.hpBarFill.getComponent(Sprite);
+        if (fillSprite) {
+            if (healthPercentage > 0.6) {
+                fillSprite.color.set(0, 255, 0, 255); // 녹색
+            } else if (healthPercentage > 0.3) {
+                fillSprite.color.set(255, 255, 0, 255); // 노란색
+            } else {
+                fillSprite.color.set(255, 0, 0, 255); // 빨간색
+            }
+        }
     }
 }
 

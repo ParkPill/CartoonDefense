@@ -1,6 +1,7 @@
-import { _decorator, Component, Node, Prefab, instantiate, input, Input, EventTouch, Vec3, Vec2, Animation, animation } from 'cc';
+import { _decorator, Component, Node, Prefab, instantiate, input, Input, EventTouch, Vec3, Vec2, Animation, animation, Enum } from 'cc';
 import { gameManager } from './gameManager';
 import projectile from './projectile';
+import { mergeSlot } from './mergeSlot';
 const { ccclass, property } = _decorator;
 
 
@@ -9,12 +10,12 @@ export enum UnitType {
     UNIT_WORKER = 0,
     UNIT_SWORDMAN = 1,
     UNIT_ARCHER = 2,
-    UNIT_CATAPULT = 3,
-    UNIT_HELICOPTER = 4,
-    UNIT_ORC_AXE = 5,
-    UNIT_ORC_SPEAR = 6,
-    UNIT_GOBLIN = 7,
-    UNIT_GOBLIN_BOMB = 8,
+    UNIT_HELICOPTER = 3,
+    UNIT_GOBLIN = 4,
+    UNIT_GOBLIN_BOMB = 5,
+    UNIT_ORC_AXE = 6,
+    UNIT_ORC_SPEAR = 7,
+    UNIT_CATAPULT = 8,
     UNIT_TROLL = 9,
     UNIT_AIRPORT = 10,
     UNIT_BARRACKS = 11,
@@ -101,17 +102,25 @@ export enum UnitType {
 }
 @ccclass('mergeUnit')
 export class mergeUnit extends Component {
-    @property({ type: UnitType })
+    // @property({ type: UnitType })
+    // public unitType: UnitType = UnitType.UNIT_WORKER;
+    @property({ type: Enum(UnitType) })
     public unitType: UnitType = UnitType.UNIT_WORKER;
+    @property({ type: Number })
+    public damage: number = 10;
 
     @property({ type: Node })
     public modelContainer: Node = null;
+    @property({ type: Node })
+    public aboveNode: Node = null;
 
     @property({ type: Node })
     public spriteUnit: Node = null;
 
     @property({ type: Node })
     public spineUnit: Node = null;
+
+    public currentSlot: mergeSlot = null;
 
     private isDragging: boolean = false;
     private dragStartPosition: Vec3 = new Vec3();
@@ -122,6 +131,8 @@ export class mergeUnit extends Component {
 
     @property({ type: Prefab })
     public projectilePrefab: Prefab = null;
+
+    // constructor 
 
     start() {
         // this.setupModel();
@@ -148,15 +159,36 @@ export class mergeUnit extends Component {
     }
 
     public startAttack(): void {
-        console.log("attack");
-        this.spawnProjectile();
+        let delay = this.getUnitAttackHappenTime(this.unitType);
+
+        if (this.spriteUnit != null) {
+            let animation = this.spriteUnit.getComponent(Animation);
+            animation.play(animation.clips[1].name);
+            console.log("animation", animation);
+        }
+        if (this.spineUnit != null) {
+            // this.spineUnit.getComponent(Animation).unitType = this.unitType;
+        }
+
+        this.scheduleOnce(() => {
+            if (this.spriteUnit != null) {
+                let animation = this.spriteUnit.getComponent(Animation);
+                animation.play(animation.clips[0].name);
+                console.log("animation", animation);
+            }
+            if (this.spineUnit != null) {
+                // this.spineUnit.getComponent(Animation).unitType = this.unitType;
+            }
+            this.spawnProjectile();
+        }, delay);
+        // this.spawnProjectile();
     }
 
     public spawnProjectile(): void {
-        console.log("spawnProjectile");
+        // console.log("spawnProjectile");
         const prj = instantiate(this.projectilePrefab);
-        prj.setParent(this.node.parent);
-        prj.setPosition(this.node.position);
+        prj.setParent(this.aboveNode);
+        prj.setWorldPosition(this.node.worldPosition);
         let enemy = gameManager.Instance.theGameScript.enemies[0];
         if (enemy == null || enemy.getCurrentHealth() <= 0) {
             for (let i = 0; i < gameManager.Instance.theGameScript.enemies.length; i++) {
@@ -167,7 +199,7 @@ export class mergeUnit extends Component {
             }
         }
 
-        prj.getComponent(projectile).setTarget(enemy.node);
+        if (enemy != null) prj.getComponent(projectile).setTarget(enemy.node);
     }
 
     private setupInputEvents(): void {
@@ -199,55 +231,73 @@ export class mergeUnit extends Component {
         this.isDragging = false;
         this.node.setScale(1.0, 1.0, 1.0);
 
-        // 드롭된 위치에서 다른 mergeUnit 찾기
-        const targetUnit = this.findMergeTarget(event.getLocation().toVec3().toVec2());
+        // 드롭된 위치에서 mergeSlot 찾기
+        console.log("event.getLocation().toVec3().toVec2()", event.getLocation().toVec3().toVec2());
+        const targetSlot = this.findMergeSlot(event.getLocation().toVec3().toVec2());
 
-        if (targetUnit && targetUnit !== this) {
-            this.tryMergeWith(targetUnit);
+        if (targetSlot) {
+            this.tryDropToMergeSlot(targetSlot);
         } else {
             // 원래 위치로 돌아가기
             this.node.position = this.originalPosition;
         }
     }
 
-    private findMergeTarget(position: Vec2): mergeUnit | null {
-        // 드롭 위치 근처의 다른 mergeUnit 찾기
-        const nearbyUnits = this.node.parent.children.filter(child => {
-            if (child === this.node) return false;
-            const mergeUnitComp = child.getComponent(mergeUnit);
-            return mergeUnitComp !== null;
-        });
+    private findMergeSlot(position: Vec2): mergeSlot | null {
+        // 드롭 위치 근처의 mergeSlot 찾기
+        const mergeSlots = gameManager.Instance.theGameScript.mergeSlotArray;
 
-        for (const unit of nearbyUnits) {
-            const distance = Vec2.distance(position, unit.position.toVec2());
-            if (distance < 100) { // 100 픽셀 이내
-                return unit.getComponent(mergeUnit);
+        for (const slot of mergeSlots) {
+            // mergeSlot의 월드 좌표 구하기
+            const slotWorldPos = slot.node.getWorldPosition().toVec2();
+            const distance = Vec2.distance(position, slotWorldPos);
+            if (distance < 50) { // 100 픽셀 이내
+                return slot;
             }
         }
 
         return null;
     }
 
-    private tryMergeWith(targetUnit: mergeUnit): void {
-        // 같은 유닛 타입인지 확인
-        if (this.unitType !== targetUnit.unitType) {
+    private tryDropToMergeSlot(targetSlot: mergeSlot): void {
+
+        if (this.currentSlot == targetSlot) {
             this.node.position = this.originalPosition;
             return;
         }
 
-        // 합치기 가능한지 확인
+        // mergeSlot이 비어있는 경우
+        if (targetSlot.currentUnit == null) {
+            // 드래그한 유닛을 해당 슬롯에 배치
+            targetSlot.setMergeUnit(this.node);
+            return;
+        }
+
+        // mergeSlot에 이미 유닛이 있는 경우
+        const existingUnit = targetSlot.currentUnit.getComponent(mergeUnit);
+
+        // 같은 유닛 타입인지 확인
+        if (this.unitType !== existingUnit.unitType) {
+            // 다른 타입이면 드래그 드롭 취소
+            this.node.position = this.originalPosition;
+            return;
+        }
+
+
+        // 같은 타입이면 합치기 가능한지 확인
         const newUnitType = this.getNextUnitType(this.unitType);
         if (newUnitType === null) {
             this.node.position = this.originalPosition;
             return;
         }
-
-        // 새로운 유닛 생성
-        this.createMergedUnit(newUnitType, targetUnit.node.position);
+        // 새로운 유닛 생성 및 배치
+        this.currentSlot.currentUnit = null;
+        const newUnit = gameManager.Instance.theGameScript.createMergeUnit(newUnitType);
+        targetSlot.setMergeUnit(newUnit);
 
         // 기존 두 유닛 제거
         this.node.destroy();
-        targetUnit.node.destroy();
+        existingUnit.node.destroy();
     }
 
     private getNextUnitType(currentType: UnitType): UnitType | null {
@@ -269,24 +319,6 @@ export class mergeUnit extends Component {
         return null;
     }
 
-    private createMergedUnit(unitType: UnitType, position: Vec3): void {
-        // 새로운 유닛 노드 생성
-        const newNode = new Node(`MergedUnit_${unitType}`);
-        newNode.position = position;
-
-        // mergeUnit 컴포넌트 추가
-        const mergeUnitComp = newNode.addComponent(mergeUnit);
-        mergeUnitComp.unitType = unitType;
-        mergeUnitComp.modelContainer = newNode; // 자기 자신을 모델 컨테이너로 설정
-        // mergeUnitComp.spriteUnitPrefab = this.spriteUnitPrefab;
-        // mergeUnitComp.spineUnitPrefab = this.spineUnitPrefab;
-
-        // 부모 노드에 추가
-        this.node.parent.addChild(newNode);
-
-        // 모델 설정
-        mergeUnitComp.setupModel();
-    }
 
     public getUnitAttackHappenTime(unitType: UnitType): number {
         if (unitType == UnitType.UNIT_ARCHER) {
