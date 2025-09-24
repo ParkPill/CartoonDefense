@@ -3,6 +3,8 @@ import { gameManager } from './gameManager';
 import { mergeUnit, UnitType } from './mergeUnit';
 import { enemy } from './enemy';
 import { mergeSlot } from './mergeSlot';
+import { dataManager } from './dataManager';
+import { languageManager } from './languageManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('gameScript')
@@ -60,6 +62,9 @@ export class gameScript extends Component {
             this.routeArray.push(node.position.toVec2());
         });
         this.startStage();
+
+        dataManager.Instance.loadEnemyData();
+        languageManager.Instance.loadLanguage();
     }
     startStage() {
         this.isGameStart = true;

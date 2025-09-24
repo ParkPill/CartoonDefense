@@ -1,0 +1,9 @@
+	Korean	English
+yes	예	Yes
+no	아니오	No
+ok	확인	Confirm
+cancel	취소	Cancel
+popup desc	이 텍스트는 language.csv 테이블에 있는 내용입니다.	This text comes from language.csv file.
+ask buy	이 상품을 구매하시겠습니까?	Do you want to buy this?
+confirm purchase	구매 확인	Confirm Purchase
+buy success	구매 성공!	Purchase complete!
