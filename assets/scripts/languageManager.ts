@@ -6,7 +6,9 @@ export class languageManager extends Component {
 
     private languageDic: Map<string, Map<string, string>> = new Map();
     private languageArray: string[] = [];
-    private filePath: string = "data/language"; // TSV 파일 경로
+    private filePath: string = "CartoonDefense - language"; // TSV 파일 경로
+    public currentLanguage: string = "Korean";
+    public isLoaded: boolean = false;
 
 
     // 싱글톤 인스턴스
@@ -15,11 +17,11 @@ export class languageManager extends Component {
     public static get Instance(): languageManager {
         if (!languageManager._instance) {
             // 자동으로 인스턴스 생성
-            const dataManagerNode = new Node('DataManager');
-            languageManager._instance = dataManagerNode.addComponent(languageManager);
-
+            const node = new Node('LanguageManager');
+            languageManager._instance = node.addComponent(languageManager);
+            languageManager._instance.loadLanguage();
             // 씬 전환 시에도 유지되도록 설정
-            director.addPersistRootNode(dataManagerNode);
+            director.addPersistRootNode(node);
         }
         return languageManager._instance;
     }
@@ -29,7 +31,7 @@ export class languageManager extends Component {
         if (languageManager._instance === null) {
             languageManager._instance = this;
         } else if (languageManager._instance !== this) {
-            console.warn("dataManager 인스턴스가 이미 존재합니다. 중복된 dataManager를 제거합니다.");
+            console.warn("languageManager 인스턴스가 이미 존재합니다. 중복된 languageManager를 제거합니다.");
             this.node.destroy();
             return;
         }
@@ -38,8 +40,10 @@ export class languageManager extends Component {
 
     }
 
+
     loadLanguage() {
-        // console.log("LanguageManager LoadTSV1");
+        this.currentLanguage = navigator.language.includes("ko") ? "Korean" : "English";
+        console.log("LanguageManager LoadTSV1");
         const alternatePrefix = "29ffkkdjel_";
         const alternateList: string[] = [];
 
@@ -53,7 +57,7 @@ export class languageManager extends Component {
             let wholeText = textAsset.text;
             let alternateCount = 0;
 
-            // console.log("LanguageManager LoadTSV2");
+            console.log("LanguageManager load: " + wholeText);
             // 처리: 따옴표를 특수 접두어로 대체
             if (wholeText.includes("\"")) {
                 let inspectStartIndex = 0;
@@ -77,20 +81,21 @@ export class languageManager extends Component {
             }
 
             // 줄 단위로 텍스트를 분리
-            const arrayString = wholeText.split("\r\n");
+            const arrayString = wholeText.split("\n");
             let index = 0;
-
+            // console.log("arrayString: " + arrayString.length);
             for (const line of arrayString) {
                 const filteredLine = line;
                 // 탭으로 분리하여 각 열의 값을 가져옴
                 const values = filteredLine.split('\t');
-                console.log("filteredLine: " + filteredLine);
+                // console.log("filteredLine: " + filteredLine);
 
                 if (index === 0) {
                     for (const str of values) {
                         if (str && str.trim() !== "" && !this.languageDic.has(str)) {
                             const dic = new Map<string, string>();
                             const key = str.replace(/\r?\n/g, "");
+                            console.log("language key: " + key);
                             this.languageDic.set(key, dic);
                         }
                     }
@@ -110,6 +115,7 @@ export class languageManager extends Component {
                 }
                 index++;
             }
+            this.isLoaded = true;
             // console.log("LanguageManager LoadTSV3");
         });
 
@@ -125,8 +131,11 @@ export class languageManager extends Component {
      * @param language 언어 코드 (기본값: "Korean")
      * @returns 번역된 텍스트
      */
-    getText(key: string, language: string = "Korean"): string {
-        const languageMap = this.languageDic.get(language);
+    public static getText(key: string, language: string = "Korean"): string {
+
+
+        const languageMap = languageManager.Instance.languageDic.get(language);
+
         if (languageMap) {
             return languageMap.get(key) || key; // 키가 없으면 원본 키 반환
         }

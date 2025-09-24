@@ -1,4 +1,5 @@
 import { _decorator, Component, Node, resources, TextAsset, director } from 'cc';
+import { gameManager } from './gameManager';
 const { ccclass, property } = _decorator;
 
 // EnemyData 인터페이스 정의
@@ -15,7 +16,9 @@ export class dataManager extends Component {
 
     private enemyInfoList: EnemyData[] = [];
     private bossInfoList: EnemyData[] = [];
-    private enemyUnitInfoFilePath: string = "data/enemy_unit_info"; // CSV 파일 경로
+    private enemyUnitInfoFilePath: string = "CartoonDefense - enemy"; // CSV 파일 경로
+    public loadingCount: number = 0;
+    public maxLoadingCount: number = 1;
 
 
     // 싱글톤 인스턴스
@@ -26,7 +29,7 @@ export class dataManager extends Component {
             // 자동으로 인스턴스 생성
             const dataManagerNode = new Node('DataManager');
             dataManager._instance = dataManagerNode.addComponent(dataManager);
-
+            dataManager._instance.loadingCount = 0;
             // 씬 전환 시에도 유지되도록 설정
             director.addPersistRootNode(dataManagerNode);
         }
@@ -45,11 +48,12 @@ export class dataManager extends Component {
     }
 
     start() {
-
+        gameManager.Instance.isTitleLoaded = true;
     }
 
     loadEnemyData() {
         // CSV 파일 로드
+        console.log("적 데이터 로드!")
         resources.load(this.enemyUnitInfoFilePath, TextAsset, (err, textAsset) => {
             if (err || !textAsset) {
                 console.error("적 데이터 파일 로드 실패:", err);
@@ -58,16 +62,16 @@ export class dataManager extends Component {
 
             let wholeText = textAsset.text;
             wholeText = this.decryptData(wholeText);
-            const arrayString = wholeText.split("\r\n");
+            const arrayString = wholeText.split("\n");
 
             this.enemyInfoList = [];
             this.bossInfoList = [];
-            // console.log("lineCount: " + arrayString.length);
+            // console.log("적 라인 lineCount: " + arrayString.length);
 
             for (let i = 1; i < arrayString.length; i++) {
                 let line = arrayString[i];
                 line = line.replace(/\r\n/g, "").replace(/\r/g, "").replace(/\n/g, "");
-                console.log("enemy info: " + line);
+                // console.log("enemy info: " + line);
                 const strs = line.split(',');
                 if (!strs[1] || strs[1].trim() === "") continue;
 
@@ -80,6 +84,8 @@ export class dataManager extends Component {
 
                 this.enemyInfoList.push(info);
             }
+            console.log("적 데이터 로드 완료!");
+            this.loadingCount++;
         });
     }
 
@@ -172,13 +178,6 @@ export class dataManager extends Component {
     }
 
     // ========== 정적 메서드들 (어디서든 접근 가능) ==========
-
-    /**
-     * 적 데이터를 로드합니다. (정적 메서드)
-     */
-    public static loadEnemyData(): void {
-        dataManager.Instance.loadEnemyData();
-    }
 
     /**
      * ID로 적 데이터를 찾습니다. (정적 메서드)

@@ -1,4 +1,5 @@
 import { _decorator, Component, Node, Vec2, tween, Sprite, UIOpacity, Label, UITransform } from 'cc';
+import { EnemyData } from './dataManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('enemy')
@@ -15,12 +16,12 @@ export class enemy extends Component {
     @property
     public maxHealth: number = 100;
     @property
-    public rewardGold: number = 50;
     private currentHealth: number = 0;
     private currentRouteIndex: number = 0;
     private isMoving: boolean = false;
     private isDead: boolean = false;
     public speed: number = 80;
+    public data: EnemyData;
 
     // HP 바 관련 변수들
     private hpBarNode: Node | null = null;
@@ -135,6 +136,10 @@ export class enemy extends Component {
 
     public getMaxHealth(): number {
         return this.maxHealth;
+    }
+    public setHP(hp: number) {
+        this.currentHealth = hp;
+        this.maxHealth = hp;
     }
 
     public isAlive(): boolean {

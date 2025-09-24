@@ -1,11 +1,11 @@
-import { _decorator, Component, Node } from 'cc';
+import { _decorator, Component, director, Node } from 'cc';
 import { gameScript } from './gameScript';
 const { ccclass, property } = _decorator;
 
 @ccclass('gameManager')
 export class gameManager extends Component {
-    private static _instance: gameManager = null;
 
+    public isTitleLoaded: boolean = false;
     @property({ type: Node })
     public playerUnitsContainer: Node = null;
 
@@ -18,9 +18,16 @@ export class gameManager extends Component {
     @property({ type: gameScript })
     public theGameScript: gameScript = null;
 
+    // 싱글톤 인스턴스
+    private static _instance: gameManager = null;
+
     public static get Instance(): gameManager {
         if (!gameManager._instance) {
-            console.error("gameManager 인스턴스가 초기화되지 않았습니다. 씬에 gameManager가 있는지 확인하세요.");
+            // 자동으로 인스턴스 생성
+            const gameManagerNode = new Node('gameManager');
+            gameManager._instance = gameManagerNode.addComponent(gameManager);
+            // 씬 전환 시에도 유지되도록 설정
+            director.addPersistRootNode(gameManagerNode);
         }
         return gameManager._instance;
     }
@@ -34,12 +41,7 @@ export class gameManager extends Component {
             this.node.destroy();
             return;
         }
-
-        // 씬 전환 시에도 유지되도록 설정 (필요한 경우)
-        // this.node.setParent(null);
-        // director.addPersistRootNode(this.node);
     }
-
     start() {
         this.initializeGame();
     }

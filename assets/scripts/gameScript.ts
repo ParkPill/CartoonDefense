@@ -1,10 +1,13 @@
-import { _decorator, CCInteger, Component, instantiate, Label, Node, Prefab, tween, Vec2, Vec3 } from 'cc';
+import { _decorator, CCInteger, Component, director, instantiate, Label, Node, Prefab, tween, Vec2, Vec3 } from 'cc';
 import { gameManager } from './gameManager';
 import { mergeUnit, UnitType } from './mergeUnit';
 import { enemy } from './enemy';
 import { mergeSlot } from './mergeSlot';
 import { dataManager } from './dataManager';
 import { languageManager } from './languageManager';
+import { playerData } from './playerData';
+import { saveData } from './saveData';
+import { heroSlot } from './heroSlot';
 const { ccclass, property } = _decorator;
 
 @ccclass('gameScript')
@@ -43,17 +46,33 @@ export class gameScript extends Component {
     enemySpawnTime: number = 0;
     stage: number = 1;
     subStage: number = 1;
-    spawnEnemyCount: number = 1;
-
+    totalEnemyCount: number = 1;
+    totalKilledEnemy: number;
+    spawnedEnemyCount: number;
+    enemyIndexList: number[];
+    enemyScaleList: number[];
+    enemyHPScaleList: number[];
+    data: playerData;
     @property({ type: [mergeSlot] })
     public mergeSlotArray: mergeSlot[] = [];
 
+    @property({ type: [heroSlot] })
+    public heroSlotArray: heroSlot[] = [];
+
     start() {
+        if (!gameManager.Instance.isTitleLoaded) {
+            director.loadScene("title");
+            return;
+        }
+        this.data = saveData.Instance.data;
+        this.subStage = this.data.currentStage % 10;
+        this.stage = this.data.currentStage / 10 + 1;
+
         gameManager.Instance.theGameScript = this;
         // 스파인 애니메이션에서 attack 애니메이션을 실행
         // sp.Skeleton 타입으로 명시적 형 변환이 필요합니다.
         let spine = this.testUnitSpine.getComponent('sp.Skeleton') as any;
-        console.log("spine gogo1", spine);
+        // console.log("spine gogo1", spine);
         if (spine) {
             console.log("spine gogo2", spine);
             spine.setAnimation(0, "attack", false);
@@ -63,18 +82,33 @@ export class gameScript extends Component {
         });
         this.startStage();
 
-        dataManager.Instance.loadEnemyData();
-        languageManager.Instance.loadLanguage();
     }
+
     startStage() {
         this.isGameStart = true;
+        this.spawnedEnemyCount = 0;
+        this.totalKilledEnemy = 0;
         this.lblStage.string = "Stage " + this.stage + "-" + this.subStage;
-        if (this.subStage == 1) {
-            this.spawnEnemyCount = 1;
-        } else if (this.subStage == 2) {
-            this.spawnEnemyCount = 2;
-        } else if (this.subStage == 3) {
-            this.spawnEnemyCount = 3;
+        this.totalEnemyCount = 50 + this.subStage * 10;
+        if (this.subStage == 10) {
+            this.totalEnemyCount = 150;
+        }
+        this.enemyIndexList = [this.totalEnemyCount];
+        this.enemyScaleList = [this.totalEnemyCount];
+        this.enemyHPScaleList = [this.totalEnemyCount];
+
+        for (let i = 0; i < this.totalEnemyCount; i++) {
+            this.enemyIndexList[i] = 0;
+            this.enemyScaleList[i] = 1;
+            this.enemyHPScaleList[i] = 1;
+            if ((i + 1) % 10 == 0 && i > 10) {
+                this.enemyScaleList[i] = 2;
+                this.enemyHPScaleList[i] = 5;
+            }
+        }
+        if (this.subStage == 10) {
+            this.enemyScaleList[this.totalEnemyCount - 1] = 3;
+            this.enemyHPScaleList[this.totalEnemyCount - 1] = 20;
         }
     }
 
@@ -107,26 +141,51 @@ export class gameScript extends Component {
         const enemyNode = instantiate(this.enemyPrefab);
         enemyNode.setParent(this.unitNode);
         enemyNode.setPosition(this.routeArray[0].toVec3());
-        enemyNode.getComponent(enemy).routeArray = this.routeArray.map(vec2 => vec2.clone());
-        enemyNode.getComponent(enemy).onDead = (deadEnemy: enemy) => {
-            this.addGold(deadEnemy.rewardGold, deadEnemy.node.getWorldPosition().toVec2());
+        let theEnemy = enemyNode.getComponent(enemy);
+        let index = this.spawnedEnemyCount;
+        theEnemy.data = dataManager.Instance.getEnemyDataByIndex(this.enemyIndexList[index]);
+        let scale = this.enemyScaleList[index];
+        enemyNode.setScale(scale, scale, 1);
+        theEnemy.setHP(theEnemy.data.HP * this.enemyHPScaleList[index]);
+        theEnemy.routeArray = this.routeArray.map(vec2 => vec2.clone());
+        theEnemy.onDead = (deadEnemy: enemy) => {
+            this.totalKilledEnemy++;
+            this.addGold(deadEnemy.data.RewardGold, deadEnemy.node.getWorldPosition().toVec2());
             this.enemies.splice(this.enemies.indexOf(deadEnemy), 1);
         };
-        enemyNode.getComponent(enemy).onMovementComplete = () => {
-            this.enemies.splice(this.enemies.indexOf(enemyNode.getComponent(enemy)), 1);
+        theEnemy.onMovementComplete = () => {
+            this.enemies.splice(this.enemies.indexOf(theEnemy), 1);
         };
-        this.enemies.push(enemyNode.getComponent(enemy));
+        this.enemies.push(theEnemy);
     }
 
     update(deltaTime: number) {
         if (this.isGameStart) {
             this.enemySpawnTime += deltaTime;
-            if (this.enemySpawnTime >= this.enemySpawnInterval) {
+            if (this.enemySpawnTime >= this.enemySpawnInterval && this.spawnedEnemyCount < this.totalEnemyCount) {
                 this.spawnEnemy();
+                this.spawnedEnemyCount++;
                 this.enemySpawnTime -= this.enemySpawnInterval;
+            }
+
+            if (this.totalKilledEnemy >= this.totalEnemyCount) {
+                this.stageClear();
             }
         }
     }
+    stageClear() {
+        this.isGameStart = false;
+        this.subStage++;
+        if (this.subStage > 10) {
+            this.stage++;
+            this.subStage = 1;
+        }
+
+        // show ui
+
+        this.startStage();
+    }
+
 
     public createMergeUnit(unitType: UnitType): Node {
         const unit = instantiate(this.mergeUnitPrefabs[unitType]);

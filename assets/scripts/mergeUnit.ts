@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Prefab, instantiate, input, Input, EventTouch, Vec3, Vec2, Animation, animation, Enum } from 'cc';
+import { _decorator, Component, Node, Prefab, instantiate, input, Input, EventTouch, Vec3, Vec2, Animation, animation, Enum, CCInteger } from 'cc';
 import { gameManager } from './gameManager';
 import projectile from './projectile';
 import { mergeSlot } from './mergeSlot';
@@ -106,7 +106,7 @@ export class mergeUnit extends Component {
     // public unitType: UnitType = UnitType.UNIT_WORKER;
     @property({ type: Enum(UnitType) })
     public unitType: UnitType = UnitType.UNIT_WORKER;
-    @property({ type: Number })
+    @property({ type: CCInteger })
     public damage: number = 10;
 
     @property({ type: Node })
@@ -137,8 +137,8 @@ export class mergeUnit extends Component {
     start() {
         // this.setupModel();
         this.setupInputEvents();
-        console.log("spriteUnit", this.spriteUnit);
-        console.log("spineUnit", this.spineUnit);
+        // console.log("spriteUnit", this.spriteUnit);
+        // console.log("spineUnit", this.spineUnit);
         if (this.spriteUnit != null) {
             let animation = this.spriteUnit.getComponent(Animation);
             animation.play(animation.clips[0].name);
