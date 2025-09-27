@@ -1,5 +1,6 @@
 import { _decorator, Component, Node, director } from 'cc';
 import { playerData } from './playerData';
+import { serverManager } from './serverManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('saveData')
@@ -34,28 +35,52 @@ export class saveData extends Component {
     }
     loadData() {
         try {
-            console.log("데이터 로드 시작: " + localStorage);
-            const jsonData = localStorage.getItem("playerData");
-            if(jsonData == null){
-                this.data = new playerData();
+            let jsonData = localStorage.getItem("playerData");
+            console.log("데이터 로드 시작: " + jsonData);
+            this.data = new playerData();
+            if (jsonData == null) {
+
             }
-            else{
+            else {
+                jsonData = serverManager.decrypt(jsonData, serverManager.getKey());
+                console.log("데이터 로드 복호화: " + jsonData);
                 this.data.fromJSON(jsonData);
             }
+            console.log("nickname: ", this.data.nickname);
+            console.log("_id: ", this.data._id);
             console.log("데이터 로드 중: " + jsonData);
-            this.data.fromJSON(jsonData);
+            this.checkForEmptyData();
             this.isLoaded = true;
         } catch (error) {
             console.error("데이터 로드 실패:", error);
         }
     }
-    public saveData() {
+    private checkForEmptyData() {
+        if (this.data.nickname == null) {
+            this.data.nickname = "Guest";
+        }
+        if (this.data.lastDayCheckTime === undefined) {
+            console.log("lastDayCheckTime 초기화");
+            this.data.lastDayCheckTime = new Date();
+        }
+        // lastDayCheckTime 타입이 string이면 변환
+        if (typeof this.data.lastDayCheckTime === "string") {
+            this.data.lastDayCheckTime = new Date(this.data.lastDayCheckTime);
+        }
+        if (!this.data.tickets) {
+            this.data.tickets = [];
+        }
+    }
+    public save() {
         try {
-            const jsonData = this.data.toJSON();
+            let jsonData = this.data.toJSON();
+            console.log("raw saved jsonData:", jsonData);
+            jsonData = serverManager.encrypt(jsonData, serverManager.getKey());
+            // console.log("encrypted saved jsonData:", jsonData);
             localStorage.setItem("playerData", jsonData);
             console.log("데이터 저장 성공");
         } catch (error) {
-            console.error("데이터 저장 실패:", error); 
+            console.error("데이터 저장 실패:", error);
         }
     }
     start() {
@@ -63,7 +88,7 @@ export class saveData extends Component {
     }
 
     update(deltaTime: number) {
-        
+
     }
 }
 

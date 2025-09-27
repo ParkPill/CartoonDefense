@@ -12,6 +12,7 @@ export class mergeSlot extends Component {
     }
 
     public setMergeUnit(unit: Node) {
+        // console.log("setMergeUnit: " + unit);
         this.currentUnit = unit;
         let theUnit = this.currentUnit.getComponent(mergeUnit);
         if (theUnit != null && theUnit.currentSlot != null) {
@@ -19,10 +20,10 @@ export class mergeSlot extends Component {
         }
         theUnit.currentSlot = this;
         // this.mergeUnit.setParent(this.node);
-        const unitHeight = this.currentUnit.getChildByName('ModelContainer').getChildByName('Model').getComponent(UITransform).contentSize.height
+        // const unitHeight = this.currentUnit.getChildByName('ModelContainer').getChildByName('Model').getComponent(UITransform).contentSize.height
         // console.log("unitHeight", unitHeight);
         let worldPos = this.node.getWorldPosition();
-        this.currentUnit.setWorldPosition(worldPos.x, worldPos.y + unitHeight / 2, worldPos.z);
+        this.currentUnit.setWorldPosition(worldPos.x, worldPos.y, worldPos.z);
     }
 }
 

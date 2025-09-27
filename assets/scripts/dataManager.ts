@@ -10,15 +10,21 @@ export interface EnemyData {
     RewardGold: number;
 }
 
+export interface UnitData {
+    ID: string;
+    Damage: number;
+    HP: number;
+    Rate: number;
+    Rarity: string;
+}
+
 @ccclass('dataManager')
 export class dataManager extends Component {
-
-
     private enemyInfoList: EnemyData[] = [];
     private bossInfoList: EnemyData[] = [];
-    private enemyUnitInfoFilePath: string = "CartoonDefense - enemy"; // CSV 파일 경로
+    public unitInfoList: UnitData[] = [];
     public loadingCount: number = 0;
-    public maxLoadingCount: number = 1;
+    public maxLoadingCount: number = 2;
 
 
     // 싱글톤 인스턴스
@@ -50,11 +56,15 @@ export class dataManager extends Component {
     start() {
         gameManager.Instance.isTitleLoaded = true;
     }
+    public init() {
+        this.loadEnemyData();
+        this.loadUnitData();
+    }
 
     loadEnemyData() {
         // CSV 파일 로드
         console.log("적 데이터 로드!")
-        resources.load(this.enemyUnitInfoFilePath, TextAsset, (err, textAsset) => {
+        resources.load("CartoonDefense - enemy", TextAsset, (err, textAsset) => {
             if (err || !textAsset) {
                 console.error("적 데이터 파일 로드 실패:", err);
                 return;
@@ -76,15 +86,51 @@ export class dataManager extends Component {
                 if (!strs[1] || strs[1].trim() === "") continue;
 
                 const info: EnemyData = {
-                    ID: strs[1],
-                    Damage: this.parseFloat(strs[2]),
-                    HP: this.parseFloat(strs[3]),
-                    RewardGold: this.parseInt(strs[4])
+                    ID: strs[0],
+                    Damage: this.parseFloat(strs[1]),
+                    HP: this.parseFloat(strs[2]),
+                    RewardGold: this.parseInt(strs[3])
                 };
 
                 this.enemyInfoList.push(info);
             }
             console.log("적 데이터 로드 완료!");
+            this.loadingCount++;
+        });
+    }
+
+    loadUnitData() {
+        resources.load("CartoonDefense - unit", TextAsset, (err, textAsset) => {
+            if (err || !textAsset) {
+                console.error("유닛 데이터 파일 로드 실패:", err);
+                return;
+            }
+
+            let wholeText = textAsset.text;
+            wholeText = this.decryptData(wholeText);
+            const arrayString = wholeText.split("\n");
+
+            this.unitInfoList = [];
+            // console.log("유닛 라인 lineCount: " + arrayString.length);
+
+            for (let i = 1; i < arrayString.length; i++) {
+                let line = arrayString[i];
+                line = line.replace(/\r\n/g, "").replace(/\r/g, "").replace(/\n/g, "");
+                // console.log("unit info: " + line);
+                const strs = line.split(',');
+                if (!strs[1] || strs[1].trim() === "") continue;
+
+                const info: UnitData = {
+                    ID: strs[0],
+                    Damage: this.parseFloat(strs[1]),
+                    HP: this.parseFloat(strs[2]),
+                    Rate: this.parseFloat(strs[3]),
+                    Rarity: strs[4]
+                };
+
+                this.unitInfoList.push(info);
+            }
+            console.log("유닛 데이터 로드 완료!");
             this.loadingCount++;
         });
     }

@@ -7,3 +7,133 @@ popup desc	이 텍스트는 language.csv 테이블에 있는 내용입니다.	Th
 ask buy	이 상품을 구매하시겠습니까?	Do you want to buy this?
 confirm purchase	구매 확인	Confirm Purchase
 buy success	구매 성공!	Purchase complete!
+collection	도감	COLLECTION
+shop	상점	SHOP
+stage	스테이지	STAGE
+create user	계정 생성	Create User
+input name	꽤 괜찮은 닉네임을 여기에...	Input nickname here. Don't be nasty.
+name	이름	Name
+rarity	희귀도	Rarity
+nick	닉네임	Nickname
+unit	유닛	UNIT
+hero	영웅	HERO
+unit info	유닛 정보	UNIT INFO
+unit0	나무꾼	Lumberjack
+unit1	검사	Swordsman
+unit2	궁수	Archer
+unit3	드론병	Drone Soldier
+unit4	고블린	Goblin
+unit5	폭탄 고블린	Bomb Goblin
+unit6	오크 전사	Orc Warrior
+unit7	오크 창병	Orc Spearman
+unit8	투석기	Catapult
+unit9	트롤	Troll
+unit10	무지개 트롤	Rainbow Troll
+hero0	오크 영웅	Orc Hero
+hero1	홉 고블린	Hobgoblin
+hero2	창병 단장	Spearman Captain
+hero3	리자드맨	Lizardman
+hero4	수석 궁수	Chief Archer
+hero5	늑대인간	Werewolf
+hero6	수도승	Monk
+hero7	격투가	Fighter
+hero8	수인 곰	Beastman Bear
+hero9	힐러	Healer
+hero10	나이트	Knight
+hero11	엘프 전사	Elf Warrior
+hero12	어쎄신	Assassin
+hero13	수인 사자	Beastman Lion
+hero14	마법사	Wizard
+hero15	탱커	Tanker
+hero16	스켈레톤	Skeleton
+hero17	네크로멘서	Necromancer
+hero18	엔트	Ent
+hero19	살라만다	Salamander
+hero20	운디네	Undine
+hero21	늑대 여왕	Wolf Queen
+hero22	수인 사자 여왕	Beastman Lion Queen
+hero23	수인 곰 여왕	Beastman Bear Queen
+hero24	흑화 산타	Dark Santa
+hero25	루돌프	Rudolph
+hero26	산타견	Santa Dog
+hero27	수인 펭귄	Beastman Penguin
+hero28	장화 신은 고양이	Puss in Boots
+hero29	두더지	Mole
+hero30	로봇 쥐	Robot Mouse
+hero31	야만인	Barbarian
+hero32	박쥐 괴물	Bat Monster
+hero33	초록고기 괴물	Green Meat Monster
+hero34	패러사이트	Parasite
+hero35	과인 멜론	Widowed Melon
+hero36	미노 주니어	Mino Junior
+hero37	미노타우르	Minotaur
+hero38	케르베로스	Cerberus
+hero39	라미아	Lamia
+hero40	춘자	Chunja
+hero41	골렘	Golem
+desc unit0	숲에서 나무를 벤 뒤 모험을 떠난 평범한 나무꾼, 그의 도끼는 전장의 무기가 되었다.	A lumberjack who once cut trees in the forest, now wields his axe as a weapon on the battlefield.
+desc unit1	검을 손에 쥔 검사, 옛 왕국의 기사단에서 떨어져 나와 떠돌며 싸운다.	The swordsman, once a knight of an old kingdom, now roams as a wandering warrior.
+desc unit2	궁수는 산속 마을 출신으로, 한 발의 화살로 전세를 뒤집는 전설이 있다.	The archer hails from a mountain village, with legends of turning battles with a single arrow.
+desc unit3	기계를 다루는 드론병, 과거 대도시의 군수 공장에서 태어났다.	The drone soldier, born from great war factories of the city, masters machines of war.
+desc unit4	고블린은 어둠의 동굴에서 모여 살며 장난과 약탈로 악명을 떨쳤다.	Goblins dwell in dark caves, notorious for their mischief and raids.
+desc unit5	폭탄 고블린은 화약을 발견한 뒤 자신마저 위험에 빠뜨리는 무모한 존재가 되었다.	The bomb goblin, after discovering gunpowder, became a reckless being that endangers even itself.
+desc unit6	오크 전사는 부족을 위해 싸우며, 전쟁의 북소리에 몸을 맡긴다.	Orc warriors fight for their clans, moving to the rhythm of war drums.
+desc unit7	오크 창병은 장창으로 적의 진군을 막아내던 전통 전사다.	Orc spearmen are traditional soldiers who block enemy advances with long spears.
+desc unit8	투석기는 옛 제국의 발명품으로, 멀리서 바위를 날려 성벽을 무너뜨렸다.	The catapult, an invention of the old empire, hurled stones to bring down fortress walls.
+desc unit9	트롤은 산속 깊은 동굴에서 잠들다 깨어난 괴력의 종족이다.	Trolls are mighty creatures who awaken from slumber in deep mountain caves.
+desc unit10	무지개 트롤은 전설 속에서 하늘의 빛을 받아 태어난 희귀한 존재라 전해진다.	Rainbow trolls are said to be rare beings born from the light of the sky itself.
+desc hero0	오크 영웅은 수많은 전투를 승리로 이끈 부족의 전설적인 전사다.	The orc hero is a legendary warrior who led countless battles to victory.
+desc hero1	홉 고블린은 고블린 무리 중 가장 교활하며, 부족을 이끄는 리더로 성장했다.	Hobgoblins are the most cunning of goblins, often rising as leaders of their kin.
+desc hero2	창병 단장은 수많은 병사들을 이끌고 전장을 누비던 전투 지휘관이었다.	The spearman captain was a battlefield commander who led countless troops into war.
+desc hero3	리자드맨은 습지에서 진화한 전사로, 물과 땅을 자유롭게 넘나든다.	The lizardman evolved in swamps, moving freely between land and water.
+desc hero4	수석 궁수는 궁술을 가문의 자랑으로 삼아온 고대 왕가의 후예다.	The chief archer is a descendant of an ancient royal family who prized archery above all.
+desc hero5	늑대인간은 달빛에 저주받아 인간과 야수를 오가며 싸운다.	The werewolf, cursed by moonlight, wanders between man and beast.
+desc hero6	수도승은 긴 수련 끝에 맨주먹으로도 강철을 꺾을 힘을 얻었다.	The monk, after years of training, gained the strength to break steel with bare hands.
+desc hero7	격투가는 전장에서 살아남기 위해 몸을 무기로 단련한 투사다.	The fighter is a warrior who trained his body as a weapon to survive the battlefield.
+desc hero8	수인 곰은 거대한 힘과 따뜻한 마음으로 부족을 지켜온 수호자다.	The beastman bear is a guardian with immense strength and a warm heart who protects his tribe.
+desc hero9	힐러는 잃어버린 고대 치유술을 이어받아 상처와 고통을 치유한다.	The healer inherited ancient lost arts of recovery, mending wounds and pain.
+desc hero10	나이트는 기사도의 맹세를 지키며 검과 방패로 나라를 수호한다.	The knight upholds his oath of chivalry, defending the land with sword and shield.
+desc hero11	엘프 전사는 숲의 마법과 검술을 겸비한 고대 숲의 파수꾼이다.	The elf warrior is an ancient sentinel of the forest, mastering both sword and magic.
+desc hero12	어쎄신은 그림자 속에서 태어나 목표를 쓰러뜨리는 암살자다.	The assassin was born in shadows, eliminating targets with deadly precision.
+desc hero13	수인 사자는 강인한 용기와 지도력으로 부족을 이끄는 전사다.	The beastman lion is a warrior of courage and leadership, guiding his people.
+desc hero14	마법사는 고대의 주문서를 이어받아 불과 얼음을 자유자재로 다룬다.	The wizard inherited ancient tomes, wielding fire and ice at will.
+desc hero15	탱커는 무거운 갑옷을 두르고 동료를 지켜내는 방패 같은 존재다.	The tanker is a shield-like presence, clad in heavy armor to protect allies.
+desc hero16	스켈레톤은 오래된 전장에서 깨어난 망령 전사다.	The skeleton is a revenant warrior, risen from an ancient battlefield.
+desc hero17	네크로멘서는 죽음을 지배하며 언데드를 부활시키는 금지된 학문을 익혔다.	The necromancer mastered forbidden arts, commanding death and raising the undead.
+desc hero18	엔트는 숲의 정령이 나무에 깃들어 태어난 고대 수호자다.	The ent is an ancient guardian, a forest spirit dwelling in trees.
+desc hero19	살라만다는 불 속에서 태어난 정령으로, 타오르는 분노를 지닌다.	The salamander, born of fire, burns with raging fury.
+desc hero20	운디네는 강과 바다에서 태어나 흐름을 다스리는 물의 정령이다.	The undine, born of rivers and seas, commands the flow of water.
+desc hero21	늑대 여왕은 달의 여신에게 선택받아 무리를 다스리는 전설적 존재다.	The wolf queen, chosen by the goddess of the moon, leads her pack with legend.
+desc hero22	수인 사자 여왕은 강대한 힘과 지혜로 왕국을 다스리는 여왕 전사다.	The beastman lion queen rules her kingdom with strength and wisdom.
+desc hero23	수인 곰 여왕은 대지를 품은 힘으로 부족을 이끄는 위엄 있는 지도자다.	The beastman bear queen leads her people with the might of the earth itself.
+desc hero24	흑화 산타는 타락한 축제의 상징으로, 선물이 아닌 공포를 가져온다.	The dark Santa, a fallen symbol of festivity, brings fear instead of gifts.
+desc hero25	루돌프는 붉은 코로 어둠을 밝히며 전설 속 여행을 이어간다.	Rudolph, with his glowing red nose, continues his legendary journey through the night.
+desc hero26	산타견은 충직한 마음으로 주인을 지켜내는 겨울의 동반자다.	The Santa dog is a loyal winter companion who protects his master faithfully.
+desc hero27	수인 펭귄은 얼음 땅에서 태어나 추위를 무기로 삼는다.	The beastman penguin, born of frozen lands, wields the cold as his weapon.
+desc hero28	장화 신은 고양이는 영리함과 용기로 수많은 모험담을 남겼다.	Puss in Boots, clever and brave, left behind countless tales of adventure.
+desc hero29	두더지는 땅속을 파며 지하에서 비밀스럽게 살아온 전사다.	The mole is a secretive warrior who carved his life underground.
+desc hero30	로봇 쥐는 인간의 실험실에서 태어나 기계와 생물이 융합된 존재다.	The robot mouse, born of human laboratories, is a fusion of machine and creature.
+desc hero31	야만인은 황야에서 태어나 규율보다 본능에 충실한 전사다.	The barbarian, born of the wilds, fights by instinct rather than law.
+desc hero32	박쥐 괴물은 밤의 하늘을 지배하며, 공포의 상징으로 불린다.	The bat monster rules the night sky, feared as a symbol of terror.
+desc hero33	초록고기 괴물은 늪지에서 기괴한 모습으로 진화한 괴생명체다.	The green meat monster is a bizarre creature that evolved in the swamps.
+desc hero34	패러사이트는 다른 생명체에 기생하며 끊임없이 퍼져나간다.	The parasite spreads endlessly, feeding on other life forms.
+desc hero35	과인 멜론은 슬픈 전설이 깃든 농부의 과실에서 태어난 괴물이다.	The widowed melon, a monster born from a farmer’s sorrowful legend.
+desc hero36	미노 주니어는 미노타우르의 후손으로, 아직 미숙하지만 힘을 갈망한다.	Mino Junior, descendant of the Minotaur, is still young but longs for power.
+desc hero37	미노타우르는 미궁을 지배하던 고대 괴수로, 강대한 힘의 상징이다.	The Minotaur, ruler of the labyrinth, is a symbol of overwhelming strength.
+desc hero38	케르베로스는 지하 세계의 문을 지키는 세 머리 짐승이다.	Cerberus, the three-headed beast, guards the gates of the underworld.
+desc hero39	라미아는 뱀의 하반신을 지닌 마녀로, 유혹과 공포를 동시에 안겨준다.	Lamia, with the lower body of a serpent, instills both temptation and fear.
+desc hero40	춘자는 인간 세상에 내려와 미지의 힘을 행사하는 정체불명의 존재다.	Chunja is a mysterious being who descended into the human world with unknown power.
+desc hero41	골렘은 돌과 마법으로 빚어낸 고대의 수호 병기다.	The golem, forged from stone and magic, is an ancient weapon of protection.
+Common	일반	Common
+Uncommon	고급	Uncommon
+Abnormal	특수	Abnormal
+Rare	희귀	Rare
+Superior	우수	Superior
+Elite	정예	Elite
+Epic	서사	Epic
+Legendary	전설	Legendary
+Mythic	신화	Mythic
+Ancient	고대	Ancient
+Divine	신성	Divine
+Transcendent	초월	Transcendent
+not discovered	아직 발견하지 못한 영웅입니다.	The hero is not discovered yet.

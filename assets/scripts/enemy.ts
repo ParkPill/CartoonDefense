@@ -1,5 +1,7 @@
-import { _decorator, Component, Node, Vec2, tween, Sprite, UIOpacity, Label, UITransform } from 'cc';
+import { _decorator, Component, Node, Vec2, tween, Sprite, UIOpacity, Label, UITransform, Animation } from 'cc';
 import { EnemyData } from './dataManager';
+import { mergeUnit } from './mergeUnit';
+import { gameManager } from './gameManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('enemy')
@@ -17,25 +19,72 @@ export class enemy extends Component {
     public maxHealth: number = 100;
     @property
     private currentHealth: number = 0;
+    @property
+    public isRouteMove: boolean = true;
     private currentRouteIndex: number = 0;
     private isMoving: boolean = false;
     private isDead: boolean = false;
     public speed: number = 80;
     public data: EnemyData;
+    public reservedDamage: number = 0;
+    public target: Node;
+    attackRange: number = 1;
+    isAttacking: boolean = false;
+    public damage: number = 70;
 
     // HP 바 관련 변수들
     private hpBarNode: Node | null = null;
     private hpBarBackground: Node | null = null;
     private hpBarFill: Node | null = null;
     private hpBarLabel: Node | null = null;
+    actionTimer: number = 0;
     start() {
         this.currentHealth = this.maxHealth;
         // this.createHPBar();
-        this.startMovement();
+        if (this.isRouteMove) {
+            this.startMovement();
+        }
     }
 
     update(deltaTime: number) {
+        if (!this.isRouteMove) {
+            this.actionTimer += deltaTime;
+            if (this.actionTimer > .2) {
+                this.actionTimer -= .2;
 
+
+                if (!this.target) this.findTarget();
+
+                if (this.target) {
+                    // 타겟을 향해 이동
+                    let distance = this.target.getWorldPosition().clone().subtract(this.node.getWorldPosition()).length();
+                    if (distance < this.attackRange) {
+                        // 타겟을 향해 이동
+                        if (!this.isAttacking) this.startAttack();
+                    } else {
+                        // 타겟을 향해 이동
+                        let direction = this.target.getWorldPosition().clone().subtract(this.node.getWorldPosition()).normalize();
+                        this.node.setWorldPosition(this.node.getWorldPosition().add(direction.multiplyScalar(this.speed * deltaTime)));
+                    }
+                }
+            }
+        }
+    }
+    private startAttack(): void {
+        this.isAttacking = true;
+        let ani = this.node.getChildByName("ModelContainer").getChildByName("Model").getComponent(Animation);
+        ani.play("attack");
+        let duration = ani.clips[1].duration;
+        this.scheduleOnce(() => {
+            ani.play("idle");
+            this.isAttacking = false;
+        }, duration);
+        this.scheduleOnce(() => {
+            this.target.getComponent(mergeUnit).takeDamage(this.data.Damage);
+        }, 8 / 60);
+    }
+    private findTarget(): void {
+        this.target = gameManager.Instance.theGameScript.unitNode.children.find(child => child.getComponent(mergeUnit));
     }
 
     private startMovement(): void {
@@ -102,6 +151,7 @@ export class enemy extends Component {
         }
 
         this.currentHealth -= damage;
+        this.reservedDamage -= damage;
 
         // HP 바 업데이트
         this.updateHPBar();

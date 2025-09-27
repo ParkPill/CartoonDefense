@@ -5,6 +5,7 @@ const { ccclass, property } = _decorator;
 @ccclass('gameManager')
 export class gameManager extends Component {
 
+    public dungeonLevel: number = 0;
     public isTitleLoaded: boolean = false;
     @property({ type: Node })
     public playerUnitsContainer: Node = null;

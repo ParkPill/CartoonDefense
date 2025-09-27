@@ -95,7 +95,7 @@ export class languageManager extends Component {
                         if (str && str.trim() !== "" && !this.languageDic.has(str)) {
                             const dic = new Map<string, string>();
                             const key = str.replace(/\r?\n/g, "");
-                            console.log("language key: " + key);
+                            // console.log("language key: " + key);
                             this.languageDic.set(key, dic);
                         }
                     }
