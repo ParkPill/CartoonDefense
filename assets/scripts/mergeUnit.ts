@@ -4,6 +4,7 @@ import projectile from './projectile';
 import { mergeSlot } from './mergeSlot';
 import { dataManager, UnitData } from './dataManager';
 import { enemy } from './enemy';
+import { saveData } from './saveData';
 const { ccclass, property } = _decorator;
 
 
@@ -163,6 +164,18 @@ export class mergeUnit extends Component {
             });
         }
     }
+    public updateStats() {
+        let level = saveData.Instance.data.getUpgradeLevel(this.unitType);
+        let extraDamage = level;
+        let extraHP = 0;
+        if (this.unitType >= UnitType.UNIT_HERO_ORC) {
+            extraDamage = level * 0.5;
+            extraHP = level * 0.5;
+        }
+        let data = dataManager.Instance.unitInfoList[this.unitType];
+        this.damage = data.Damage + extraDamage;
+        this.HP = data.HP + extraHP;
+    }
     public setData(data: UnitData): void {
         this.damage = data.Damage;
         this.HP = data.HP;
@@ -177,10 +190,7 @@ export class mergeUnit extends Component {
                 this.spineUnit = this.node.getChildByName("ModelContainer").getChildByName("Model").getComponent(sp.Skeleton);
                 this.spineUnit.skeletonData = skeletonData;
 
-                if (spineName == "werewolf") this.spineUnit.setSkin("werewolf");
-                else if (spineName == "bear") this.spineUnit.setSkin("bear");
-                else if (spineName == "lion") this.spineUnit.setSkin("lion");
-                this.spineUnit.setAnimation(0, "idle", true);
+                gameManager.Instance.initSpine(this.spineUnit, spineName);
             });
         }
     }
@@ -271,6 +281,9 @@ export class mergeUnit extends Component {
         }, delay);
         // this.spawnProjectile();
     }
+    canPredict(): boolean {
+        return this.isPredictive || (this.unitType >= UnitType.UNIT_HERO_ORC && Math.random() < 0.7);
+    }
     getTarget(): Node {
         if (gameManager.Instance.theGameScript.enemies.length == 0) {
             return null;
@@ -278,11 +291,11 @@ export class mergeUnit extends Component {
         let enemy = gameManager.Instance.theGameScript.enemies[0];
         // console.log("enemy.reservedDamage1 " + enemy.reservedDamage + " enemies.length " + gameManager.Instance.theGameScript.enemies.length);
         let enemyFound = false;
-        if (enemy == null || enemy.getCurrentHealth() <= 0 || (this.isPredictive && enemy.reservedDamage >= enemy.getCurrentHealth())) {
+        if (enemy == null || enemy.getCurrentHealth() <= 0 || (this.canPredict() && enemy.reservedDamage >= enemy.getCurrentHealth())) {
             for (let i = 0; i < gameManager.Instance.theGameScript.enemies.length; i++) {
                 // console.log("enemy.reservedDamage2", enemy.reservedDamage);
                 enemy = gameManager.Instance.theGameScript.enemies[i]
-                if (enemy.getCurrentHealth() > 0 && (this.isPredictive && enemy.reservedDamage < enemy.getCurrentHealth())) {
+                if (enemy.getCurrentHealth() > 0 && (this.canPredict() && enemy.reservedDamage < enemy.getCurrentHealth())) {
                     enemyFound = true;
                     break;
                 }
@@ -298,10 +311,17 @@ export class mergeUnit extends Component {
     public takeDamage(damage: number): void {
         this.HP -= damage;
         if (this.HP <= 0) {
-            this.onDead(this);
+            this.onDeadCallback();
             this.node.destroy();
         }
     }
+
+    private onDeadCallback(): void {
+        if (this.onDead) {
+            this.onDead(this);
+        }
+    }
+
 
     public spawnProjectile(target: Node): void {
         // console.log("spawnProjectile");
@@ -309,7 +329,7 @@ export class mergeUnit extends Component {
         prj.setParent(this.aboveNode);
         prj.setWorldPosition(this.node.worldPosition);
         prj.getComponent(projectile).damage = this.damage;
-
+        // console.log("spawnProjectile unit:" + this.unitType + " damage:" + this.damage);
 
         if (target != null) prj.getComponent(projectile).setTarget(target);
     }

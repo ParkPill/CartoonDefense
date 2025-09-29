@@ -137,3 +137,17 @@ Ancient	고대	Ancient
 Divine	신성	Divine
 Transcendent	초월	Transcendent
 not discovered	아직 발견하지 못한 영웅입니다.	The hero is not discovered yet.
+dungeon0	트롤 지옥	The hell of TROLLs
+desc dungeon0	어둠의 던전 깊숙이, 트롤이 점점 늘어나며 모험가들을 위협한다. 이곳은 이제 트롤의 번식지가 되었다.	Deep in the dark dungeon, trolls multiply and threaten adventurers. This place has become their breeding ground.
+result	결과	RESUKT
+time	시간	TIME
+success	성공	SUCCESS
+fail	실패	FAIL
+dungeon	던전	DUNGEON
+not enough ticket	티켓이 부족합니다.	Not enough ticket
+upgrade	업그레이드	UPGRADE
+iap.pack.burster desc	몬스터가 두 배 빠르게 등장합니다. 쉬운 난이도에서만 사용하세요!	Monsters appear twice as fast. Use only in an easy stage!
+iap.pack.predict desc	모든 유닛들이 100% 확률로 예측 공격을 합니다. 낭비되는 공격이 없을꺼에요!	All units perform predictive attacks with a 100% chance. No attacks will be wasted!
+iap.pack.auto desc	합성 가능한 유닛을 자동으로 소환하고 자동으로 합성됩니다.	Units that can be fused will be automatically summoned and combined.
+predict help	공격 예측율: 일반 유닛은 가장 앞에 있는 적을 공격합니다. 공격이 날아가는 도중 적이 죽는다면 해당 공격은 무효화되어 공중에서 사라집니다. 공격 예측은 해당 적을 향해 나아가는 공격을 모두 계산하여 이미 죽음이 확정된 적일 경우 다른 타켓을 찾는 확률입니다.	Attack Prediction Rate: Normal units attack the foremost enemy. If the enemy dies while the attack is in flight, the attack is nullified and disappears midair. Attack prediction calculates all attacks aimed at the enemy, and if its death is already certain, the unit will search for another target instead.
+notice	알림	NOTICE

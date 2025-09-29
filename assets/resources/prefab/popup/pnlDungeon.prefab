@@ -28,17 +28,17 @@
     "_active": true,
     "_components": [
       {
+        "__id__": 126
+      },
+      {
         "__id__": 128
       },
       {
         "__id__": 130
-      },
-      {
-        "__id__": 132
       }
     ],
     "_prefab": {
-      "__id__": 134
+      "__id__": 132
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -317,23 +317,23 @@
         "__id__": 52
       },
       {
-        "__id__": 115
+        "__id__": 113
       }
     ],
     "_active": true,
     "_components": [
       {
+        "__id__": 119
+      },
+      {
         "__id__": 121
       },
       {
         "__id__": 123
-      },
-      {
-        "__id__": 125
       }
     ],
     "_prefab": {
-      "__id__": 127
+      "__id__": 125
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -750,7 +750,7 @@
     "_string": "button",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 30.46875,
+    "_actualFontSize": 30,
     "_fontSize": 30,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -916,12 +916,12 @@
       }
     ],
     "_interactable": true,
-    "_transition": 2,
+    "_transition": 1,
     "_normalColor": {
       "__type__": "cc.Color",
-      "r": 214,
-      "g": 214,
-      "b": 214,
+      "r": 255,
+      "g": 255,
+      "b": 255,
       "a": 255
     },
     "_hoverColor": {
@@ -1156,7 +1156,7 @@
     "__prefab": {
       "__id__": 44
     },
-    "Key": "",
+    "Key": "dungeon",
     "_id": ""
   },
   {
@@ -1178,7 +1178,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "lblContent",
+    "_name": "lblTicket0",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -1379,13 +1379,10 @@
       },
       {
         "__id__": 109
-      },
-      {
-        "__id__": 112
       }
     ],
     "_prefab": {
-      "__id__": 114
+      "__id__": 112
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -1442,8 +1439,8 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -96.34699999999998,
-      "y": 32.91999999999996,
+      "x": -92.72500000000002,
+      "y": 37.16300000000001,
       "z": 0
     },
     "_lrot": {
@@ -1484,7 +1481,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 253.174,
-      "height": 34.87
+      "height": 38.534
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1522,8 +1519,8 @@
     "_string": "button",
     "_horizontalAlign": 0,
     "_verticalAlign": 1,
-    "_actualFontSize": 30.46875,
-    "_fontSize": 30,
+    "_actualFontSize": 26,
+    "_fontSize": 26,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
     "_overflow": 1,
@@ -2457,8 +2454,8 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -87.05000000000001,
-      "y": -16.763000000000034,
+      "x": -20.450500000000005,
+      "y": -16.475000000000033,
       "z": 0
     },
     "_lrot": {
@@ -2498,8 +2495,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 267.099,
-      "height": 59.05499999999999
+      "width": 409.794,
+      "height": 61.49799999999999
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -2534,15 +2531,15 @@
       "b": 255,
       "a": 255
     },
-    "_string": "button",
+    "_string": "button button button button button button button button button button button ",
     "_horizontalAlign": 0,
     "_verticalAlign": 0,
-    "_actualFontSize": 24.375,
-    "_fontSize": 24,
+    "_actualFontSize": 21,
+    "_fontSize": 28,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
-    "_overflow": 1,
-    "_enableWrapText": false,
+    "_overflow": 2,
+    "_enableWrapText": true,
     "_font": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
@@ -2770,28 +2767,6 @@
     "customEventData": "0"
   },
   {
-    "__type__": "cc.Mask",
-    "_name": "",
-    "_objFlags": 0,
-    "__editorExtras__": {},
-    "node": {
-      "__id__": 52
-    },
-    "_enabled": true,
-    "__prefab": {
-      "__id__": 113
-    },
-    "_type": 0,
-    "_inverted": false,
-    "_segments": 64,
-    "_alphaThreshold": 0.1,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.CompPrefabInfo",
-    "fileId": "bbG0sKxNxKmLwEnqFytbD2"
-  },
-  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
@@ -2816,14 +2791,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 116
+        "__id__": 114
       },
       {
-        "__id__": 118
+        "__id__": 116
       }
     ],
     "_prefab": {
-      "__id__": 120
+      "__id__": 118
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -2860,11 +2835,11 @@
     "_objFlags": 0,
     "__editorExtras__": {},
     "node": {
-      "__id__": 115
+      "__id__": 113
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 117
+      "__id__": 115
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -2888,11 +2863,11 @@
     "_objFlags": 0,
     "__editorExtras__": {},
     "node": {
-      "__id__": 115
+      "__id__": 113
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 119
+      "__id__": 117
     },
     "_customMaterial": null,
     "_srcBlendFactor": 2,
@@ -2950,7 +2925,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 122
+      "__id__": 120
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -2978,7 +2953,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 124
+      "__id__": 122
     },
     "_customMaterial": null,
     "_srcBlendFactor": 2,
@@ -3023,7 +2998,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 126
+      "__id__": 124
     },
     "clickEvents": [],
     "_interactable": true,
@@ -3094,7 +3069,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 129
+      "__id__": 127
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -3122,7 +3097,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 131
+      "__id__": 129
     },
     "_id": ""
   },
@@ -3140,7 +3115,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 133
+      "__id__": 131
     },
     "_id": ""
   },

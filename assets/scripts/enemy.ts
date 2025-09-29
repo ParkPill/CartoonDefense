@@ -27,8 +27,9 @@ export class enemy extends Component {
     public speed: number = 80;
     public data: EnemyData;
     public reservedDamage: number = 0;
+    @property(Node)
     public target: Node;
-    attackRange: number = 1;
+    attackRange: number = 50;
     isAttacking: boolean = false;
     public damage: number = 70;
 
@@ -38,6 +39,7 @@ export class enemy extends Component {
     private hpBarFill: Node | null = null;
     private hpBarLabel: Node | null = null;
     actionTimer: number = 0;
+    public isReady: boolean = false;
     start() {
         this.currentHealth = this.maxHealth;
         // this.createHPBar();
@@ -47,44 +49,74 @@ export class enemy extends Component {
     }
 
     update(deltaTime: number) {
-        if (!this.isRouteMove) {
+        if (!this.isRouteMove && this.isReady) {
             this.actionTimer += deltaTime;
             if (this.actionTimer > .2) {
                 this.actionTimer -= .2;
 
-
                 if (!this.target) this.findTarget();
 
-                if (this.target) {
+            }
+            if (this.target == null || this.target == undefined || !this.target.isValid || (this.target.getComponent(mergeUnit) && this.target.getComponent(mergeUnit).HP <= 0)) {
+                this.target = null;
+            }
+            if (this.target) {
+                // 타겟을 향해 이동
+                // console.log("target", this.target);
+                // console.log("node", this.node);
+                let distance = this.target.getWorldPosition().clone().subtract(this.node.getWorldPosition()).length();
+                if (distance < this.attackRange) {
                     // 타겟을 향해 이동
-                    let distance = this.target.getWorldPosition().clone().subtract(this.node.getWorldPosition()).length();
-                    if (distance < this.attackRange) {
-                        // 타겟을 향해 이동
-                        if (!this.isAttacking) this.startAttack();
-                    } else {
-                        // 타겟을 향해 이동
-                        let direction = this.target.getWorldPosition().clone().subtract(this.node.getWorldPosition()).normalize();
-                        this.node.setWorldPosition(this.node.getWorldPosition().add(direction.multiplyScalar(this.speed * deltaTime)));
+                    if (!this.isAttacking) this.startAttack();
+                } else {
+                    // 타겟을 향해 이동
+                    // console.log("target1", this.target);
+                    // console.log("node1", this.node);
+                    let direction = this.target.getWorldPosition().clone().subtract(this.node.getWorldPosition()).normalize();
+                    this.node.setWorldPosition(this.node.getWorldPosition().add(direction.multiplyScalar(this.speed * deltaTime)));
+                    if (!this.isMoving) {
+                        let ani = this.node.getChildByName("ModelContainer").getChildByName("Model").getComponent(Animation);
+                        ani.play(ani.clips[2].name);
                     }
+                    this.isMoving = true;
+                    // console.log("isMoving", this.isMoving);
                 }
             }
         }
     }
     private startAttack(): void {
         this.isAttacking = true;
+        this.isMoving = false;
         let ani = this.node.getChildByName("ModelContainer").getChildByName("Model").getComponent(Animation);
-        ani.play("attack");
+        ani.play(ani.clips[1].name);
         let duration = ani.clips[1].duration;
         this.scheduleOnce(() => {
-            ani.play("idle");
+            ani.play(ani.clips[0].name);
             this.isAttacking = false;
         }, duration);
         this.scheduleOnce(() => {
-            this.target.getComponent(mergeUnit).takeDamage(this.data.Damage);
+            this.target.getComponent(mergeUnit).takeDamage(this.damage);
         }, 8 / 60);
     }
     private findTarget(): void {
-        this.target = gameManager.Instance.theGameScript.unitNode.children.find(child => child.getComponent(mergeUnit));
+        // 가장 가까운 히어로를 찾기
+        let currentPos = this.node.getWorldPosition();
+        let gScript = gameManager.Instance.theGameScript;
+        let minDistance = Number.MAX_SAFE_INTEGER
+        gScript.heroList.forEach(hero => {
+            if (hero.node == null || hero.node == undefined || !hero.node.isValid || (hero.node.getComponent(mergeUnit) && hero.node.getComponent(mergeUnit).HP <= 0)) {
+
+            }
+            else {
+                let distance = Vec2.distance(currentPos, hero.node.getWorldPosition());
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    this.target = hero.node;
+                }
+
+            }
+
+        });
     }
 
     private startMovement(): void {

@@ -4,6 +4,7 @@ import { saveData } from "./saveData";
 export class playerData {
     // 기본 플레이어 정보
     public nickname: string = "Guest";
+    public idx: number = 0;
     public _id: string = "";
     public gold: number = 0;
     public gems: number = 0;
@@ -30,6 +31,14 @@ export class playerData {
     public defaultTicketCount: number = 3;
     public dungeonLevels: number[] = [];
 
+    public unitUpgrades: number[] = [];
+    public heroUpgrades: number[] = [];
+    public iap: number[] = [];
+    public iapDay: number[] = [];
+    public iapWeek: number[] = [];
+    public iapMonth: number[] = [];
+    public post: string = "";
+
 
 
     // 업그레이드 정보
@@ -52,10 +61,20 @@ export class playerData {
         this.soundEnabled = true;
         this.musicEnabled = true;
         this.language = "ko";
+        this.post = "";
         // this.collection = [10]; // 기본 유닛
         // this.upgrades = {};
     }
 
+    public getStageStar(stage: number): number {
+        if (this.stageStar == null) {
+            this.stageStar = [];
+        }
+        if (this.stageStar.length <= stage) {
+            return 0;
+        }
+        return this.stageStar[stage];
+    }
     public setStageStar(stage: number, star: number): void {
         if (this.stageStar == null) {
             this.stageStar = [];
@@ -65,10 +84,8 @@ export class playerData {
                 this.stageStar.push(0);
             }
         }
+        console.log("스테이지: ", stage, "별점: ", star, "기존별점: ", this.stageStar[stage]);
         if (this.stageStar[stage] < star) {
-            this.stageStar[stage] = star;
-        }
-        else {
             this.stageStar[stage] = star;
         }
     }
@@ -99,6 +116,26 @@ export class playerData {
             return true;
         }
         return false;
+    }
+    public getUpgradeLevel(unitIndex: number): number {
+        if (this.unitUpgrades == null) {
+            this.unitUpgrades = [];
+        }
+        if (this.unitUpgrades.length <= unitIndex) {
+            return 0;
+        }
+        return this.unitUpgrades[unitIndex];
+    }
+    public setUpgradeLevel(unitIndex: number, level: number): void {
+        if (this.unitUpgrades == null) {
+            this.unitUpgrades = [];
+        }
+        if (this.unitUpgrades.length <= unitIndex) {
+            for (let i = this.unitUpgrades.length; i <= unitIndex; i++) {
+                this.unitUpgrades.push(0);
+            }
+        }
+        this.unitUpgrades[unitIndex] = level;
     }
     public getTicket(dungeonIndex: number): number {
         if (this.tickets == null) {

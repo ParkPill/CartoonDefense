@@ -79,6 +79,7 @@ export class gameScript extends Component {
     enemyScaleList: number[];
     enemyHPScaleList: number[];
     enemyModelIndexList: number[];
+    heroList: mergeUnit[] = [];
     data: playerData;
     @property(Node)
     public TheTileMap: Node;
@@ -98,6 +99,7 @@ export class gameScript extends Component {
     @property(Sprite)
     public imgHP: Sprite;
     isDungeon: boolean = false;
+    public isUnitLoaded: boolean = false;
     start() {
         // 씬 이름이 game인지 확인
         this.isDungeon = this.node.scene.name !== "game";
@@ -106,6 +108,7 @@ export class gameScript extends Component {
             director.loadScene("title");
             return;
         }
+
         this.data = saveData.Instance.data;
         this.subStage = this.data.currentStage % 10;
         this.stage = Math.floor(this.data.currentStage / 10) + 1;
@@ -159,7 +162,8 @@ export class gameScript extends Component {
         console.log("_id: ", this.data._id);
 
         // this.addGold(1000000, new Vec2(0, 0)); // test 
-
+        // this.data.currentStage = 1;
+        // saveData.Instance.save();
 
         this.loadUnits();
         // for (let i = 0; i < 10; i++) {
@@ -168,6 +172,10 @@ export class gameScript extends Component {
         // this.spawnHero(this.getHeroSlot(), UnitType.UNIT_HERO_ORC);
         // this.spawnHero(this.getHeroSlot(), UnitType.UNIT_HERO_GOBLIN);
         // this.spawnHero(this.getHeroSlot(), UnitType.UNIT_HERO_SPEARMAN);
+        // this.data.gold = 0; // test
+
+        // let playerData = this.data._id + ",gem,100";
+        // serverManager.Instance.savePlayerData(playerData);
         // init done
     }
     loadUnits() {
@@ -205,8 +213,10 @@ export class gameScript extends Component {
                 theUnit.unitType = heroIndex;
                 theUnit.setData(unitData);
                 this.heroSlotArray[i].setMergeUnit(unit);
+                this.heroList.push(theUnit);
             }
         }
+        this.isUnitLoaded = true;
     }
     updateCurrency() {
         this.lblGemCount.string = this.data.gems.toString();
@@ -218,11 +228,14 @@ export class gameScript extends Component {
             popupManager.Instance.openPopup("pnlCreateUser");
             return;
         }
+
+
+
         this.imgHP.fillRange = 1;
         this.imgStageProgress.fillRange = 0;
         let currentStage = (this.stage - 1) * 10 + this.subStage;
         this.data.currentStage = currentStage;
-        if (this.data.currentStage > currentStage) {
+        if (this.data.highestStage < currentStage) {
             this.data.highestStage = currentStage;
         }
         saveData.Instance.save();
@@ -236,7 +249,7 @@ export class gameScript extends Component {
             this.isGameStart = true;
             this.spawnedEnemyCount = 0;
             this.totalKilledEnemy = 0;
-            this.lblStage.string = "Stage " + this.stage + "-" + this.subStage;
+            this.lblStage.string = languageManager.getText("stage") + " " + this.stage + "-" + this.subStage;
             this.totalEnemyCount = 50 + this.subStage * 10;
             if (this.subStage == 10) {
                 this.totalEnemyCount = 150;
@@ -302,6 +315,26 @@ export class gameScript extends Component {
     }
     public onDungeonClick() {
         popupManager.Instance.openPopup("pnlDungeon");
+    }
+    public onStageClick() {
+        popupManager.Instance.openPopup("pnlStage");
+    }
+    public onUpgradeClick() {
+        popupManager.Instance.openPopup("pnlUpgrade");
+    }
+    public updateStats() {
+        for (let i = 0; i < this.mergeSlotArray.length; i++) {
+            let unit = this.mergeSlotArray[i].currentUnit;
+            if (unit) {
+                unit.getComponent(mergeUnit).updateStats();
+            }
+        }
+        for (let i = 0; i < this.heroSlotArray.length; i++) {
+            let unit = this.heroSlotArray[i].currentUnit;
+            if (unit) {
+                unit.getComponent(mergeUnit).updateStats();
+            }
+        }
     }
     chestIndex: number = 0;
     isSlotFull(): boolean {
@@ -522,7 +555,7 @@ export class gameScript extends Component {
             }
 
 
-            console.log("current time: ", serverManager.Instance.getCurrentTime());
+            // console.log("current time: ", serverManager.Instance.getCurrentTime());
             if (this.data.lastDayCheckTime.getDate() !== serverManager.Instance.getCurrentTime().getDate()) {
                 console.log("lastDayCheckTime is not today");
                 this.data.lastDayCheckTime = serverManager.Instance.getCurrentTime();
@@ -547,8 +580,9 @@ export class gameScript extends Component {
         if (this.spawnedEnemyCount - 5 >= this.totalKilledEnemy) {
             starCount = 1;
         }
-        let currentStage = this.stage * 10 + this.subStage;
+        let currentStage = (this.stage - 1) * 10 + this.subStage - 1;
         this.data.setStageStar(currentStage, starCount);
+
         saveData.Instance.save();
 
 
@@ -679,6 +713,9 @@ export class gameScript extends Component {
                     .start();
             })
             .start();
+    }
+    public updateShopUI(): void {
+        console.log("updateShopUI");
     }
 }
 

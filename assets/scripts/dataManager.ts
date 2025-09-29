@@ -18,11 +18,19 @@ export interface UnitData {
     Rarity: string;
 }
 
+export interface ShopData {
+    ID: string;
+    Price: number;
+    Reward: string;
+    Limit: string;
+}
+
 @ccclass('dataManager')
 export class dataManager extends Component {
     private enemyInfoList: EnemyData[] = [];
     private bossInfoList: EnemyData[] = [];
     public unitInfoList: UnitData[] = [];
+    public shopInfoList: ShopData[] = [];
     public loadingCount: number = 0;
     public maxLoadingCount: number = 2;
 
@@ -59,6 +67,7 @@ export class dataManager extends Component {
     public init() {
         this.loadEnemyData();
         this.loadUnitData();
+        this.loadShopData();
     }
 
     loadEnemyData() {
@@ -131,6 +140,39 @@ export class dataManager extends Component {
                 this.unitInfoList.push(info);
             }
             console.log("유닛 데이터 로드 완료!");
+            this.loadingCount++;
+        });
+    }
+
+    loadShopData() {
+        resources.load("CartoonDefense - shop", TextAsset, (err, textAsset) => {
+            if (err || !textAsset) {
+                console.error("상점 데이터 파일 로드 실패:", err);
+                return;
+            }
+
+            let wholeText = textAsset.text;
+            wholeText = this.decryptData(wholeText);
+            const arrayString = wholeText.split("\n");
+
+            this.shopInfoList = [];
+            for (let i = 1; i < arrayString.length; i++) {
+                let line = arrayString[i];
+                line = line.replace(/\r\n/g, "").replace(/\r/g, "").replace(/\n/g, "");
+                const strs = line.split(',');
+                if (!strs[1] || strs[1].trim() === "") continue;
+
+                const info: ShopData = {
+                    ID: strs[0],
+                    Price: this.parseFloat(strs[1]),
+                    Reward: strs[2],
+                    Limit: strs[3]
+                };
+
+                this.shopInfoList.push(info);
+            }
+
+            console.log("상점 데이터 로드 완료!");
             this.loadingCount++;
         });
     }
@@ -279,6 +321,10 @@ export class dataManager extends Component {
         if (dataManager._instance === this) {
             dataManager._instance = null;
         }
+    }
+
+    public getShopItemIndex(item: string): number {
+        return this.shopInfoList.findIndex(shop => shop.Reward === item);
     }
 }
 

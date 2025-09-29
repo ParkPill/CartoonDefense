@@ -47,6 +47,7 @@ export class pnlCollection extends popupBase {
             obj.setParent(this.heroes);
             obj.setPosition(0, 0, 0);
             collectionState = this.data.getCollection(i);
+            console.log("hero collectionState:" + collectionState);
             obj.getChildByName("imgNew").active = collectionState == 1;
             obj.getChildByName("imgGem").active = collectionState == 1;
             let data = dataManager.Instance.unitInfoList[i];
@@ -63,11 +64,9 @@ export class pnlCollection extends popupBase {
                     let spine = obj.getChildByName("Spine").getComponent(sp.Skeleton);
                     spine.skeletonData = skeletonData;
 
-                    if (spineName == "werewolf") spine.setSkin("werewolf");
-                    else if (spineName == "bear") spine.setSkin("bear");
-                    else if (spineName == "lion") spine.setSkin("lion");
-                    spine.setAnimation(0, "idle", true);
+                    gameManager.Instance.initSpine(spine, spineName);
 
+                    collectionState = this.data.getCollection(i);
                     spine.color = collectionState >= 1 ? new Color(255, 255, 255) : new Color(0, 0, 0);
                 });
             }
@@ -92,7 +91,7 @@ export class pnlCollection extends popupBase {
                 node.getChildByName("imgNew").active = false;
             }
             else {
-                node = this.heroes.getChildByName("hero" + unitIndex);
+                node = this.heroes.getChildByName("hero" + (unitIndex - 11));
                 node.getChildByName("imgGem").active = false;
                 node.getChildByName("imgNew").active = false;
             }

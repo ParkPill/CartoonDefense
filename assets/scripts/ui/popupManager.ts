@@ -40,7 +40,7 @@ export class popupManager extends Component {
 
     }
 
-    public openPopup(popupName: string, param: any = null) {
+    public openPopup(popupName: string, param: any = null, callback: (pBase: popupBase) => void = null) {
         console.log(popupName);
         console.log(`prefab/popup/${popupName}`);
         resources.load(`prefab/popup/${popupName}`, Prefab, (err, prefab) => {
@@ -51,6 +51,7 @@ export class popupManager extends Component {
             this.popupBaseList.push(popupNode.getComponent(popupBase));
             let pBase = popupNode.getComponent(popupBase);
             pBase.open(param);
+            callback?.(pBase);
         });
     }
 
@@ -61,6 +62,16 @@ export class popupManager extends Component {
     public showToastMessage(message: string) {
         let localized = languageManager.getText(message);
         this.openPopup("toastMessage", localized);
+    }
+    public getPopup(popupName: string): popupBase {
+        for (let i = 0; i < this.popupBaseList.length; i++) {
+            console.log("popupBaseList[i].name:" + this.popupBaseList[i].name);
+            if (this.popupBaseList[i].name === popupName + "<" + popupName + ">") {
+                console.log("find popupBase:" + this.popupBaseList[i]);
+                return this.popupBaseList[i];
+            }
+        }
+        return null;
     }
 }
 

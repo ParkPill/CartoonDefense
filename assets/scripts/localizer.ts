@@ -9,7 +9,7 @@ export class localizer extends Component {
     start() {
         if (this.Key) {
             let localizedString = languageManager.getText(this.Key);
-            console.log("localizedString: " + localizedString);
+            // console.log("localizedString: " + localizedString);
             this.node.getComponent(Label)!.string = localizedString;
         }
 

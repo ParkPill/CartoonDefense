@@ -1,4 +1,5 @@
 import { _decorator, Component, director, Node, sys } from 'cc';
+import { saveData } from './saveData';
 const { ccclass, property } = _decorator;
 
 // API 응답 인터페이스
@@ -103,6 +104,13 @@ export class serverManager extends Component {
         } finally {
             this.isConnecting = false;
         }
+    }
+
+    public log(message: string): void {
+        console.log("log: ", message);
+        let pData = saveData.Instance.data;
+        let msg = pData.nickname + "," + pData.idx + "," + message;
+        this.post("/log", msg);
     }
 
     /**
@@ -673,6 +681,7 @@ export class serverManager extends Component {
             serverManager._instance = null;
         }
     }
+
 }
 
 

@@ -1,0 +1,9 @@
+package id,reward,price,limit
+iap.pack.auto,auto/troll-6,gem-700,p
+iap.pack.predict,predict/troll-6,gem-700,p
+iap.pack.burster,burster/glowtroll-2,gem-700,p
+troll.10,troll-10,gem-700,d
+glowtroll.2,glowtroll-4,gem-700,d
+iap.gem.100,gem-100,$-1,n
+iap.gem.1000,gem-1000,$-10,n
+iap.gem.10000,gem-10000,$-100,n

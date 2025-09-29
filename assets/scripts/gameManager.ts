@@ -1,4 +1,4 @@
-import { _decorator, Component, director, Node } from 'cc';
+import { _decorator, Component, director, Node, sp } from 'cc';
 import { gameScript } from './gameScript';
 const { ccclass, property } = _decorator;
 
@@ -85,6 +85,26 @@ export class gameManager extends Component {
             gameManager._instance = null;
         }
     }
+
+    public getTimeString(seconds: number): string {
+        let minutes = Math.floor(seconds / 60);
+        let remainingSeconds = seconds % 60;
+
+        // 00:00 포멧으로 변경 (padStart 미지원 환경 대응)
+        const minuteStr = minutes < 10 ? "0" + minutes.toString() : minutes.toString();
+        const secondStr = remainingSeconds < 10 ? "0" + remainingSeconds.toString() : remainingSeconds.toString();
+        return minuteStr + ":" + secondStr;
+    }
+    public initSpine(spine: sp.Skeleton, spineName: string) {
+        if (spineName == "werewolf") spine.setSkin("werewolf");
+        else if (spineName == "bear") spine.setSkin("bear");
+        else if (spineName == "lion") spine.setSkin("lion");
+        spine.setAnimation(0, "idle", true);
+    }
+    public getPredict(unitIndex: number): number {
+        if (unitIndex < 11) {
+            return 0;
+        }
+        return 70;
+    }
 }
-
-
