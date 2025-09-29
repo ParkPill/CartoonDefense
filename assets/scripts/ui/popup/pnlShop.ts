@@ -1,10 +1,11 @@
 import { _decorator, Component, Label, Node } from 'cc';
 import { saveData } from '../../saveData';
 import { popupManager } from '../popupManager';
-import { dataManager } from '../../dataManager';
+import { dataManager, ShopData } from '../../dataManager';
 import { popupBase } from '../popupBase';
 import { languageManager } from '../../languageManager';
 import { gameManager } from '../../gameManager';
+import { serverManager } from '../../serverManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('pnlShop')
@@ -21,6 +22,7 @@ export class pnlShop extends popupBase {
             let obj = content.children[i];
             let productID = obj.name;
             let indexOfItem = dataManager.Instance.getShopItemIndex(productID);
+            console.log("productID: ", productID, "indexOfItem: ", indexOfItem);
             let sData = dataManager.Instance.shopInfoList[indexOfItem];
             let isAllBought = false;
             let lblBuy = obj.getChildByName("lblBuy").getComponent(Label);
@@ -50,31 +52,87 @@ export class pnlShop extends popupBase {
 
     }
 
-    public onBuyClick(event: Event, customEventData: string) {
+    public async onBuyClick(event: Event, customEventData: string) {
         let sData = dataManager.Instance.shopInfoList.find(shop => shop.ID === customEventData);
         if (!sData) {
             popupManager.Instance.showToastMessage("not found shop item");
             return;
         }
-        let item = sData.Reward;
-        let pData = saveData.Instance.data;
-        if (sData.Price <= saveData.Instance.data.gold) {
-            pData.gems -= sData.Price;
-            let indexOfItem = dataManager.Instance.getShopItemIndex(sData.Reward);
-            console.log("indexOf shop Item:" + indexOfItem);
-            pData.iap.push(indexOfItem);
-            if (sData.Limit === 'd') pData.iapDay.push(indexOfItem);
-            else if (sData.Limit === 'w') pData.iapWeek.push(indexOfItem);
-            else if (sData.Limit === 'm') pData.iapMonth.push(indexOfItem);
-            saveData.Instance.save();
-            popupManager.Instance.showToastMessage("buy success");
-            this.updateUI();
-            gameManager.Instance.theGameScript.updateShopUI();
+
+        let indexOfItem = dataManager.Instance.getShopItemIndex(sData.ID);
+        if (sData.Limit === 'd') {
+            if (this.data.iapDay.indexOf(indexOfItem) !== -1) {
+                popupManager.Instance.showToastMessage("buy limit");
+                return;
+            }
         }
-        else {
-            popupManager.Instance.showToastMessage("not enough money");
+        else if (sData.Limit === 'w') {
+            if (this.data.iapWeek.indexOf(indexOfItem) !== -1) {
+                popupManager.Instance.showToastMessage("buy limit");
+                return;
+            }
+        }
+        else if (sData.Limit === 'm') {
+            if (this.data.iapMonth.indexOf(indexOfItem) !== -1) {
+                popupManager.Instance.showToastMessage("buy limit");
+                return;
+            }
+        }
+        else if (sData.Limit === 'p') {
+            if (this.data.iap.indexOf(indexOfItem) !== -1) {
+                popupManager.Instance.showToastMessage("buy limit");
+                return;
+            }
+        }
+
+        this.buyItem(sData);
+
+
+    }
+    async buyItem(sData: ShopData) {
+        try {
+            let priceDataArray = sData.PriceData.split('-');
+
+            if (priceDataArray[0] === "gem" && parseInt(priceDataArray[1]) > this.data.gem) {
+                popupManager.Instance.showToastMessage("not enough currency");
+                return;
+            }
+
+            // serverManager.log 함수의 결과 값을 받아서 처리
+            const logResult = await serverManager.Instance.log("buy " + sData.ID);
+            let jsonData = JSON.parse(logResult.data);
+            // console.log("logResult.data: ", jsonData.result);
+            if (logResult.success && jsonData.result === 1) {
+                // console.log("구매 로그 전송 성공:", logResult.data);
+                if (priceDataArray[0] === "gem") {
+                    this.data.gem -= parseInt(sData.PriceData);
+                    this.handleBuySuccess(sData);
+                }
+                else if (priceDataArray[0] === "$") {
+
+                }
+
+
+            } else {
+                console.error("구매 로그 전송 실패:", logResult.error);
+                popupManager.Instance.showToastMessage("로그 전송 실패");
+            }
+        } catch (error) {
+            console.error("구매 로그 전송 중 오류:", error);
+            popupManager.Instance.showToastMessage("로그 전송 오류");
         }
     }
+
+    handleBuySuccess(sData: ShopData): void {
+        let indexOfItem = dataManager.Instance.getShopItemIndex(sData.Reward);
+        console.log("indexOf shop Item:" + indexOfItem);
+        this.data.iap.push(indexOfItem);
+        if (sData.Limit === 'd') this.data.iapDay.push(indexOfItem);
+        else if (sData.Limit === 'w') this.data.iapWeek.push(indexOfItem);
+        else if (sData.Limit === 'm') this.data.iapMonth.push(indexOfItem);
+        saveData.Instance.save();
+        popupManager.Instance.showToastMessage("buy success");
+        this.updateUI();
+        gameManager.Instance.theGameScript.updateShopUI();
+    }
 }
-
-

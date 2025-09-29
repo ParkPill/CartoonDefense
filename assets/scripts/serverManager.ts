@@ -106,11 +106,25 @@ export class serverManager extends Component {
         }
     }
 
-    public log(message: string): void {
+    public async getPost(): Promise<ApiResponse> {
+        console.log("get post");
+        let pData = saveData.Instance.data;
+        let msg = "0";
+        return await this.post("/post", msg);
+    }
+    public async setPost(): Promise<ApiResponse> {
+        console.log("set post");
+        let pData = saveData.Instance.data;
+        let msg = "1," + pData._id;
+        return await this.post("/post", msg);
+    }
+
+
+    public async log(message: string): Promise<ApiResponse> {
         console.log("log: ", message);
         let pData = saveData.Instance.data;
         let msg = pData.nickname + "," + pData.idx + "," + message;
-        this.post("/log", msg);
+        return await this.post("/log", msg);
     }
 
     /**
@@ -674,6 +688,15 @@ export class serverManager extends Component {
      */
     public static getTestMode(): boolean {
         return serverManager.Instance.getTestMode();
+    }
+
+    /**
+     * 로그 전송 (정적 메서드)
+     * @param message 로그 메시지
+     * @returns API 응답
+     */
+    public static async log(message: string): Promise<ApiResponse> {
+        return serverManager.Instance.log(message);
     }
 
     onDestroy() {

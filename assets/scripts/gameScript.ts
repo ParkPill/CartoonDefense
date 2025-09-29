@@ -219,7 +219,7 @@ export class gameScript extends Component {
         this.isUnitLoaded = true;
     }
     updateCurrency() {
-        this.lblGemCount.string = this.data.gems.toString();
+        this.lblGemCount.string = this.data.gem.toString();
         this.lblGoldCount.string = this.data.gold.toString();
     }
 
@@ -321,6 +321,15 @@ export class gameScript extends Component {
     }
     public onUpgradeClick() {
         popupManager.Instance.openPopup("pnlUpgrade");
+    }
+    public onShopClick() {
+        popupManager.Instance.openPopup("pnlShop");
+    }
+    public onPostClick() {
+        popupManager.Instance.openPopup("pnlPost");
+    }
+    public onAdsShopClick() {
+        popupManager.Instance.openPopup("pnlAdsShop");
     }
     public updateStats() {
         for (let i = 0; i < this.mergeSlotArray.length; i++) {
@@ -698,9 +707,9 @@ export class gameScript extends Component {
                     .to(1, { worldPosition: imgGemWorldPos }, { easing: 'quadOut' })
                     .call(() => {
                         // 젬 증가
-                        this.data.gems += gem;
+                        this.data.gem += gem;
                         saveData.Instance.save();
-                        this.lblGemCount.string = this.data.gems.toString();
+                        this.lblGemCount.string = this.data.gem.toString();
                         // 살짝 커졌다가 다시 작아지는 트윈 효과 추가
                         this.lblGemCount.node.setScale(1, 1, 1);
                         tween(this.lblGemCount.node)

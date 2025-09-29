@@ -6792,7 +6792,7 @@
         "borderRight": 0,
         "packable": true,
         "pixelsToUnit": 100,
-        "pivotX": 0.6,
+        "pivotX": 0.5,
         "pivotY": 0.5,
         "meshType": 0,
         "vertices": {

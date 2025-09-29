@@ -20,7 +20,7 @@ export interface UnitData {
 
 export interface ShopData {
     ID: string;
-    Price: number;
+    PriceData: string;
     Reward: string;
     Limit: string;
 }
@@ -164,11 +164,11 @@ export class dataManager extends Component {
 
                 const info: ShopData = {
                     ID: strs[0],
-                    Price: this.parseFloat(strs[1]),
+                    PriceData: strs[1],
                     Reward: strs[2],
                     Limit: strs[3]
                 };
-
+                // console.log("shop info: ", info.ID);
                 this.shopInfoList.push(info);
             }
 
@@ -324,7 +324,7 @@ export class dataManager extends Component {
     }
 
     public getShopItemIndex(item: string): number {
-        return this.shopInfoList.findIndex(shop => shop.Reward === item);
+        return this.shopInfoList.findIndex(shop => shop.ID === item);
     }
 }
 

@@ -140,7 +140,7 @@ export class dungeon0 extends Component {
         let rewardGemCount = 0;
         if (isStageClear) {
             rewardGemCount = 5;
-            saveData.Instance.data.gems += rewardGemCount;
+            saveData.Instance.data.gem += rewardGemCount;
             saveData.Instance.data.spendTicket(0);
             saveData.Instance.data.dungeonLevels[0]++;
         }

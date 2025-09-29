@@ -7,7 +7,7 @@ export class playerData {
     public idx: number = 0;
     public _id: string = "";
     public gold: number = 0;
-    public gems: number = 0;
+    public gem: number = 0;
     public level: number = 1;
     public exp: number = 0;
 
@@ -37,6 +37,10 @@ export class playerData {
     public iapDay: number[] = [];
     public iapWeek: number[] = [];
     public iapMonth: number[] = [];
+    // 0 auto merge video 자동합성
+    // 1 predict video 예측 샷
+    // 2 burster call 몬스터 2배 빨리 소환
+    public times: Date[] = [];
     public post: string = "";
 
 
@@ -52,7 +56,7 @@ export class playerData {
     // 기본 데이터 초기화
     private initializeDefaultData(): void {
         this.gold = 1000;
-        this.gems = 50;
+        this.gem = 50;
         this.level = 1;
         this.exp = 0;
         this.currentStage = 1;
@@ -106,13 +110,13 @@ export class playerData {
 
     // 젬 추가
     public addGems(amount: number): void {
-        this.gems += amount;
+        this.gem += amount;
     }
 
     // 젬 사용
     public spendGems(amount: number): boolean {
-        if (this.gems >= amount) {
-            this.gems -= amount;
+        if (this.gem >= amount) {
+            this.gem -= amount;
             return true;
         }
         return false;

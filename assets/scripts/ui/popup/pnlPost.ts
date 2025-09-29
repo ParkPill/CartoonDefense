@@ -3,11 +3,13 @@ import { popupBase } from '../popupBase';
 import { PoolItemRecycle } from '../PoolItemRecycle';
 import { saveData } from '../../saveData';
 import { languageManager } from '../../languageManager';
+import { serverManager } from '../../serverManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('pnlPost')
 export class pnlPost extends popupBase {
     start() {
+        serverManager.Instance.getPost();
 
     }
 
