@@ -17,7 +17,7 @@ export class mergeUnit extends unitBase {
     // public unitType: UnitType = UnitType.UNIT_WORKER;
     @property({ type: Enum(UnitType) })
     public unitType: UnitType = UnitType.UNIT_WORKER;
-    public starCount: number = 0;
+
 
     @property({ type: Node })
     public modelContainer: Node = null;
@@ -344,7 +344,6 @@ export class mergeUnit extends unitBase {
     }
 
     private tryDropToMergeSlot(targetSlot: mergeSlot): void {
-
         console.log("tryDropToMergeSlot this:", this);
         if (this.currentSlot == targetSlot) {
             this.node.position = this.originalPosition;
@@ -378,38 +377,61 @@ export class mergeUnit extends unitBase {
 
 
         // 같은 타입이면 합치기 가능한지 확인
-        const newUnitType = this.getNextUnitType(this.unitType);
-        if (newUnitType === null) {
-            this.node.position = this.originalPosition;
-            return;
-        }
-        if (newUnitType >= UnitType.UNIT_HERO_ORC) {
-            let heroSlot = gameManager.Instance.getHeroSlot();
-            if (heroSlot == null) {
+        if (this.unitType <= UnitType.UNIT_GLOW_TROLL) { // 머지 유닛
+            const newUnitType = this.getNextUnitType(this.unitType);
+            if (newUnitType === null) {
                 this.node.position = this.originalPosition;
                 return;
             }
+            if (newUnitType >= UnitType.UNIT_HERO_ORC) {
+                let heroSlot = gameManager.Instance.getHeroSlot();
+                if (heroSlot == null) {
+                    this.node.position = this.originalPosition;
+                    return;
+                }
+                this.currentSlot.currentUnit = null;
+                targetSlot.currentUnit = null;
+                this.node.destroy();
+                existingUnit.node.destroy();
+                let spawnedNode = gameManager.Instance.spawnHero(heroSlot, newUnitType);
+                let theUnit = spawnedNode.getComponent(mergeUnit);
+                theUnit.currentSlot = heroSlot;
+
+                return;
+            }
+
+            this.currentSlot.currentUnit = null;
+            targetSlot.currentUnit = null;
+            // 새로운 유닛 생성 및 배치
+            // const newUnit = gameManager.Instance.theGameScript.createMergeUnit(newUnitType);
+            // targetSlot.setMergeUnit(newUnit);
+            let spawnedNode = gameManager.Instance.spawnMergeUnit(targetSlot, newUnitType);
+            let theUnit = spawnedNode.getComponent(mergeUnit);
+            theUnit.currentSlot = targetSlot;
+
+            // 기존 두 유닛 제거
             this.node.destroy();
             existingUnit.node.destroy();
-            let spawnedNode = gameManager.Instance.spawnHero(heroSlot, newUnitType);
-            let theUnit = spawnedNode.getComponent(mergeUnit);
-            theUnit.currentSlot = heroSlot;
-
-            return;
+            gameManager.Instance.saveMergeUnit();
+        } else { // 영웅 유닛
+            if (this.starCount == existingUnit.starCount && existingUnit.starCount < 5) {
+                this.currentSlot.currentUnit = null;
+                this.node.destroy();
+                gameManager.Instance.showHeroMergeEffect(this.node.getWorldPosition());
+                existingUnit.starCount++;
+                existingUnit.updateStars();
+                // gameManager.Instance.saveMergeUnit(); // test now
+            } else {
+                // console.log("star different")
+                this.node.position = this.originalPosition;
+            }
         }
-        this.currentSlot.currentUnit = null;
-        targetSlot.currentUnit = null;
-        // 새로운 유닛 생성 및 배치
-        // const newUnit = gameManager.Instance.theGameScript.createMergeUnit(newUnitType);
-        // targetSlot.setMergeUnit(newUnit);
-        let spawnedNode = gameManager.Instance.spawnMergeUnit(targetSlot, newUnitType);
-        let theUnit = spawnedNode.getComponent(mergeUnit);
-        theUnit.currentSlot = targetSlot;
-
-        // 기존 두 유닛 제거
-        this.node.destroy();
-        existingUnit.node.destroy();
-        gameManager.Instance.saveMergeUnit();
+    }
+    public updateStars(): void {
+        for (let i = 0; i < this.starCount; i++) {
+            let star = this.node.getChildByName("stars").getChildByName("star" + i);
+            star.active = true;
+        }
     }
 
     private getNextUnitType(currentType: UnitType): UnitType | null {

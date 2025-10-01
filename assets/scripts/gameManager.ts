@@ -14,6 +14,7 @@ export class gameManager extends Component {
     public TheTileMap: Node = null;
     public canvasNode: Node = null;
     public summonPrefab: Prefab = null;
+    public mergeHeroPrefab: Prefab = null;
     public dungeonLevel: number = 0;
     public isTitleLoaded: boolean = false;
     @property({ type: Node })
@@ -99,7 +100,23 @@ export class gameManager extends Component {
         let objSummonEffect = instantiate(this.summonPrefab);
         objSummonEffect.setParent(this.aboveNode);
         // let worldPos = unit.getWorldPosition();
-        objSummonEffect.setWorldPosition(worldPos.x, worldPos.y - 30, worldPos.z);
+        objSummonEffect.setWorldPosition(worldPos.x, worldPos.y - 40, worldPos.z);
+        let summonEffect = objSummonEffect.getComponent(Animation);
+        summonEffect.play(summonEffect.clips[0].name);
+        let duration = summonEffect.clips[0].duration;
+        this.scheduleOnce(() => {
+            objSummonEffect.destroy();
+        }, duration);
+
+        // shake effect by tween
+        this.shakeNode(this.TheTileMap, 0.2);
+        this.shakeNode(this.canvasNode.getChildByName('Background'), 0.3);
+    }
+    showHeroMergeEffect(worldPos: Vec3) {
+        // effect
+        let objSummonEffect = instantiate(this.mergeHeroPrefab);
+        objSummonEffect.setParent(this.aboveNode);
+        objSummonEffect.setWorldPosition(worldPos.x, worldPos.y - 45, worldPos.z);
         let summonEffect = objSummonEffect.getComponent(Animation);
         summonEffect.play(summonEffect.clips[0].name);
         let duration = summonEffect.clips[0].duration;
@@ -180,9 +197,10 @@ export class gameManager extends Component {
             let slot = gameManager.Instance.heroSlotArray[i];
             if (slot.currentUnit) {
                 // console.log("slot.currentUnit: " + slot.currentUnit);
-                let unitIndexAsNumber = slot.currentUnit.getComponent(unitBase).unitType as number;
+                let unitB = slot.currentUnit.getComponent(unitBase);
+                let unitIndexAsNumber = unitB.unitType as number;
                 // console.log("unitIndexAsNumber: " + unitIndexAsNumber);
-                strHeroes += unitIndexAsNumber.toString() + "_";
+                strHeroes += unitIndexAsNumber.toString() + "-" + unitB.starCount.toString() + "_";
             }
             else {
                 strHeroes += "_";
@@ -193,9 +211,8 @@ export class gameManager extends Component {
 
         saveData.Instance.save();
 
-        let strPlayerData = "unit,";
-        strPlayerData += strUnits;
-
+        // let strPlayerData = "unit,";
+        // strPlayerData += strUnits;
         // serverManager.Instance.savePlayerData(strPlayerData); // test now
     }
 

@@ -63,6 +63,8 @@ export class gameScript extends Component {
     public enemyPrefabs: Prefab[] = [];
     @property({ type: Prefab })
     public summonPrefab: Prefab;
+    @property({ type: Prefab })
+    public mergeHeroPrefab: Prefab;
     @property({ type: [SpriteFrame] })
     public treeSprites: SpriteFrame[] = [];
     @property(Prefab)
@@ -110,6 +112,7 @@ export class gameScript extends Component {
         gameManager.Instance.heroPrefab = this.heroPrefab;
         gameManager.Instance.mergeUnitPrefabs = this.mergeUnitPrefabs;
         gameManager.Instance.summonPrefab = this.summonPrefab;
+        gameManager.Instance.mergeHeroPrefab = this.mergeHeroPrefab;
         gameManager.Instance.TheTileMap = this.TheTileMap;
         gameManager.Instance.canvasNode = this.canvasNode;
         gameManager.Instance.mergeSlotArray = this.mergeSlotArray;
@@ -249,10 +252,7 @@ export class gameScript extends Component {
                 if (theUnit != null && theUnit.currentSlot != null) {
                     theUnit.currentSlot.currentUnit = null;
                 }
-                for (let j = 0; j < starCount; j++) {
-                    let star = unit.getChildByName("stars").getChildByName("star" + j);
-                    star.active = true;
-                }
+                theUnit.updateStars();
                 theUnit.currentSlot = gameManager.Instance.heroSlotArray[i];
                 gameManager.Instance.heroSlotArray[i].setMergeUnit(unit);
                 gameManager.Instance.heroList.push(unit);
@@ -325,7 +325,6 @@ export class gameScript extends Component {
                 this.enemyHPScaleList[this.totalEnemyCount - 1] = 60;
             }
         }, duration);
-
     }
 
     public onSummonButtonClicked() {

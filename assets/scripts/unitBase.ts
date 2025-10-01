@@ -14,6 +14,7 @@ export class unitBase extends Component {
     public unitType: number = 0;
     public data: UnitData = null;
     public isDead: boolean = false;
+    public starCount: number = 0;
     @property
     public onDead: ((deadUnit: unitBase) => void) | null = null;
     start() {
