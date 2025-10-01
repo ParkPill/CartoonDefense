@@ -1,14 +1,7 @@
 import { _decorator, Component, Node, resources, TextAsset, director } from 'cc';
-import { gameManager } from './gameManager';
+// import { gameManager } from './gameManager';
 const { ccclass, property } = _decorator;
 
-// EnemyData 인터페이스 정의
-export interface EnemyData {
-    ID: string;
-    Damage: number;
-    HP: number;
-    RewardGold: number;
-}
 
 export interface UnitData {
     ID: string;
@@ -16,6 +9,7 @@ export interface UnitData {
     HP: number;
     Rate: number;
     Rarity: string;
+    RewardGold: number;
 }
 
 export interface ShopData {
@@ -27,8 +21,8 @@ export interface ShopData {
 
 @ccclass('dataManager')
 export class dataManager extends Component {
-    private enemyInfoList: EnemyData[] = [];
-    private bossInfoList: EnemyData[] = [];
+    private enemyInfoList: UnitData[] = [];
+    private bossInfoList: UnitData[] = [];
     public unitInfoList: UnitData[] = [];
     public shopInfoList: ShopData[] = [];
     public loadingCount: number = 0;
@@ -62,7 +56,7 @@ export class dataManager extends Component {
     }
 
     start() {
-        gameManager.Instance.isTitleLoaded = true;
+        // gameManager.Instance.isTitleLoaded = true;
     }
     public init() {
         this.loadEnemyData();
@@ -94,11 +88,13 @@ export class dataManager extends Component {
                 const strs = line.split(',');
                 if (!strs[1] || strs[1].trim() === "") continue;
 
-                const info: EnemyData = {
+                const info: UnitData = {
                     ID: strs[0],
                     Damage: this.parseFloat(strs[1]),
                     HP: this.parseFloat(strs[2]),
-                    RewardGold: this.parseInt(strs[3])
+                    RewardGold: this.parseInt(strs[3]),
+                    Rate: 0,
+                    Rarity: ""
                 };
 
                 this.enemyInfoList.push(info);
@@ -134,7 +130,8 @@ export class dataManager extends Component {
                     Damage: this.parseFloat(strs[1]),
                     HP: this.parseFloat(strs[2]),
                     Rate: this.parseFloat(strs[3]),
-                    Rarity: strs[4]
+                    Rarity: strs[4],
+                    RewardGold: 0
                 };
 
                 this.unitInfoList.push(info);
@@ -217,7 +214,7 @@ export class dataManager extends Component {
      * @param id 적 ID
      * @returns 적 데이터 또는 null
      */
-    getEnemyDataById(id: string): EnemyData | null {
+    getEnemyDataById(id: string): UnitData | null {
         return this.enemyInfoList.find(enemy => enemy.ID === id) || null;
     }
 
@@ -225,7 +222,7 @@ export class dataManager extends Component {
      * 모든 적 데이터를 반환합니다.
      * @returns 적 데이터 배열
      */
-    getAllEnemyData(): EnemyData[] {
+    getAllEnemyData(): UnitData[] {
         return [...this.enemyInfoList];
     }
 
@@ -233,7 +230,7 @@ export class dataManager extends Component {
      * 모든 보스 데이터를 반환합니다.
      * @returns 보스 데이터 배열
      */
-    getAllBossData(): EnemyData[] {
+    getAllBossData(): UnitData[] {
         return [...this.bossInfoList];
     }
 
@@ -250,7 +247,7 @@ export class dataManager extends Component {
      * @param index 인덱스
      * @returns 적 데이터 또는 null
      */
-    getEnemyDataByIndex(index: number): EnemyData | null {
+    getEnemyDataByIndex(index: number): UnitData | null {
         if (index >= 0 && index < this.enemyInfoList.length) {
             return this.enemyInfoList[index];
         }
@@ -272,7 +269,7 @@ export class dataManager extends Component {
      * @param id 적 ID
      * @returns 적 데이터 또는 null
      */
-    public static getEnemyDataById(id: string): EnemyData | null {
+    public static getEnemyDataById(id: string): UnitData | null {
         return dataManager.Instance.getEnemyDataById(id);
     }
 
@@ -280,7 +277,7 @@ export class dataManager extends Component {
      * 모든 적 데이터를 반환합니다. (정적 메서드)
      * @returns 적 데이터 배열
      */
-    public static getAllEnemyData(): EnemyData[] {
+    public static getAllEnemyData(): UnitData[] {
         return dataManager.Instance.getAllEnemyData();
     }
 
@@ -288,7 +285,7 @@ export class dataManager extends Component {
      * 모든 보스 데이터를 반환합니다. (정적 메서드)
      * @returns 보스 데이터 배열
      */
-    public static getAllBossData(): EnemyData[] {
+    public static getAllBossData(): UnitData[] {
         return dataManager.Instance.getAllBossData();
     }
 
@@ -305,7 +302,7 @@ export class dataManager extends Component {
      * @param index 인덱스
      * @returns 적 데이터 또는 null
      */
-    public static getEnemyDataByIndex(index: number): EnemyData | null {
+    public static getEnemyDataByIndex(index: number): UnitData | null {
         return dataManager.Instance.getEnemyDataByIndex(index);
     }
 

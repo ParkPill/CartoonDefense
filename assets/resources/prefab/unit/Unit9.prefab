@@ -383,10 +383,12 @@
       "__id__": 3
     },
     "spineUnit": null,
-    "projectilePrefab": {
+    "projectilePrefab0": {
       "__uuid__": "a2399a14-4706-422a-acc1-a8350235f1b1",
       "__expectedType__": "cc.Prefab"
     },
+    "projectilePrefab1": null,
+    "onDead": null,
     "_id": ""
   },
   {

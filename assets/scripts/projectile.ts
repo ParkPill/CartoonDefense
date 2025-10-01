@@ -20,6 +20,8 @@ export default class Project extends Component {
     @property({ tooltip: '데미지' })
     public damage = 100;
 
+    public extraRotation = 0;
+
     // 내부용 벡터 재사용 (GC 줄이기)
     private _tmpTargetPos = new Vec3();
     private _tmpMyPos = new Vec3();
@@ -88,7 +90,7 @@ export default class Project extends Component {
             const angle = Math.atan2(this._tmpDir.y, this._tmpDir.x);
             // 라디안을 도 단위로 바꾸려면 Math.PI/180 사용. setRotationFromEuler expects degrees in CC? 
             // 여기서는 노드의 eulerAngles.z 에 각도(도) 대입 (Cocos Creator의 경우 eulerAngles는 degrees)
-            this.node.eulerAngles = this.node.eulerAngles.set(this.node.eulerAngles.x, this.node.eulerAngles.y, -math.toDegree(angle));
+            this.node.eulerAngles = this.node.eulerAngles.set(this.node.eulerAngles.x, this.node.eulerAngles.y, math.toDegree(angle) + this.extraRotation);
         }
     }
     arrivedTarget() {

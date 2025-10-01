@@ -6,6 +6,7 @@ import { popupBase } from '../popupBase';
 import { languageManager } from '../../languageManager';
 import { gameManager } from '../../gameManager';
 import { serverManager } from '../../serverManager';
+import { gameScript } from '../../gameScript';
 const { ccclass, property } = _decorator;
 
 @ccclass('pnlShop')
@@ -99,7 +100,8 @@ export class pnlShop extends popupBase {
             }
 
             // serverManager.log 함수의 결과 값을 받아서 처리
-            const logResult = await serverManager.Instance.log("buy " + sData.ID);
+            let msg = this.data.nickname + "," + this.data.idx + "," + "buy " + sData.ID;
+            const logResult = await serverManager.Instance.log(msg);
             let jsonData = JSON.parse(logResult.data);
             // console.log("logResult.data: ", jsonData.result);
             if (logResult.success && jsonData.result === 1) {
@@ -133,6 +135,6 @@ export class pnlShop extends popupBase {
         saveData.Instance.save();
         popupManager.Instance.showToastMessage("buy success");
         this.updateUI();
-        gameManager.Instance.theGameScript.updateShopUI();
+        gameManager.Instance.theGameScript.getComponent(gameScript).updateShopUI();
     }
 }

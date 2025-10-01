@@ -907,7 +907,7 @@
       }
     ],
     "_interactable": true,
-    "_transition": 1,
+    "_transition": 2,
     "_normalColor": {
       "__type__": "cc.Color",
       "r": 255,

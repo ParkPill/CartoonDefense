@@ -1,6 +1,7 @@
 import { _decorator, CCInteger, Component, director, instantiate, Label, Node, Prefab, Sprite, SpriteFrame, TiledLayer, tween, UITransform, Vec2, Vec3, Animation } from 'cc';
 import { gameManager } from './gameManager';
-import { mergeUnit, UnitType } from './mergeUnit';
+import { mergeUnit } from './mergeUnit';
+import { UnitType } from './unitBase';
 import { enemy } from './enemy';
 import { mergeSlot } from './mergeSlot';
 import { dataManager } from './dataManager';
@@ -40,9 +41,14 @@ export class gameScript extends Component {
     starOnePassCount = 10;
 
 
+    @property({ type: [mergeSlot] })
+    public mergeSlotArray: mergeSlot[] = [];
+
+    @property({ type: [mergeSlot] })
+    public heroSlotArray: mergeSlot[] = [];
     // public playerUnits: mergeUnit[] = [];
-    @property({ type: [enemy] })
-    public enemies: enemy[] = [];
+    // @property({ type: [enemy] })
+    // public enemies: enemy[] = [];
     @property(Label)
     public lblGoldCount: Label;
     @property(Label)
@@ -79,17 +85,13 @@ export class gameScript extends Component {
     enemyScaleList: number[];
     enemyHPScaleList: number[];
     enemyModelIndexList: number[];
-    heroList: mergeUnit[] = [];
+    // heroList: mergeUnit[] = [];
     data: playerData;
     @property(Node)
     public TheTileMap: Node;
     decoTiledLayer: TiledLayer;
 
-    @property({ type: [mergeSlot] })
-    public mergeSlotArray: mergeSlot[] = [];
 
-    @property({ type: [mergeSlot] })
-    public heroSlotArray: mergeSlot[] = [];
 
     public canvasNode: Node;
     isBursterCall: boolean = true; // test now
@@ -101,21 +103,34 @@ export class gameScript extends Component {
     isDungeon: boolean = false;
     public isUnitLoaded: boolean = false;
     start() {
+        this.data = saveData.Instance.data;
+        this.canvasNode = this.node.scene.getChildByName('Canvas');
+        gameManager.Instance.heroList = [];
+        gameManager.Instance.enemies = [];
+        gameManager.Instance.heroPrefab = this.heroPrefab;
+        gameManager.Instance.mergeUnitPrefabs = this.mergeUnitPrefabs;
+        gameManager.Instance.summonPrefab = this.summonPrefab;
+        gameManager.Instance.TheTileMap = this.TheTileMap;
+        gameManager.Instance.canvasNode = this.canvasNode;
+        gameManager.Instance.mergeSlotArray = this.mergeSlotArray;
+        gameManager.Instance.heroSlotArray = this.heroSlotArray;
+        gameManager.Instance.unitNode = this.unitNode;
+        gameManager.Instance.aboveNode = this.aboveNode;
+        gameManager.Instance.data = this.data;
+
         // 씬 이름이 game인지 확인
         this.isDungeon = this.node.scene.name !== "game";
-        this.canvasNode = this.node.scene.getChildByName('Canvas');
         if (!gameManager.Instance.isTitleLoaded) {
             director.loadScene("title");
             return;
         }
 
-        this.data = saveData.Instance.data;
         this.subStage = this.data.currentStage % 10;
         this.stage = Math.floor(this.data.currentStage / 10) + 1;
         console.log("stage", this.stage);
         console.log("subStage", this.subStage);
 
-        gameManager.Instance.theGameScript = this;
+        gameManager.Instance.theGameScript = this.node;
         // 스파인 애니메이션에서 attack 애니메이션을 실행
         // sp.Skeleton 타입으로 명시적 형 변환이 필요합니다.
         // let spine = this.testUnitSpine.getComponent('sp.Skeleton') as any;
@@ -176,6 +191,11 @@ export class gameScript extends Component {
 
         // let playerData = this.data._id + ",gem,100";
         // serverManager.Instance.savePlayerData(playerData);
+        // this.data.gold = 0; // test 
+        if (this.data.gold < 0) {
+            this.data.gold = 100;
+        }
+        saveData.Instance.save();
         // init done
     }
     loadUnits() {
@@ -188,7 +208,9 @@ export class gameScript extends Component {
                     // console.log("unit: " + unit + " i: " + i);
                     let unitIndex = parseInt(unit);
                     const newUnit = this.createMergeUnit(unitIndex);
-                    this.mergeSlotArray[i].setMergeUnit(newUnit);
+                    gameManager.Instance.mergeSlotArray[i].setMergeUnit(newUnit);
+                    let theUnit = newUnit.getComponent(mergeUnit);
+                    theUnit.currentSlot = gameManager.Instance.mergeSlotArray[i];
                     let unitData = dataManager.Instance.unitInfoList[unitIndex];
                     newUnit.getComponent(mergeUnit).setData(unitData);
                 }
@@ -200,7 +222,18 @@ export class gameScript extends Component {
             let hero = heroArray[i];
             if (hero != "") {
                 // console.log("히어로: " + hero);
-                let heroIndex = parseInt(hero);
+
+                let heroIndex = 0;
+                let starCount = 1;
+                if (hero.includes("-")) {
+                    let array = hero.split("-");
+                    heroIndex = parseInt(array[0]);
+                    starCount = parseInt(array[1]);
+                }
+                else {
+                    heroIndex = parseInt(hero);
+                }
+
 
                 let unitData = dataManager.Instance.unitInfoList[heroIndex];
                 const unit = instantiate(this.heroPrefab);//this.heroUnitPrefabs[unitIndex - 11]);
@@ -212,8 +245,17 @@ export class gameScript extends Component {
                 unit.setPosition(0, 0, 0);
                 theUnit.unitType = heroIndex;
                 theUnit.setData(unitData);
-                this.heroSlotArray[i].setMergeUnit(unit);
-                this.heroList.push(theUnit);
+                theUnit.starCount = starCount;
+                if (theUnit != null && theUnit.currentSlot != null) {
+                    theUnit.currentSlot.currentUnit = null;
+                }
+                for (let j = 0; j < starCount; j++) {
+                    let star = unit.getChildByName("stars").getChildByName("star" + j);
+                    star.active = true;
+                }
+                theUnit.currentSlot = gameManager.Instance.heroSlotArray[i];
+                gameManager.Instance.heroSlotArray[i].setMergeUnit(unit);
+                gameManager.Instance.heroList.push(unit);
             }
         }
         this.isUnitLoaded = true;
@@ -287,7 +329,7 @@ export class gameScript extends Component {
     }
 
     public onSummonButtonClicked() {
-        // console.log("onSummonButtonClicked", this.goldCount, this.summonPrice);
+        console.log("onSummonButtonClicked", this.data.gold, this.summonPrice);
         // check if slot is full
         let isFull = this.isSlotFull();
         if (isFull) {
@@ -297,17 +339,23 @@ export class gameScript extends Component {
         if (this.data.gold >= this.summonPrice) {
             this.data.gold -= this.summonPrice;
             this.lblGoldCount.string = this.data.gold.toString();
-            this.spawnMergeUnit(this.getMergeSlot());
+            let slot = this.getMergeSlot();
+            let spawnedNode = gameManager.Instance.spawnMergeUnit(slot);
+            let theUnit = spawnedNode.getComponent(mergeUnit);
+            theUnit.currentSlot = slot;
 
-            if (!this.isSlotFull()) { // test now
-                // this.spawnChest(this.chestIndex);
-                this.spawnChest(9);
-                this.chestIndex++;
-                if (this.chestIndex >= UnitType.UNIT_GLOW_TROLL) {
-                    this.chestIndex = UnitType.UNIT_GLOW_TROLL;
-                }
+            // if (!this.isSlotFull()) { // test now
+            // this.spawnChest(this.chestIndex);
+            this.spawnChest(9);
+            this.chestIndex++;
+            if (this.chestIndex >= UnitType.UNIT_GLOW_TROLL) {
+                this.chestIndex = UnitType.UNIT_GLOW_TROLL;
             }
-            this.saveMergeUnit();
+            // }
+            gameManager.Instance.saveMergeUnit();
+        }
+        else {
+            popupManager.Instance.showToastMessage("not enough currency");
         }
     }
     public onCollectionClick() {
@@ -332,14 +380,14 @@ export class gameScript extends Component {
         popupManager.Instance.openPopup("pnlAdsShop");
     }
     public updateStats() {
-        for (let i = 0; i < this.mergeSlotArray.length; i++) {
-            let unit = this.mergeSlotArray[i].currentUnit;
+        for (let i = 0; i < gameManager.Instance.mergeSlotArray.length; i++) {
+            let unit = gameManager.Instance.mergeSlotArray[i].currentUnit;
             if (unit) {
                 unit.getComponent(mergeUnit).updateStats();
             }
         }
-        for (let i = 0; i < this.heroSlotArray.length; i++) {
-            let unit = this.heroSlotArray[i].currentUnit;
+        for (let i = 0; i < gameManager.Instance.heroSlotArray.length; i++) {
+            let unit = gameManager.Instance.heroSlotArray[i].currentUnit;
             if (unit) {
                 unit.getComponent(mergeUnit).updateStats();
             }
@@ -347,102 +395,18 @@ export class gameScript extends Component {
     }
     chestIndex: number = 0;
     isSlotFull(): boolean {
-        for (let i = 0; i < this.mergeSlotArray.length; i++) {
-            if (this.mergeSlotArray[i].currentUnit == null) {
+        for (let i = 0; i < gameManager.Instance.mergeSlotArray.length; i++) {
+            if (gameManager.Instance.mergeSlotArray[i].currentUnit == null) {
                 return false;
             }
         }
         return true;
     }
-    public getHeroSlot(): mergeSlot {
-        for (let i = 0; i < this.heroSlotArray.length; i++) {
-            if (this.heroSlotArray[i].currentUnit == null || this.heroSlotArray[i].currentUnit == undefined) {
-                console.log("heroSlotArray[i]: " + this.heroSlotArray[i]);
-                return this.heroSlotArray[i];
-            }
-        }
-        console.log("heroSlotArray null");
-        return null;
-    }
 
-    public spawnHero(slot: mergeSlot, unitIndex: number = 0): mergeUnit {
-        let unitData = dataManager.Instance.unitInfoList[unitIndex];
-        const unit = instantiate(this.heroPrefab);//this.heroUnitPrefabs[unitIndex - 11]);
-        unit.setParent(this.unitNode);
-        // 오른쪽을 바라보도록 scale -1
-        unit.getChildByName("ModelContainer").setScale(-1, 1, 1);
-        let theUnit = unit.getComponent(mergeUnit);
-        theUnit.aboveNode = this.aboveNode;
-        unit.setPosition(0, 0, 0);
-        theUnit.unitType = unitIndex;
-        theUnit.setData(unitData);
-        slot.setMergeUnit(unit);
-        this.data.discoverCollection(unitIndex);
-
-
-        this.showSummonEffect(unit.getWorldPosition());
-
-        return theUnit;
-    }
-
-    showSummonEffect(worldPos: Vec3) {
-        // effect
-        let objSummonEffect = instantiate(this.summonPrefab);
-        objSummonEffect.setParent(this.aboveNode);
-        // let worldPos = unit.getWorldPosition();
-        objSummonEffect.setWorldPosition(worldPos.x, worldPos.y - 30, worldPos.z);
-        let summonEffect = objSummonEffect.getComponent(Animation);
-        summonEffect.play(summonEffect.clips[0].name);
-        let duration = summonEffect.clips[0].duration;
-        this.scheduleOnce(() => {
-            objSummonEffect.destroy();
-        }, duration);
-
-        // shake effect by tween
-        this.shakeNode(this.TheTileMap, 0.2);
-        this.shakeNode(this.canvasNode.getChildByName('Background'), 0.3);
-    }
-
-    public spawnMergeUnit(slot: mergeSlot, unitIndex: number = 0): mergeUnit {
-        // console.log("mergeUnit1");
-        // let unitIndex = 0;
-        let unitData = dataManager.Instance.unitInfoList[unitIndex];
-        const unit = instantiate(this.mergeUnitPrefabs[unitIndex]);
-        // console.log("mergeUnit2", unit);
-        unit.setParent(this.unitNode);
-        unit.getComponent(mergeUnit).aboveNode = this.aboveNode;
-        unit.setPosition(0, 0, 0);
-        let theUnit = unit.getComponent(mergeUnit);
-        theUnit.setData(unitData);
-        this.data.discoverCollection(unitIndex);
-
-        // console.log("theUnit.damage", theUnit.damage);
-        // mergeSlotArray 중에 mergeSlot.mergeUnit이 null인 곳 아무데나 setMergeUnit(mergeUnit); 실행
-        slot.setMergeUnit(unit);
-
-        this.showSummonEffect(unit.getWorldPosition());
-        // // effect
-        // let objSummonEffect = instantiate(this.summonPrefab);
-        // objSummonEffect.setParent(this.aboveNode);
-        // let worldPos = unit.getWorldPosition();
-        // objSummonEffect.setWorldPosition(worldPos.x, worldPos.y - 30, worldPos.z);
-        // let summonEffect = objSummonEffect.getComponent(Animation);
-        // summonEffect.play(summonEffect.clips[0].name);
-        // let duration = summonEffect.clips[0].duration;
-        // this.scheduleOnce(() => {
-        //     objSummonEffect.destroy();
-        // }, duration);
-
-        // // shake effect by tween
-        // this.shakeNode(this.TheTileMap, 0.2);
-        // this.shakeNode(this.canvasNode.getChildByName('Background'), 0.3);
-
-        return theUnit;
-    }
     getMergeSlot(): mergeSlot {
-        for (let i = 0; i < this.mergeSlotArray.length; i++) {
-            if (this.mergeSlotArray[i].currentUnit == null) {
-                return this.mergeSlotArray[i];
+        for (let i = 0; i < gameManager.Instance.mergeSlotArray.length; i++) {
+            if (gameManager.Instance.mergeSlotArray[i].currentUnit == null) {
+                return gameManager.Instance.mergeSlotArray[i];
             }
         }
         return null;
@@ -451,63 +415,14 @@ export class gameScript extends Component {
     public spawnChest(chestIndex: number) {
         console.log("spawnChest: " + chestIndex);
         let slot = this.getMergeSlot();
-        let theUnit = this.spawnMergeUnit(slot, chestIndex);
-        theUnit.isChest = true;
+        let spawnedNode = gameManager.Instance.spawnMergeUnit(slot, chestIndex);
+        let theUnit = spawnedNode.getComponent(mergeUnit);
+        theUnit.currentSlot = slot;
+        theUnit.getComponent(mergeUnit).isChest = true;
     }
     public createAccountTest() {
         popupManager.Instance.openPopup("pnlCreateUser");
     }
-    saveMergeUnit() {
-        let strUnits = "";
-        for (let i = 0; i < this.mergeSlotArray.length; i++) {
-            let slot = this.mergeSlotArray[i];
-            if (slot.currentUnit) {
-                let unitIndexAsNumber = slot.currentUnit.getComponent(mergeUnit).unitType as number;
-                strUnits += unitIndexAsNumber.toString() + "_";
-            }
-            else {
-                strUnits += "_";
-            }
-        }
-        // console.log("strUnits:", strUnits);
-        this.data.unit = strUnits;
-
-        let strHeroes = "";
-        for (let i = 0; i < this.heroSlotArray.length; i++) {
-            let slot = this.heroSlotArray[i];
-            if (slot.currentUnit) {
-                // console.log("slot.currentUnit: " + slot.currentUnit);
-                let unitIndexAsNumber = slot.currentUnit.getComponent(mergeUnit).unitType as number;
-                // console.log("unitIndexAsNumber: " + unitIndexAsNumber);
-                strHeroes += unitIndexAsNumber.toString() + "_";
-            }
-            else {
-                strHeroes += "_";
-            }
-        }
-        console.log("strHeroes:", strHeroes);
-        this.data.hero = strHeroes;
-
-        saveData.Instance.save();
-
-        let strPlayerData = "unit,";
-        strPlayerData += strUnits;
-
-        // serverManager.Instance.savePlayerData(strPlayerData); // test now
-    }
-    shakeNode(node: Node, duration: number) {
-        let devideCount = 8;
-        tween(node)
-            .to(duration / devideCount, { position: new Vec3(node.position.x + 10, node.position.y, node.position.z) }, { easing: 'quadOut' })
-            .to(duration / devideCount, { position: new Vec3(node.position.x - 10, node.position.y, node.position.z) }, { easing: 'quadIn' })
-            .to(duration / devideCount, { position: new Vec3(node.position.x, node.position.y, node.position.z) }, { easing: 'quadOut' })
-            .to(duration / devideCount, { position: new Vec3(node.position.x + 10, node.position.y, node.position.z) }, { easing: 'quadOut' })
-            .to(duration / devideCount, { position: new Vec3(node.position.x - 10, node.position.y, node.position.z) }, { easing: 'quadIn' })
-            .to(duration / devideCount, { position: new Vec3(node.position.x, node.position.y, node.position.z) }, { easing: 'quadOut' })
-            .to(duration, { position: new Vec3(node.position.x, node.position.y, node.position.z) }, { easing: 'quadOut' })
-            .start();
-    }
-
     spawnEnemy() {
         let index = this.spawnedEnemyCount;
         let modelIndex = this.enemyModelIndexList[index];
@@ -523,25 +438,25 @@ export class gameScript extends Component {
         enemyNode.setScale(modelScale, modelScale, 1);
         let hpScale = this.enemyHPScaleList[index];
         theEnemy.setHP(theEnemy.data.HP * hpScale);
-        theEnemy.data.RewardGold *= (hpScale + modelScale) / 2;
+        theEnemy.data.RewardGold = 10; //*= (hpScale + modelScale) / 2;
         theEnemy.routeArray = this.routeArray.map(vec2 => vec2.clone());
         theEnemy.onDead = (deadEnemy: enemy) => {
             this.totalKilledEnemy++;
             this.addGold(Math.floor(deadEnemy.data.RewardGold), deadEnemy.node.getWorldPosition().toVec2());
-            this.enemies.splice(this.enemies.indexOf(deadEnemy), 1);
+            gameManager.Instance.enemies.splice(gameManager.Instance.enemies.indexOf(deadEnemy.node), 1);
         };
         theEnemy.onMovementComplete = () => {
             this.passedEnemyCount++;
             this.imgHP.getComponent(Sprite).fillRange = (this.stageFailPassCount - this.passedEnemyCount) / this.stageFailPassCount;
 
-            this.enemies.splice(this.enemies.indexOf(theEnemy), 1);
+            gameManager.Instance.enemies.splice(gameManager.Instance.enemies.indexOf(theEnemy.node), 1);
             theEnemy.node.destroy();
 
             if (this.passedEnemyCount >= this.stageFailPassCount) {
                 this.stageFailed();
             }
         };
-        this.enemies.push(theEnemy);
+        gameManager.Instance.enemies.push(theEnemy.node);
     }
 
     update(deltaTime: number) {
@@ -559,7 +474,7 @@ export class gameScript extends Component {
                 this.enemySpawnTime -= interval;
             }
 
-            if (this.totalKilledEnemy >= this.totalEnemyCount || (this.spawnedEnemyCount >= this.totalEnemyCount && this.enemies.length == 0)) {
+            if (this.totalKilledEnemy >= this.totalEnemyCount || (this.spawnedEnemyCount >= this.totalEnemyCount && gameManager.Instance.enemies.length == 0)) {
                 this.stageClear();
             }
 
@@ -614,10 +529,10 @@ export class gameScript extends Component {
     }
     stageFailed() {
         // remove all enemies
-        this.enemies.forEach(enemy => {
-            enemy.node.destroy();
+        gameManager.Instance.enemies.forEach(enemy => {
+            enemy.destroy();
         });
-        this.enemies = [];
+        gameManager.Instance.enemies = [];
 
         this.isGameStart = false;
         this.subStage--;
@@ -631,7 +546,6 @@ export class gameScript extends Component {
         }
         this.startStage();
     }
-
 
     public createMergeUnit(unitType: UnitType): Node {
         const unit = instantiate(this.mergeUnitPrefabs[unitType]);

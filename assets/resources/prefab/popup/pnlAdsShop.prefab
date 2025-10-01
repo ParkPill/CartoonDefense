@@ -1153,7 +1153,7 @@
     "__prefab": {
       "__id__": 44
     },
-    "Key": "shop",
+    "Key": "buff",
     "_id": ""
   },
   {
@@ -2455,7 +2455,7 @@
     "_string": "광고보고 20분간 자동 합성",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 23,
+    "_actualFontSize": 20,
     "_fontSize": 26,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -2510,7 +2510,7 @@
     "__prefab": {
       "__id__": 100
     },
-    "Key": "",
+    "Key": "auto ads",
     "_id": ""
   },
   {
@@ -2532,7 +2532,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "imgPriceBack",
+    "_name": "btnVideo",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -2724,9 +2724,9 @@
       "__id__": 1
     },
     "component": "",
-    "_componentId": "4e1dbZGZotJhK6Jg0musQr4",
-    "handler": "onBuyClick",
-    "customEventData": "iap.pack.auto"
+    "_componentId": "1c8290SbrtAarOdVEQzyH8k",
+    "handler": "onAutoAds",
+    "customEventData": ""
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -3591,7 +3591,7 @@
     "_string": "광고보고 20분간 자동 합성",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 23,
+    "_actualFontSize": 20,
     "_fontSize": 26,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -3646,7 +3646,7 @@
     "__prefab": {
       "__id__": 149
     },
-    "Key": "",
+    "Key": "predict ads",
     "_id": ""
   },
   {
@@ -3668,7 +3668,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "imgPriceBack",
+    "_name": "btnVideo",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -3860,9 +3860,9 @@
       "__id__": 1
     },
     "component": "",
-    "_componentId": "4e1dbZGZotJhK6Jg0musQr4",
-    "handler": "onBuyClick",
-    "customEventData": "iap.pack.auto"
+    "_componentId": "1c8290SbrtAarOdVEQzyH8k",
+    "handler": "onPredictAds",
+    "customEventData": ""
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -4174,7 +4174,7 @@
     "__prefab": {
       "__id__": 172
     },
-    "Key": "iap.pack.auto desc",
+    "Key": "iap.pack.predict desc",
     "_id": ""
   },
   {
@@ -4730,7 +4730,7 @@
     "_string": "광고보고 20분간 자동 합성",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 23,
+    "_actualFontSize": 20,
     "_fontSize": 26,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -4785,7 +4785,7 @@
     "__prefab": {
       "__id__": 198
     },
-    "Key": "",
+    "Key": "burster ads",
     "_id": ""
   },
   {
@@ -4807,7 +4807,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "imgPriceBack",
+    "_name": "btnVideo",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -4999,9 +4999,9 @@
       "__id__": 1
     },
     "component": "",
-    "_componentId": "4e1dbZGZotJhK6Jg0musQr4",
-    "handler": "onBuyClick",
-    "customEventData": "iap.pack.auto"
+    "_componentId": "1c8290SbrtAarOdVEQzyH8k",
+    "handler": "onBursterAds",
+    "customEventData": ""
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -5313,7 +5313,7 @@
     "__prefab": {
       "__id__": 221
     },
-    "Key": "iap.pack.auto desc",
+    "Key": "iap.pack.burster desc",
     "_id": ""
   },
   {
@@ -5525,8 +5525,8 @@
     "_string": "상점에서 동일 상품 구매시 자동 활성화 됩니다.",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 25,
-    "_fontSize": 34,
+    "_actualFontSize": 22,
+    "_fontSize": 26,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
     "_overflow": 2,
@@ -5967,7 +5967,7 @@
     "fileId": "70SOBvh+lNK4vOFpzPuK3M"
   },
   {
-    "__type__": "4e1dbZGZotJhK6Jg0musQr4",
+    "__type__": "1c8290SbrtAarOdVEQzyH8k",
     "_name": "",
     "_objFlags": 0,
     "__editorExtras__": {},
@@ -5982,7 +5982,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "04hg3xhHlJ55ux2XpOj+lz"
+    "fileId": "e7a2RIF+1I955uTSbI1C4a"
   },
   {
     "__type__": "cc.PrefabInfo",

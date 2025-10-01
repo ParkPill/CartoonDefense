@@ -6,6 +6,7 @@ import { popupBase } from '../popupBase';
 import { languageManager } from '../../languageManager';
 import { gameManager } from '../../gameManager';
 import { serverManager } from '../../serverManager';
+import { admobManager } from '../../admobManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('pnlAdsShop')
@@ -15,12 +16,12 @@ export class pnlAdsShop extends popupBase {
         this.updateUI();
     }
 
-    updateUI(): void{
+    updateUI(): void {
         let content = this.content.getChildByName("sv").getChildByName("view").getChildByName("content");
-        for (let i = 0; i < content.children.length; i++) {
-            let obj = content.children[i];
+        for (let i = 0; i < 3; i++) {
+            let obj = content.getChildByName("btn" + i);
             let lbl = obj.getChildByName("lblVideoDesc").getComponent(Label);
-            
+
             let lastShowVideoTime = this.data.times[0];
             let now = serverManager.Instance.getCurrentTime();
             let twentyMinutes = 60 * 20;
@@ -36,7 +37,7 @@ export class pnlAdsShop extends popupBase {
             }
         }
 
-    
+
     }
 
     update(deltaTime: number) {
@@ -45,6 +46,20 @@ export class pnlAdsShop extends popupBase {
             this.oneSecTimer -= 1;
             this.updateUI();
         }
+    }
+
+    public onAutoAds(): void {
+        admobManager.Instance.showVideo(() => {
+            // 
+        });
+    }
+
+    public onPredictAds(): void {
+        // 
+    }
+
+    public onBursterAds(): void {
+        // 
     }
 }
 

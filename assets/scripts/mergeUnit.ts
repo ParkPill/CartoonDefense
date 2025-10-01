@@ -5,110 +5,19 @@ import { mergeSlot } from './mergeSlot';
 import { dataManager, UnitData } from './dataManager';
 import { enemy } from './enemy';
 import { saveData } from './saveData';
+import { unitBase, UnitType } from './unitBase';
+import { UITransform } from 'cc';
 const { ccclass, property } = _decorator;
 
 
-// C#의 enum과 유사하게 TypeScript enum으로 변환
-export enum UnitType {
-    UNIT_WORKER = 0,
-    UNIT_SWORDMAN = 1,
-    UNIT_ARCHER = 2,
-    UNIT_HELICOPTER = 3,
-    UNIT_GOBLIN = 4,
-    UNIT_GOBLIN_BOMB = 5,
-    UNIT_ORC_AXE = 6,
-    UNIT_ORC_SPEAR = 7,
-    UNIT_CATAPULT = 8,
-    UNIT_TROLL = 9,
-    UNIT_GLOW_TROLL = 10,
-    UNIT_HERO_ORC = 11,
-    UNIT_HERO_GOBLIN = 12,
-    UNIT_HERO_SPEARMAN = 13,
-    UNIT_HERO_LIZARDMAN = 14,
-    UNIT_HERO_ARCHER = 15,
-    UNIT_HERO_WEREWOLF = 16,
-    UNIT_HERO_MONK = 17,
-    UNIT_HERO_FIGHTER = 18,
-    UNIT_HERO_BEAR = 19,
-    UNIT_HERO_HEALER = 20,
-    UNIT_HERO_KNIGHT = 21,
-    UNIT_HERO_ELF_SWORDMAN = 22,
-    UNIT_HERO_ASSASSIN = 23,
-    UNIT_HERO_LION = 24,
-    UNIT_HERO_WIZARD = 25,
-    UNIT_HERO_TANKER = 26,
-    UNIT_HERO_SKELETON = 27,
-    UNIT_HERO_REAPER = 28,
-    UNIT_HERO_ENT = 29,
-    UNIT_HERO_SALAMANDER = 30,
-    UNIT_HERO_UNDINE = 31,
-    UNIT_HERO_LADY_WEREWOLF = 32,
-    UNIT_HERO_LADY_LION = 33,
-    UNIT_HERO_LADY_BEAR = 34,
-    UNIT_HERO_SANTA = 35,
-    UNIT_HERO_RUDOLPH = 36,
-    UNIT_HERO_SANTADOG = 37,
-    UNIT_HERO_PENGUIN = 38,
-    UNIT_HERO_CATINBOOTS = 39,
-    UNIT_HERO_MOLE = 40,
-    UNIT_HERO_TOYMOUSE = 41,
-    UNIT_HERO_SAVAGEARCHER = 42,
-    UNIT_HERO_BATMONSTER = 43,
-    UNIT_HERO_MEMEAT = 44,
-    UNIT_HERO_PARASITE = 45,
-    UNIT_HERO_WATERMELON = 46,
-    UNIT_HERO_BABYMINO = 47,
-    UNIT_HERO_MINO = 48,
-    UNIT_HERO_KERBEROS = 49,
-    UNIT_HERO_LAMIA = 50,
-    UNIT_HERO_CHUNJA = 51,
-    UNIT_HERO_GOLEM = 52,
-    // UNIT_BARRACKS = 11,
-    // UNIT_CASTLE = 12,
-    // UNIT_FACTORY = 13,
-    // UNIT_FARM = 14,
-    // UNIT_LUMBERMILL = 15,
-    // UNIT_MINE = 16,
-    // UNIT_WATCHERTOWER = 17,
-    // UNIT_METEOR = 18,
-    // UNIT_MISSILE_STRAIGHT = 19,
-    // UNIT_MISSILE_CHASING = 20,
-    // UNIT_DESTRUCTABLE = 21,
-    // UNIT_MISSILE_CUSTOM = 22,
-    // UNIT_MISSILE_Movable = 23,
-    // UNIT_ITEM = 24,
-    // UNIT_NPC = 25,
-    // UNIT_TREE = 26,
-    // UNIT_ORC_BUNKER = 28,
-    // UNIT_ORC_HQ = 29,
-    // UNIT_ZOMBIE_ORC_AXE = 30,
-    // UNIT_ZOMBIE_SWORDSMAN = 31,
-    // UNIT_ZOMBIE_CASTLE = 32,
-    // UNIT_ZOMBIE_HQ = 33,
-    // UNIT_LAMINGTON = 34,
-    // UNIT_UNREACHABLE_TREE = 35,
-    // UNIT_START_POINT = 36,
-    // UNIT_EVENT_POINT = 37,
-    // UNIT_UNDERGROUND_BUNKER = 38,
-    // UNIT_TRIGGER = 39,
-    // UNIT_WIZARD = 40,
-    // UNIT_TEMPLE = 41,
-    // UNIT_ORC_BARRACKS = 42,
-    // UNIT_ORC_TROLL_HOUSE = 43,
-    // UNIT_TREE_FOR_BATTLE = 44,
-    // UNIT_GOBLIN_WORKER = 45,
-    // UNIT_BARBECUE = 46,
-    UNIT_MISSILE_NOTHING = 100
-}
 @ccclass('mergeUnit')
-export class mergeUnit extends Component {
+export class mergeUnit extends unitBase {
+    public onSlotChange: (() => void) | null = null;
     // @property({ type: UnitType })
     // public unitType: UnitType = UnitType.UNIT_WORKER;
     @property({ type: Enum(UnitType) })
     public unitType: UnitType = UnitType.UNIT_WORKER;
-    @property({ type: CCInteger })
-    public damage: number = 10;
-    public HP: number = 100;
+    public starCount: number = 0;
 
     @property({ type: Node })
     public modelContainer: Node = null;
@@ -130,10 +39,12 @@ export class mergeUnit extends Component {
     shootInterval: number = 1;
     shootTime: number = 0;
 
+
     @property({ type: Prefab })
-    public projectilePrefab: Prefab = null;
-    @property
-    public onDead: ((deadUnit: mergeUnit) => void) | null = null;
+    public projectilePrefab0: Prefab = null;
+    @property({ type: Prefab })
+    public projectilePrefab1: Prefab = null;
+
 
     isChest: boolean = false;
     chestNode: Node = null;
@@ -176,7 +87,7 @@ export class mergeUnit extends Component {
         this.damage = data.Damage + extraDamage;
         this.HP = data.HP + extraHP;
     }
-    public setData(data: UnitData): void {
+    public override setData(data: UnitData): void {
         this.damage = data.Damage;
         this.HP = data.HP;
         let spineName = mergeUnit.getSpineName(data);
@@ -285,50 +196,45 @@ export class mergeUnit extends Component {
         return this.isPredictive || (this.unitType >= UnitType.UNIT_HERO_ORC && Math.random() < 0.7);
     }
     getTarget(): Node {
-        if (gameManager.Instance.theGameScript.enemies.length == 0) {
+        if (gameManager.Instance.enemies.length == 0) {
             return null;
         }
-        let enemy = gameManager.Instance.theGameScript.enemies[0];
+        let enemy = gameManager.Instance.enemies[0];
         // console.log("enemy.reservedDamage1 " + enemy.reservedDamage + " enemies.length " + gameManager.Instance.theGameScript.enemies.length);
         let enemyFound = false;
-        if (enemy == null || enemy.getCurrentHealth() <= 0 || (this.canPredict() && enemy.reservedDamage >= enemy.getCurrentHealth())) {
-            for (let i = 0; i < gameManager.Instance.theGameScript.enemies.length; i++) {
+        let unit = enemy.getComponent(unitBase);
+        if (enemy == null || unit.HP <= 0 || (this.canPredict() && unit.reservedDamage >= unit.HP)) {
+            for (let i = 0; i < gameManager.Instance.enemies.length; i++) {
                 // console.log("enemy.reservedDamage2", enemy.reservedDamage);
-                enemy = gameManager.Instance.theGameScript.enemies[i]
-                if (enemy.getCurrentHealth() > 0 && (this.canPredict() && enemy.reservedDamage < enemy.getCurrentHealth())) {
+                enemy = gameManager.Instance.enemies[i]
+                unit = enemy.getComponent(unitBase);
+                if (unit.HP > 0 && (this.canPredict() && unit.reservedDamage < unit.HP)) {
                     enemyFound = true;
                     break;
                 }
             }
             if (!enemyFound) {
-                console.log("enemyFound false");
+                // console.log("enemyFound false");
                 return null;
             }
         }
-        return enemy.node;
+        return enemy;
     }
 
-    public takeDamage(damage: number): void {
-        this.HP -= damage;
-        if (this.HP <= 0) {
-            this.onDeadCallback();
-            this.node.destroy();
-        }
-    }
-
-    private onDeadCallback(): void {
-        if (this.onDead) {
-            this.onDead(this);
-        }
+    public override takeDamage(damage: number): void {
+        super.takeDamage(damage);
     }
 
 
     public spawnProjectile(target: Node): void {
         // console.log("spawnProjectile");
-        const prj = instantiate(this.projectilePrefab);
+        let projectilePrefab = this.projectilePrefab0;
+        if (this.unitType == UnitType.UNIT_HERO_ARCHER) projectilePrefab = this.projectilePrefab1;
+        const prj = instantiate(projectilePrefab);
         prj.setParent(this.aboveNode);
         prj.setWorldPosition(this.node.worldPosition);
         prj.getComponent(projectile).damage = this.damage;
+        if (this.unitType == UnitType.UNIT_ARCHER || this.unitType == UnitType.UNIT_HERO_ARCHER) prj.getComponent(projectile).extraRotation = -90;
         // console.log("spawnProjectile unit:" + this.unitType + " damage:" + this.damage);
 
         if (target != null) prj.getComponent(projectile).setTarget(target);
@@ -366,7 +272,7 @@ export class mergeUnit extends Component {
             return;
         }
         this.isDragging = true;
-        this.dragStartPosition = event.getLocation().toVec3();
+        this.dragStartPosition = event.getUILocation().toVec3();
         this.originalPosition = this.node.position.clone();
 
         // 드래그 중일 때 시각적 피드백 (예: 투명도 변경)
@@ -376,27 +282,28 @@ export class mergeUnit extends Component {
     private onTouchMove(event: EventTouch): void {
         if (!this.isDragging) return;
 
-        const currentPosition = event.getLocation().toVec3();
+        const currentPosition = event.getUILocation().toVec3();
         const deltaPosition = Vec3.subtract(new Vec3(), currentPosition, this.dragStartPosition);
         this.node.position = Vec3.add(new Vec3(), this.originalPosition, deltaPosition);
     }
 
     private onTouchEnd(event: EventTouch): void {
+        console.log("position", event.getUILocation());
         if (!this.isDragging) return;
 
         this.isDragging = false;
         this.node.setScale(1.0, 1.0, 1.0);
 
         // 드롭된 위치에서 mergeSlot 찾기
-        console.log("event.getLocation().toVec3().toVec2()", event.getLocation().toVec3().toVec2());
+
 
         let targetSlot;
 
         if (this.unitType >= UnitType.UNIT_HERO_ORC) {
-            targetSlot = this.findHeroSlot(event.getLocation().toVec3().toVec2());
+            targetSlot = this.findHeroSlot(event.getUILocation());
         }
         else {
-            targetSlot = this.findMergeSlot(event.getLocation().toVec3().toVec2());
+            targetSlot = this.findMergeSlot(event.getUILocation());
         }
 
         if (targetSlot) {
@@ -408,7 +315,7 @@ export class mergeUnit extends Component {
     }
 
     private findHeroSlot(position: Vec2): mergeSlot | null {
-        const mergeSlots = gameManager.Instance.theGameScript.heroSlotArray;
+        const mergeSlots = gameManager.Instance.heroSlotArray;
         for (let i = 0; i < mergeSlots.length; i++) {
             let slot = mergeSlots[i];
             const slotWorldPos = slot.node.getWorldPosition().toVec2();
@@ -422,13 +329,13 @@ export class mergeUnit extends Component {
 
     private findMergeSlot(position: Vec2): mergeSlot | null {
         // 드롭 위치 근처의 mergeSlot 찾기
-        const mergeSlots = gameManager.Instance.theGameScript.mergeSlotArray;
-
+        const mergeSlots = gameManager.Instance.mergeSlotArray;
         for (const slot of mergeSlots) {
             // mergeSlot의 월드 좌표 구하기
             const slotWorldPos = slot.node.getWorldPosition().toVec2();
-            const distance = Vec2.distance(position, slotWorldPos);
-            if (distance < 50) { // 100 픽셀 이내
+            let rect = slot.node.getComponent(UITransform).getBoundingBoxToWorld();
+            // const distance = Vec2.distance(position, slotWorldPos);
+            if (rect.contains(position)) {
                 return slot;
             }
         }
@@ -438,6 +345,7 @@ export class mergeUnit extends Component {
 
     private tryDropToMergeSlot(targetSlot: mergeSlot): void {
 
+        console.log("tryDropToMergeSlot this:", this);
         if (this.currentSlot == targetSlot) {
             this.node.position = this.originalPosition;
             return;
@@ -446,8 +354,15 @@ export class mergeUnit extends Component {
         // mergeSlot이 비어있는 경우
         if (targetSlot.currentUnit == null) {
             // 드래그한 유닛을 해당 슬롯에 배치
+            targetSlot.currentUnit = this.node;
+            if (this.currentSlot != null) { // 기존 슬롯의 유닛 등록 해제
+                this.currentSlot.currentUnit = null;
+            }
+            this.currentSlot = targetSlot;
+
             targetSlot.setMergeUnit(this.node);
-            gameManager.Instance.theGameScript.saveMergeUnit();
+            this.currentSlot = targetSlot;
+            this.onSlotChange?.();
             return;
         }
 
@@ -468,28 +383,33 @@ export class mergeUnit extends Component {
             this.node.position = this.originalPosition;
             return;
         }
-        this.currentSlot.currentUnit = null;
-        targetSlot.currentUnit = null;
         if (newUnitType >= UnitType.UNIT_HERO_ORC) {
-            let heroSlot = gameManager.Instance.theGameScript.getHeroSlot();
+            let heroSlot = gameManager.Instance.getHeroSlot();
             if (heroSlot == null) {
                 this.node.position = this.originalPosition;
                 return;
             }
             this.node.destroy();
             existingUnit.node.destroy();
-            gameManager.Instance.theGameScript.spawnHero(heroSlot, newUnitType);
+            let spawnedNode = gameManager.Instance.spawnHero(heroSlot, newUnitType);
+            let theUnit = spawnedNode.getComponent(mergeUnit);
+            theUnit.currentSlot = heroSlot;
+
             return;
         }
+        this.currentSlot.currentUnit = null;
+        targetSlot.currentUnit = null;
         // 새로운 유닛 생성 및 배치
         // const newUnit = gameManager.Instance.theGameScript.createMergeUnit(newUnitType);
         // targetSlot.setMergeUnit(newUnit);
-        gameManager.Instance.theGameScript.spawnMergeUnit(targetSlot, newUnitType);
+        let spawnedNode = gameManager.Instance.spawnMergeUnit(targetSlot, newUnitType);
+        let theUnit = spawnedNode.getComponent(mergeUnit);
+        theUnit.currentSlot = targetSlot;
 
         // 기존 두 유닛 제거
         this.node.destroy();
         existingUnit.node.destroy();
-        gameManager.Instance.theGameScript.saveMergeUnit();
+        gameManager.Instance.saveMergeUnit();
     }
 
     private getNextUnitType(currentType: UnitType): UnitType | null {

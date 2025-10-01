@@ -1,7 +1,8 @@
 import { _decorator, Button, Color, Component, instantiate, Label, Node, Prefab, resources, sp, Sprite } from 'cc';
 import { popupBase } from '../popupBase';
 import { popupManager } from '../popupManager';
-import { mergeUnit, UnitType } from '../../mergeUnit';
+import { mergeUnit } from '../../mergeUnit';
+import { UnitType } from '../../unitBase';
 import { dataManager } from '../../dataManager';
 import { gameManager } from '../../gameManager';
 import { glowingSprite } from '../../glowingSprite';

@@ -1,4 +1,4 @@
-import { saveData } from "./saveData";
+// import { saveData } from "./saveData";
 
 // 플레이어 데이터 클래스
 export class playerData {
@@ -150,7 +150,7 @@ export class playerData {
             for (let i = this.tickets.length; i <= dungeonIndex; i++) {
                 this.tickets.push(this.defaultTicketCount);
             }
-            saveData.Instance.save();
+            // saveData.Instance.save();
         }
 
         return this.tickets[dungeonIndex];
@@ -158,7 +158,7 @@ export class playerData {
     public spendTicket(dungeonIndex: number): void {
         if (this.tickets[dungeonIndex] > 0) {
             this.tickets[dungeonIndex]--;
-            saveData.Instance.save();
+            // saveData.Instance.save();
         }
     }
     public getDungeonLevel(dungeonIndex: number): number {

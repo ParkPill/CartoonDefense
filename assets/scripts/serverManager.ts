@@ -1,5 +1,5 @@
 import { _decorator, Component, director, Node, sys } from 'cc';
-import { saveData } from './saveData';
+// import { saveData } from './saveData';
 const { ccclass, property } = _decorator;
 
 // API 응답 인터페이스
@@ -108,23 +108,21 @@ export class serverManager extends Component {
 
     public async getPost(): Promise<ApiResponse> {
         console.log("get post");
-        let pData = saveData.Instance.data;
+        // let pData = saveData.Instance.data;
         let msg = "0";
         return await this.post("/post", msg);
     }
-    public async setPost(): Promise<ApiResponse> {
+    public async setPost(pId: string): Promise<ApiResponse> {
         console.log("set post");
-        let pData = saveData.Instance.data;
-        let msg = "1," + pData._id;
+        // let pData = saveData.Instance.data;
+        let msg = "1," + pId;
         return await this.post("/post", msg);
     }
 
 
     public async log(message: string): Promise<ApiResponse> {
         console.log("log: ", message);
-        let pData = saveData.Instance.data;
-        let msg = pData.nickname + "," + pData.idx + "," + message;
-        return await this.post("/log", msg);
+        return await this.post("/log", message);
     }
 
     /**

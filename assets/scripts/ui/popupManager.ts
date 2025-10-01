@@ -42,12 +42,12 @@ export class popupManager extends Component {
 
     public openPopup(popupName: string, param: any = null, callback: (pBase: popupBase) => void = null) {
         console.log(popupName);
-        console.log(`prefab/popup/${popupName}`);
+        // console.log(`prefab/popup/${popupName}`);
         resources.load(`prefab/popup/${popupName}`, Prefab, (err, prefab) => {
-            console.log('prefab', prefab, popupName, param);
+            // console.log('prefab', prefab, popupName, param);
             let popupNode = instantiate(prefab);
             let canvasNode = this.node.scene.getChildByName('Canvas');
-            popupNode.setParent(canvasNode.getChildByName('UI'));
+            popupNode.setParent(canvasNode.getChildByName('UI').getChildByName('Popup'));
             this.popupBaseList.push(popupNode.getComponent(popupBase));
             let pBase = popupNode.getComponent(popupBase);
             pBase.open(param);
@@ -65,9 +65,9 @@ export class popupManager extends Component {
     }
     public getPopup(popupName: string): popupBase {
         for (let i = 0; i < this.popupBaseList.length; i++) {
-            console.log("popupBaseList[i].name:" + this.popupBaseList[i].name);
+            // console.log("popupBaseList[i].name:" + this.popupBaseList[i].name);
             if (this.popupBaseList[i].name === popupName + "<" + popupName + ">") {
-                console.log("find popupBase:" + this.popupBaseList[i]);
+                // console.log("find popupBase:" + this.popupBaseList[i]);
                 return this.popupBaseList[i];
             }
         }

@@ -1,32 +1,26 @@
 import { _decorator, Component, Node, Vec2, tween, Sprite, UIOpacity, Label, UITransform, Animation } from 'cc';
-import { EnemyData } from './dataManager';
-import { mergeUnit } from './mergeUnit';
+// import { mergeUnit } from './mergeUnit';
 import { gameManager } from './gameManager';
+import { unitBase } from './unitBase';
+import { UnitData } from './dataManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('enemy')
-export class enemy extends Component {
+export class enemy extends unitBase {
     @property({ type: [Vec2] })
     public routeArray: Vec2[] = [];
 
     @property
     public onMovementComplete: (() => void) | null = null;
 
-    @property
-    public onDead: ((deadEnemy: enemy) => void) | null = null;
 
     @property
-    public maxHealth: number = 100;
-    @property
-    private currentHealth: number = 0;
     @property
     public isRouteMove: boolean = true;
     private currentRouteIndex: number = 0;
     private isMoving: boolean = false;
-    private isDead: boolean = false;
     public speed: number = 80;
-    public data: EnemyData;
-    public reservedDamage: number = 0;
+    public data: UnitData;
     @property(Node)
     public target: Node;
     attackRange: number = 50;
@@ -41,7 +35,7 @@ export class enemy extends Component {
     actionTimer: number = 0;
     public isReady: boolean = false;
     start() {
-        this.currentHealth = this.maxHealth;
+        this.HP = this.maxHP;
         // this.createHPBar();
         if (this.isRouteMove) {
             this.startMovement();
@@ -57,7 +51,7 @@ export class enemy extends Component {
                 if (!this.target) this.findTarget();
 
             }
-            if (this.target == null || this.target == undefined || !this.target.isValid || (this.target.getComponent(mergeUnit) && this.target.getComponent(mergeUnit).HP <= 0)) {
+            if (this.target == null || this.target == undefined || !this.target.isValid || this.target.getComponent(unitBase).HP <= 0) {
                 this.target = null;
             }
             if (this.target) {
@@ -95,23 +89,23 @@ export class enemy extends Component {
             this.isAttacking = false;
         }, duration);
         this.scheduleOnce(() => {
-            this.target.getComponent(mergeUnit).takeDamage(this.damage);
+            this.target.getComponent(unitBase).takeDamage(this.damage);
         }, 8 / 60);
     }
     private findTarget(): void {
         // 가장 가까운 히어로를 찾기
         let currentPos = this.node.getWorldPosition();
-        let gScript = gameManager.Instance.theGameScript;
+
         let minDistance = Number.MAX_SAFE_INTEGER
-        gScript.heroList.forEach(hero => {
-            if (hero.node == null || hero.node == undefined || !hero.node.isValid || (hero.node.getComponent(mergeUnit) && hero.node.getComponent(mergeUnit).HP <= 0)) {
+        gameManager.Instance.heroList.forEach(hero => {
+            if (hero == null || hero == undefined || !hero.isValid || hero.getComponent(unitBase).HP <= 0) {
 
             }
             else {
-                let distance = Vec2.distance(currentPos, hero.node.getWorldPosition());
+                let distance = Vec2.distance(currentPos, hero.getWorldPosition());
                 if (distance < minDistance) {
                     minDistance = distance;
-                    this.target = hero.node;
+                    this.target = hero;
                 }
 
             }
@@ -176,57 +170,51 @@ export class enemy extends Component {
         }
     }
 
-    public takeDamage(damage: number): void {
+    public override takeDamage(damage: number): void {
         // console.log("enemy takeDamage" + damage + ' currentHealth' + this.currentHealth);
-        if (this.isDead) {
-            return;
-        }
+        super.takeDamage(damage);
 
-        this.currentHealth -= damage;
-        this.reservedDamage -= damage;
+
+        // this.HP -= damage;
+        // this.reservedDamage -= damage;
 
         // HP 바 업데이트
         this.updateHPBar();
 
-        if (this.currentHealth <= 0) {
-            this.currentHealth = 0;
-            this.die();
-        }
+        // if (this.HP <= 0) {
+        //     this.HP = 0;
+        //     this.die();
+        // }
     }
 
-    private die(): void {
-        if (this.isDead) {
-            return;
-        }
-        // console.log("enemy die");
+    // private die(): void {
+    //     if (this.isDead) {
+    //         return;
+    //     }
+    //     // console.log("enemy die");
 
-        this.isDead = true;
-        this.onDeadCallback();
+    //     this.isDead = true;
+    //     // this.onDeadCallback();
 
-        this.node.destroy();
-    }
+    //     this.node.destroy();
+    // }
 
-    private onDeadCallback(): void {
-        if (this.onDead) {
-            this.onDead(this);
-        }
-    }
 
     public getCurrentHealth(): number {
-        return this.currentHealth;
+        return this.HP;
     }
 
     public getMaxHealth(): number {
-        return this.maxHealth;
+        return this.maxHP;
     }
     public setHP(hp: number) {
-        this.currentHealth = hp;
-        this.maxHealth = hp;
+        this.HP = hp;
+        this.maxHP = hp;
     }
 
     public isAlive(): boolean {
         // console.log("enemy isAlive", this.isDead, this.currentHealth);
-        return !this.isDead && this.currentHealth > 0;
+        return !this.isDead && this.HP > 0;
     }
 
     private createHPBar(): void {
@@ -260,7 +248,7 @@ export class enemy extends Component {
             this.hpBarLabel.setPosition(0, -15, 0);
         }
 
-        const healthPercentage = this.currentHealth / this.maxHealth;
+        const healthPercentage = this.HP / this.maxHP;
         const hpBarWidth = 49; // HP 바 전체 너비
 
         // HP 바 채우기 크기 조정

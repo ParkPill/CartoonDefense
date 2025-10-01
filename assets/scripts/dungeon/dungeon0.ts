@@ -71,8 +71,8 @@ export class dungeon0 extends Component {
                 if (this.totalTrollCount <= 0) {
                     this.gameOver(true);
                 }
-                let gScript = gameManager.Instance.theGameScript;
-                gScript.enemies.splice(gScript.enemies.indexOf(deadTroll), 1);
+                let gScript = gameManager.Instance.theGameScript.getComponent(gameScript);
+                gameManager.Instance.enemies.splice(gameManager.Instance.enemies.indexOf(deadTroll.node), 1);
                 deadTroll.node.destroy();
             }
             this.trollList.push(trollComponent);
@@ -113,11 +113,11 @@ export class dungeon0 extends Component {
         for (let i = 0; i < this.trollList.length; i++) {
             this.trollList[i].isReady = true;
         }
-        let gScript = gameManager.Instance.theGameScript;
-        this.heroCount = gScript.heroList.length;
+        let gScript = gameManager.Instance.theGameScript.getComponent(gameScript);
+        this.heroCount = gameManager.Instance.heroList.length;
         // console.log("heroCount", this.heroCount);
-        for (let i = 0; i < gScript.heroList.length; i++) {
-            gScript.heroList[i].onDead = (deadUnit: mergeUnit) => {
+        for (let i = 0; i < gameManager.Instance.heroList.length; i++) {
+            gameManager.Instance.heroList[i].getComponent(mergeUnit).onDead = (deadUnit: mergeUnit) => {
                 this.heroCount--;
                 // console.log("heroCount", this.heroCount);
                 if (this.heroCount <= 0) {
@@ -127,7 +127,7 @@ export class dungeon0 extends Component {
         }
 
         for (let i = 0; i < this.trollList.length; i++) {
-            gScript.enemies.push(this.trollList[i]);
+            gameManager.Instance.enemies.push(this.trollList[i].node);
         }
 
     }
