@@ -213,7 +213,7 @@ export class gameScript extends Component {
         //         console.log("data[i]: ", data[i].toString());
         //     }
         // });
-        let iapManagerInstance = iapManager.Instance;
+        // let iapManagerInstance = iapManager.Instance;
 
 
         // init done

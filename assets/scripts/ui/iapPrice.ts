@@ -11,6 +11,7 @@ export class iapPrice extends Component {
     start() {
         console.log("iapPrice start: ", iapManager.Instance.ProductList);
         this.updatePrice();
+        iapManager.Instance.PriceRegisteredDelegate = this.onIAPPriceRegistered;
 
     }
 
@@ -22,6 +23,20 @@ export class iapPrice extends Component {
         let product = iapManager.Instance.ProductList.find(product => product.zzc === this.iapID);
         this.lblPrice.string = product?.oneTimePurchaseOfferDetails?.formattedPrice || "0";
         console.log("iapPrice updatePrice: ", product?.oneTimePurchaseOfferDetails?.formattedPrice);
+    }
+
+    public onIAPPriceRegistered(result: string, data: any) {
+        console.log("iapPrice onIAPPriceRegistered: ", result, data);
+        if (result === "success") {
+            for (let i = 0; i < data.length; i++) {
+                let product = data[i];
+                console.log("iapPrice onIAPPriceRegistered: ", product);
+                if (product.zzc === this.iapID) {
+                    this.updatePrice();
+                }
+            }
+
+        }
     }
 
 }

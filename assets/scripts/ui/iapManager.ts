@@ -42,6 +42,9 @@ export class iapManager extends Component {
     private _purchaseCallback: PurchaseCallback | null = null;
     private _productListCallback: ProductListCallback | null = null;
     public ProductList: ProductDetails[] = [];
+    public LogDelegate: any = null;
+    public PriceRegisteredDelegate: any = null;
+    public static isInitialized: boolean = false;
 
     public static get Instance(): iapManager {
         if (!iapManager._instance) {
@@ -64,19 +67,40 @@ export class iapManager extends Component {
             return;
         }
 
-        if (iapManager._instance && iapManager._instance !== this) {
-            this.destroy();
-            return;
-        }
+        // if (iapManager._instance && iapManager._instance !== this) {
+        //     this.destroy();
+        //     return;
+        // }
         iapManager._instance = this;
         game.addPersistRootNode(this.node);
 
         console.log("dataManager.Instance.shopInfoList: ", dataManager.Instance.shopInfoList);
 
+
+        console.log("iapManager onLoad: ");
+        // native.bridge.onNative를 사용하여 네이티브 이벤트 리스너 등록
+        native.bridge.onNative = (eventName: string, jsonParams: string) => {
+            const params = JSON.parse(jsonParams);
+            switch (eventName) {
+                case 'onPurchaseResult':
+                    this.onPurchaseResult(params, params);
+                    break;
+                case 'onProductDetailsResult':
+                    this.onProductDetailsResult(params, params);
+                    break;
+                default:
+                    console.warn(`Unknown native event: ${eventName}`);
+                    break;
+            }
+        };
+
+    }
+    public requestProducts() {
         this.requestProductList(dataManager.Instance.shopInfoList.map(shop => shop.ID), (result, data) => {
             console.log("requestProductList: ");
             console.log("result: ", result);
             console.log("data: ", data);
+            this.LogDelegate("requestProducts", result + " " + data);
 
             if (result === 'success' && Array.isArray(data)) {
                 console.log("data length: ", data.length);
@@ -110,28 +134,24 @@ export class iapManager extends Component {
                     }
                     this.ProductList.push(product);
                 }
+                this.PriceRegisteredDelegate("success", this.ProductList);
             } else {
                 console.log("Failed to get product list or data is not array: " + result + "/data: " + data);
             }
         });
+    }
 
-        console.log("iapManager onLoad: ");
-        // native.bridge.onNative를 사용하여 네이티브 이벤트 리스너 등록
-        native.bridge.onNative = (eventName: string, jsonParams: string) => {
-            const params = JSON.parse(jsonParams);
-            switch (eventName) {
-                case 'onPurchaseResult':
-                    this.onPurchaseResult(params, params);
-                    break;
-                case 'onProductDetailsResult':
-                    this.onProductDetailsResult(params, params);
-                    break;
-                default:
-                    console.warn(`Unknown native event: ${eventName}`);
-                    break;
-            }
-        };
+    public init() {
+        console.log("iapManager init: ");
+        iapManager.isInitialized = true;
 
+        // AppActivity.java의 static 메서드 initIAP 호출
+        native.reflection.callStaticMethod(
+            'com/cocos/game/AppActivity',
+            'initIAP',
+            '()V',
+            ''
+        );
     }
 
     /**
@@ -167,6 +187,7 @@ export class iapManager extends Component {
      * @param sku 구매된 상품의 SKU (또는 에러 코드)
      */
     public onPurchaseResult(result: string, sku: string) {
+        this.LogDelegate("onPurchaseResult", result + " " + sku);
         if (this._purchaseCallback) {
             this._purchaseCallback(result, sku);
         } else {
