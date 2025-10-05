@@ -12,6 +12,7 @@ import { heroSlot } from './heroSlot';
 import { serverManager } from './serverManager';
 import { popupManager } from './ui/popupManager';
 import { pnlCreateUser } from './ui/popup/pnlCreateUser';
+import { iapManager } from './ui/iapManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('gameScript')
@@ -120,6 +121,8 @@ export class gameScript extends Component {
         gameManager.Instance.unitNode = this.unitNode;
         gameManager.Instance.aboveNode = this.aboveNode;
         gameManager.Instance.data = this.data;
+        gameManager.Instance.unitSpriteFrame = this.unitSpriteFrame;
+        gameManager.Instance.updateStats = this.updateStats;
 
         // 씬 이름이 game인지 확인
         this.isDungeon = this.node.scene.name !== "game";
@@ -199,8 +202,23 @@ export class gameScript extends Component {
             this.data.gold = 100;
         }
         saveData.Instance.save();
+
+
+        // let myProductIds = dataManager.Instance.shopInfoList.map(shop => shop.ID);
+        // iapManager.Instance.requestProductList(myProductIds, (result, data) => {
+        //     console.log("result: ", result);
+        //     console.log("data: ", data);
+        //     console.log("data: ", data.length);
+        //     for (let i = 0; i < data.length; i++) {
+        //         console.log("data[i]: ", data[i].toString());
+        //     }
+        // });
+        let iapManagerInstance = iapManager.Instance;
+
+
         // init done
     }
+
     loadUnits() {
         console.log("로드 유닛 시작");
         if (!this.isDungeon) {

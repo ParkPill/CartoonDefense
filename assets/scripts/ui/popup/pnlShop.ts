@@ -7,6 +7,7 @@ import { languageManager } from '../../languageManager';
 import { gameManager } from '../../gameManager';
 import { serverManager } from '../../serverManager';
 import { gameScript } from '../../gameScript';
+import { iapManager } from '../iapManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('pnlShop')
@@ -23,7 +24,7 @@ export class pnlShop extends popupBase {
             let obj = content.children[i];
             let productID = obj.name;
             let indexOfItem = dataManager.Instance.getShopItemIndex(productID);
-            console.log("productID: ", productID, "indexOfItem: ", indexOfItem);
+            // console.log("productID: ", productID, "indexOfItem: ", indexOfItem);
             let sData = dataManager.Instance.shopInfoList[indexOfItem];
             let isAllBought = false;
             let lblBuy = obj.getChildByName("lblBuy").getComponent(Label);
@@ -55,6 +56,7 @@ export class pnlShop extends popupBase {
 
     public async onBuyClick(event: Event, customEventData: string) {
         let sData = dataManager.Instance.shopInfoList.find(shop => shop.ID === customEventData);
+        console.log("onBuyClick sData: ", sData.ID);
         if (!sData) {
             popupManager.Instance.showToastMessage("not found shop item");
             return;
@@ -93,11 +95,15 @@ export class pnlShop extends popupBase {
     async buyItem(sData: ShopData) {
         try {
             let priceDataArray = sData.PriceData.split('-');
-
+            console.log("price data: " + sData.PriceData);
             if (priceDataArray[0] === "gem" && parseInt(priceDataArray[1]) > this.data.gem) {
                 popupManager.Instance.showToastMessage("not enough currency");
                 return;
             }
+            const productId = sData.ID; // Google Play Console에 등록한 상품 ID
+            console.log("iapManager start productId: ", productId);
+            console.log("iapManager Instance: ", iapManager.Instance);
+            iapManager.Instance.requestPurchase(productId, this.handlePurchaseResult.bind(this)); // test now
 
             // serverManager.log 함수의 결과 값을 받아서 처리
             let msg = this.data.nickname + "," + this.data.idx + "," + "buy " + sData.ID;
@@ -111,8 +117,11 @@ export class pnlShop extends popupBase {
                     this.handleBuySuccess(sData);
                 }
                 else if (priceDataArray[0] === "$") {
-
+                    const productId = sData.ID; // Google Play Console에 등록한 상품 ID
+                    console.log("iapManager productId: ", productId);
+                    iapManager.Instance.requestPurchase(productId, this.handlePurchaseResult.bind(this));
                 }
+
 
 
             } else {
@@ -122,6 +131,32 @@ export class pnlShop extends popupBase {
         } catch (error) {
             console.error("구매 로그 전송 중 오류:", error);
             popupManager.Instance.showToastMessage("로그 전송 오류");
+        }
+    }
+    // 결제 결과 처리
+    handlePurchaseResult(result: string, sku: string) {
+
+        switch (result) {
+            case 'success':
+                console.log(`Purchase successful for SKU: ${sku}`);
+                popupManager.Instance.showToastMessage("buy success");
+                // 성공 로직: 아이템 지급, UI 갱신 등
+                break;
+            case 'user_canceled':
+                console.log('User canceled the purchase.');
+                popupManager.Instance.showToastMessage("buy canceled");
+                // 취소 로직
+                break;
+            case 'pending':
+                console.log('Purchase is pending.');
+                popupManager.Instance.showToastMessage("buy pending");
+                // 보류 로직
+                break;
+            case 'error':
+                console.error(`Purchase failed with SKU: ${sku}`);
+                popupManager.Instance.showToastMessage("buy failed");
+                // 실패 로직
+                break;
         }
     }
 

@@ -7,6 +7,8 @@ import { playerData } from './playerData';
 import { unitBase } from './unitBase';
 import { tween } from 'cc';
 import { saveData } from './saveData';
+import { UnitType } from './unitBase';
+import { SpriteFrame } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('gameManager')
@@ -29,6 +31,7 @@ export class gameManager extends Component {
     public theGameScript: Node = null;
     public heroList: Node[] = [];
     public enemies: Node[] = [];
+    public unitSpriteFrame: SpriteFrame[] = [];
     @property({ type: [mergeSlot] })
     public mergeSlotArray: mergeSlot[] = [];
 
@@ -45,6 +48,8 @@ export class gameManager extends Component {
     @property({ type: Node })
     public aboveNode: Node = null;
     public data: playerData = null;
+
+    public updateStats: () => void = null;
 
     public static get Instance(): gameManager {
         if (!gameManager._instance) {
@@ -278,8 +283,8 @@ export class gameManager extends Component {
         spine.setAnimation(0, "idle", true);
     }
     public getPredict(unitIndex: number): number {
-        if (unitIndex < 11) {
-            return 0;
+        if (unitIndex < UnitType.UNIT_GLOW_TROLL) {
+            return 30;
         }
         return 70;
     }

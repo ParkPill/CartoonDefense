@@ -1,14 +1,18 @@
 {
   "__version__": "3.0.9",
   "game": {
-    "name": "UNKNOW GAME",
-    "app_id": "UNKNOW",
-    "c_id": "0"
+    "app_id": "693037112",
+    "c_id": "0",
+    "name": "Bonk Defense"
   },
   "appConfigMaps": [
     {
       "app_id": "UNKNOW",
       "config_id": "60b511"
+    },
+    {
+      "app_id": "693037112",
+      "config_id": "9372ea"
     }
   ],
   "configs": [
@@ -17,6 +21,20 @@
       "config_id": "60b511",
       "config_name": "Default",
       "config_remarks": "",
+      "services": []
+    },
+    {
+      "app_id": "693037112",
+      "config_id": "ba8150",
+      "config_name": "Default",
+      "config_remarks": "",
+      "services": []
+    },
+    {
+      "app_id": "693037112",
+      "config_id": "9372ea",
+      "config_name": "bonk defense config",
+      "config_remarks": "cartoon tower defense",
       "services": []
     }
   ]

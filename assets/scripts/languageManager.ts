@@ -43,7 +43,7 @@ export class languageManager extends Component {
 
     loadLanguage() {
         this.currentLanguage = navigator.language.includes("ko") ? "Korean" : "English";
-        console.log("LanguageManager LoadTSV1");
+        // console.log("LanguageManager LoadTSV1");
         const alternatePrefix = "29ffkkdjel_";
         const alternateList: string[] = [];
 
@@ -57,7 +57,7 @@ export class languageManager extends Component {
             let wholeText = textAsset.text;
             let alternateCount = 0;
 
-            console.log("LanguageManager load: " + wholeText);
+            // console.log("LanguageManager load: " + wholeText);
             // 처리: 따옴표를 특수 접두어로 대체
             if (wholeText.includes("\"")) {
                 let inspectStartIndex = 0;

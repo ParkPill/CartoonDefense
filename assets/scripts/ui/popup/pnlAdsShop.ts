@@ -50,16 +50,20 @@ export class pnlAdsShop extends popupBase {
 
     public onAutoAds(): void {
         admobManager.Instance.showVideo(() => {
-            // 
+            console.log("onAutoAds callback");
         });
     }
 
     public onPredictAds(): void {
-        // 
+        admobManager.Instance.showVideo(() => {
+            console.log("onPredictAds callback");
+        });
     }
 
     public onBursterAds(): void {
-        // 
+        admobManager.Instance.showVideo(() => {
+            console.log("onBursterAds callback");
+        });
     }
 }
 

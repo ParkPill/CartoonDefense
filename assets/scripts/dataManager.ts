@@ -161,8 +161,8 @@ export class dataManager extends Component {
 
                 const info: ShopData = {
                     ID: strs[0],
-                    PriceData: strs[1],
-                    Reward: strs[2],
+                    Reward: strs[1],
+                    PriceData: strs[2],
                     Limit: strs[3]
                 };
                 // console.log("shop info: ", info.ID);

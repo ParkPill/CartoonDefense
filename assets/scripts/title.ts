@@ -4,6 +4,7 @@ import { dataManager } from './dataManager';
 import { saveData } from './saveData';
 import { gameManager } from './gameManager';
 import { serverManager } from './serverManager';
+import { iapManager } from './ui/iapManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('title')

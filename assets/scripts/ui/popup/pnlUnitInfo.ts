@@ -5,7 +5,7 @@ import { saveData } from '../../saveData';
 import { gameManager } from '../../gameManager';
 import { popupManager } from '../popupManager';
 import { popupBase } from '../popupBase';
-import { mergeUnit, UnitType } from '../../mergeUnit';
+import { mergeUnit } from '../../mergeUnit';
 import { dataManager } from '../../dataManager';
 import { languageManager } from '../../languageManager';
 import { pnlUpgrade } from './pnlUpgrade';
@@ -55,7 +55,7 @@ export class pnlUnitInfo extends popupBase {
         this.content.getChildByName("lblPredict").getComponent(Label).string = gameManager.Instance.getPredict(this.unitIndex) + "%";
         let spt = this.content.getChildByName("unit").getChildByName("Sprite");
         if (this.unitIndex < 11) {
-            spt.getComponent(Sprite).spriteFrame = gameManager.Instance.theGameScript.unitSpriteFrame[this.unitIndex];
+            spt.getComponent(Sprite).spriteFrame = gameManager.Instance.unitSpriteFrame[this.unitIndex];
             this.content.getChildByName("unit").getChildByName("Spine").active = false;
             if (this.unitIndex == 10) {
                 spt.addComponent(glowingSprite);
@@ -123,7 +123,7 @@ export class pnlUnitInfo extends popupBase {
         if (pnlUpgrade) {
             pnlUpgrade.updateUI();
         }
-        gameManager.Instance.theGameScript.updateStats();
+        gameManager.Instance.updateStats();
     }
 }
 

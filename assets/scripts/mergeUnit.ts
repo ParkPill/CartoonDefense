@@ -100,7 +100,7 @@ export class mergeUnit extends unitBase {
                 }
                 this.spineUnit = this.node.getChildByName("ModelContainer").getChildByName("Model").getComponent(sp.Skeleton);
                 this.spineUnit.skeletonData = skeletonData;
-
+                this.shootInterval = this.spineUnit.findAnimation("attack").duration;
                 gameManager.Instance.initSpine(this.spineUnit, spineName);
             });
         }
@@ -172,17 +172,20 @@ export class mergeUnit extends unitBase {
             let animation = this.spriteUnit.getComponent(Animation);
             animation.play(animation.clips[1].name);
             // console.log("animation", animation);
+            let duration = animation.clips[1].duration;
+            this.scheduleOnce(() => {
+                animation.play(animation.clips[0].name);
+            }, duration);
         }
         if (this.spineUnit != null) {
             this.spineUnit.setAnimation(0, "attack", false);
+            let duration = this.spineUnit.findAnimation("attack").duration;
+            this.scheduleOnce(() => {
+                this.spineUnit.setAnimation(0, "idle", false);
+            }, duration);
         }
-
         this.scheduleOnce(() => {
-            if (this.spriteUnit != null) {
-                let animation = this.spriteUnit.getComponent(Animation);
-                animation.play(animation.clips[0].name);
-                // console.log("animation", animation);
-            }
+
             if (this.spineUnit != null) {
                 // this.spineUnit.getComponent(Animation).unitType = this.unitType;
             }
@@ -193,7 +196,9 @@ export class mergeUnit extends unitBase {
         // this.spawnProjectile();
     }
     canPredict(): boolean {
-        return this.isPredictive || (this.unitType >= UnitType.UNIT_HERO_ORC && Math.random() < 0.7);
+        return this.isPredictive
+            || (this.unitType < UnitType.UNIT_GLOW_TROLL && Math.random() < 0.3)
+            || (this.unitType >= UnitType.UNIT_GLOW_TROLL && Math.random() < 0.7);
     }
     getTarget(): Node {
         if (gameManager.Instance.enemies.length == 0) {
@@ -479,7 +484,7 @@ export class mergeUnit extends unitBase {
         } else if (unitType == UnitType.UNIT_CATAPULT) {//} || unitType == UnitType.UNIT_WATCHERTOWER || unitType == UnitType.UNIT_ORC_BUNKER || unitType == UnitType.UNIT_ORC_HQ) {
             return 0.0;
         } else if (unitType == UnitType.UNIT_WORKER) {// || unitType == UnitType.UNIT_GOBLIN_WORKER) {
-            return 0.5;
+            return 0.13;
             // } else if (unitType == UnitType.UNIT_WIZARD) {
             //     return 0.4;
         } else if (unitType == UnitType.UNIT_HERO_ORC) {

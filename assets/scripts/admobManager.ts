@@ -40,6 +40,7 @@ export class admobManager extends Component {
     }
 
     public showVideo(callback: () => void) {
+        console.log("showVideo");
         let a = new RewardedAdClient();
         a.load("ca-app-pub-7893694248975700/7644223399", {
             // a.load("ca-app-pub-3940256099942544/5224354917", { // test 
@@ -48,6 +49,7 @@ export class admobManager extends Component {
             },
             onAdLoaded: () => {
                 console.log("Ad Loaded");
+                console.log("showVideo");
                 a.show();
             },
             onAdImpression() {
